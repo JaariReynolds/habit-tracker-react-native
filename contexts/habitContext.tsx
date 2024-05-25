@@ -1,4 +1,10 @@
-import { createContext, useContext, useState } from "react";
+import {
+  Dispatch,
+  SetStateAction,
+  createContext,
+  useContext,
+  useState,
+} from "react";
 import { Habit } from "../interfaces/habit";
 
 interface HabitContextProviderProps {
@@ -7,9 +13,11 @@ interface HabitContextProviderProps {
 
 interface HabitContext {
   habits: Habit[];
-  setHabits: React.Dispatch<React.SetStateAction<Habit[]>>;
+  setHabits: Dispatch<SetStateAction<Habit[]>>;
   openedHabit: number;
-  setOpenedHabit: React.Dispatch<React.SetStateAction<number>>;
+  setOpenedHabit: Dispatch<SetStateAction<number>>;
+  modalVisible: boolean;
+  setModalVisible: Dispatch<SetStateAction<boolean>>;
 }
 const HabitContext = createContext<HabitContext | null>(null);
 
@@ -17,11 +25,19 @@ export default function HabitContextProvider({
   children,
 }: HabitContextProviderProps) {
   const [habits, setHabits] = useState<Habit[]>([]);
-  const [openedHabit, setOpenedHabit] = useState<number>(-1); // -1 == no habit opened
+  const [openedHabit, setOpenedHabit] = useState<number>(-1);
+  const [modalVisible, setModalVisible] = useState<boolean>(false);
 
   return (
     <HabitContext.Provider
-      value={{ habits, setHabits, openedHabit, setOpenedHabit }}
+      value={{
+        habits,
+        setHabits,
+        openedHabit,
+        setOpenedHabit,
+        modalVisible,
+        setModalVisible,
+      }}
     >
       {children}
     </HabitContext.Provider>
