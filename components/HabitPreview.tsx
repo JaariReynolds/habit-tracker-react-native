@@ -22,11 +22,7 @@ const HabitPreview = ({ habit, arrayIndex }: HabitPreviewProps) => {
   const { openedHabit, setOpenedHabit } = useHabitContext();
 
   const handleHabitOpen = () => {
-    if (openedHabit == arrayIndex) {
-      setOpenedHabit(-1);
-    } else {
-      setOpenedHabit(arrayIndex);
-    }
+    openedHabit == arrayIndex ? setOpenedHabit(-1) : setOpenedHabit(arrayIndex);
   };
 
   const openedPreviewStyle = () => {
@@ -42,7 +38,7 @@ const HabitPreview = ({ habit, arrayIndex }: HabitPreviewProps) => {
     <View>
       <Pressable
         style={[styles.habitPreviewContainer, openedPreviewStyle()]}
-        onPress={() => handleHabitOpen()}
+        onPress={handleHabitOpen}
       >
         <View style={styles.habitRow}>
           <Text>{habit.habitName}</Text>
