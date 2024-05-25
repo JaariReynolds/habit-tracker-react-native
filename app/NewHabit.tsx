@@ -2,20 +2,16 @@ import React, { useState } from "react";
 import FullPageView from "../components/FullPageView";
 import FormField from "../components/interactive-fields/FormField";
 import BackButton from "../components/buttons/BackButton";
-import PickerField from "../components/interactive-fields/PickerField";
 import {
   FrequencyNames,
-  HabitEntry,
-  HabitEntryNames,
   HabitForm,
   dayNames,
   emptyForm,
 } from "../interfaces/habit";
 import RadioButtons from "../components/interactive-fields/RadioButtons";
 import MultiSelector from "../components/interactive-fields/MultiSelector";
-import { SafeAreaView } from "react-native-safe-area-context";
 import Counter from "../components/interactive-fields/Counter";
-import { Platform, StatusBar, View, Text, StyleSheet } from "react-native";
+import { View, Text } from "react-native";
 import NewHabitSubmitButton from "../components/buttons/NewHabitSubmitButton";
 import FullHeightScrollView from "../components/FullHeightScrollView";
 import Header from "../components/Header";

@@ -18,6 +18,7 @@ import BackButton from "../components/buttons/BackButton";
 import { habitObjectToForm } from "../logic/baseHabitLogic";
 import { useHabitContext } from "../contexts/habitContext";
 import EditHabitSubmitButton from "../components/buttons/EditHabitSubmitButton";
+import DeleteHabitButton from "../components/buttons/DeleteHabitButton";
 
 const EditHabit = () => {
   const { openedHabit, habits } = useHabitContext();
@@ -38,6 +39,7 @@ const EditHabit = () => {
             <Text style={{ color: "red" }}>{errorString} </Text>
           </View>
         )}
+        <DeleteHabitButton habitId={habits[openedHabit].id} />
         <FormField
           title="Habit Name"
           handleChangeText={(e) => setForm({ ...form, habitName: e })}
