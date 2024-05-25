@@ -22,7 +22,7 @@ const Counter = ({ title, number, setNumber }: CounterProps) => {
 
   return (
     <View style={styles.viewContainer}>
-      <Text style={styles.title}>Counter</Text>
+      <Text style={styles.title}>{title}</Text>
       <View style={styles.counterContainer}>
         <TouchableOpacity
           style={styles.button}
