@@ -30,7 +30,7 @@ export interface Submission {
   id: string;
   habitId: string;
   submissionDate: Date;
-  completionStatus: CompletionStatus;
+  completionPercentage: number;
 }
 
 export type WeeklyFrequency = {
@@ -44,7 +44,6 @@ export type CustomFrequency = {
 // export type HabitEntry = "Timed" | "Checkbox" | "Percentage";
 // export const HabitEntryNames = ["Timed", "Checkbox", "Percentage"];
 
-export type CompletionStatus = "Incomplete" | "Complete" | "Partial";
 export const dayNames = ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"];
 
 export type Frequency = "Daily" | WeeklyFrequency | CustomFrequency;
