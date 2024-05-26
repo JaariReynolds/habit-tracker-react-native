@@ -12,6 +12,7 @@ import { Habit } from "../interfaces/habit";
 import { constants } from "../styles/constants";
 import { useHabitContext } from "../contexts/habitContext";
 import { router } from "expo-router";
+import handleHabitSubmission from "../logic/handleHabitSubmission";
 
 interface HabitPreviewProps {
   habit: Habit;
@@ -50,23 +51,23 @@ const HabitPreview = ({ habit, arrayIndex }: HabitPreviewProps) => {
   );
 };
 
-const OpenedPreview = () => (
-  <View style={openedPreview.container}>
-    <TouchableOpacity style={[openedPreview.button, openedPreview.first]}>
-      <Text>First</Text>
-    </TouchableOpacity>
-    <TouchableOpacity style={openedPreview.button}>
-      <Text>Second</Text>
-    </TouchableOpacity>
-    <TouchableOpacity
-      style={[openedPreview.button, openedPreview.last]}
-      onPress={() => router.push("./EditHabit")}
-    >
-      <Text>Edit</Text>
-    </TouchableOpacity>
-  </View>
-);
-
+const OpenedPreview = () => {
+  return (
+    <View style={openedPreview.container}>
+      <TouchableOpacity
+        style={[openedPreview.button, openedPreview.first, { flexGrow: 2 }]}
+      >
+        <Text>Submit</Text>
+      </TouchableOpacity>
+      <TouchableOpacity
+        style={[openedPreview.button, openedPreview.last, { flexGrow: 1 }]}
+        onPress={() => router.push("./EditHabit")}
+      >
+        <Text>Edit</Text>
+      </TouchableOpacity>
+    </View>
+  );
+};
 export default HabitPreview;
 
 const styles = StyleSheet.create({
@@ -92,12 +93,11 @@ const openedPreview = StyleSheet.create({
     backgroundColor: "lavender",
     borderBottomLeftRadius: constants.componentBorderRadius,
     borderBottomRightRadius: constants.componentBorderRadius,
-    height: 40,
+    height: 60,
     flexDirection: "row",
     overflow: "hidden",
   },
   button: {
-    flexGrow: 1,
     alignItems: "center",
     justifyContent: "center",
     borderTopWidth: 0,
@@ -106,7 +106,6 @@ const openedPreview = StyleSheet.create({
   },
   first: {
     borderBottomLeftRadius: constants.componentBorderRadius,
-    borderRightWidth: 0,
   },
   last: {
     borderBottomRightRadius: constants.componentBorderRadius,
