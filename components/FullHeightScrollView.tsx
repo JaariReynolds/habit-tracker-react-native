@@ -1,15 +1,30 @@
-import { Dimensions, ScrollView, StyleSheet } from "react-native";
+import {
+  Dimensions,
+  GestureResponderEvent,
+  ScrollView,
+  StyleSheet,
+} from "react-native";
 import React from "react";
 
-export default function FullHeightScrollView(props: {
+interface FullHeightScrollViewProps {
   children: React.ReactNode;
-}) {
+  onTouchStart?: (event: GestureResponderEvent) => void;
+  onTouchEnd?: (event: GestureResponderEvent) => void;
+}
+
+export default function FullHeightScrollView({
+  children,
+  onTouchStart,
+  onTouchEnd,
+}: FullHeightScrollViewProps) {
   return (
     <ScrollView
       contentContainerStyle={styles.scrollView}
       keyboardShouldPersistTaps="always"
+      onTouchStart={onTouchStart}
+      onTouchEnd={onTouchEnd}
     >
-      {props.children}
+      {children}
     </ScrollView>
   );
 }
