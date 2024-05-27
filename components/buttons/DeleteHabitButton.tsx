@@ -20,7 +20,7 @@ export default function DeleteHabitButton({ habitId }: DeleteHabitButtonProps) {
   return (
     <>
       <ConfirmationModal
-        modalText="Are you sure you want to delete this Habitasada sodasjdklasj dasldkjasdlkasjda slkdjasdlkj?"
+        modalText="delete habit?"
         confirmButtonText="Confirm"
         confirmationAction={deleteHabit}
       />
