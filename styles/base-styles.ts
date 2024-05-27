@@ -1,4 +1,5 @@
 import { StyleSheet } from "react-native";
+import { constants } from "./constants";
 
 export const inputButtonStyles = StyleSheet.create({
   viewContainer: {
@@ -49,5 +50,40 @@ export const buttonStyles = StyleSheet.create({
     marginBottom: 15,
     marginTop: "auto",
     width: "100%",
+  },
+});
+
+export const baseModal = StyleSheet.create({
+  container: {
+    backgroundColor: "white",
+    marginVertical: "auto",
+    alignSelf: "center",
+    alignItems: "center",
+    justifyContent: "center",
+    borderWidth: 1,
+    borderColor: "black",
+    borderRadius: constants.componentBorderRadius,
+    paddingVertical: 15,
+    paddingHorizontal: 30,
+    maxWidth: "80%",
+  },
+  text: {
+    textAlign: "right",
+    paddingBottom: 15,
+  },
+  buttonRow: {
+    flexDirection: "row",
+    alignSelf: "stretch",
+    justifyContent: "space-around",
+    gap: 30,
+  },
+
+  button: {
+    borderWidth: 1,
+    borderColor: "black",
+    justifyContent: "center",
+    paddingVertical: 10,
+    paddingHorizontal: 25,
+    borderRadius: constants.componentBorderRadius,
   },
 });

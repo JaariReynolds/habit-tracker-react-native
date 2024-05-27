@@ -1,7 +1,7 @@
-import { Modal, Pressable, StyleSheet, Text, View } from "react-native";
+import { Modal, Pressable, Text, View, ViewStyle } from "react-native";
 import React from "react";
 import { useHabitContext } from "../../contexts/habitContext";
-import { constants } from "../../styles/constants";
+import { baseModal } from "../../styles/base-styles";
 
 interface ConfirmationModalProps {
   modalText: string;
@@ -25,22 +25,23 @@ const ConfirmationModal = ({
       visible={modalVisible}
       transparent={true}
       animationType="slide"
-      onRequestClose={() => {
-        setModalVisible(false);
-      }}
+      onRequestClose={() => setModalVisible(false)}
     >
-      <View style={modal.container}>
-        <View style={modal.text}>
+      <View style={baseModal.container}>
+        <View style={baseModal.text as ViewStyle}>
           <Text>{modalText}</Text>
         </View>
-        <View style={modal.buttonRow}>
+        <View style={baseModal.buttonRow}>
           <Pressable
             onPress={() => setModalVisible(false)}
-            style={cancelButton}
+            style={[baseModal.button, { backgroundColor: "red" }]}
           >
             <Text>Cancel</Text>
           </Pressable>
-          <Pressable onPress={handleConfirmationAction} style={confirmButton}>
+          <Pressable
+            onPress={handleConfirmationAction}
+            style={[baseModal.button, { backgroundColor: "green" }]}
+          >
             <Text>{confirmButtonText}</Text>
           </Pressable>
         </View>
@@ -50,46 +51,3 @@ const ConfirmationModal = ({
 };
 
 export default ConfirmationModal;
-
-const modal = StyleSheet.create({
-  container: {
-    backgroundColor: "white",
-    marginVertical: "auto",
-    alignSelf: "center",
-    alignItems: "center",
-    justifyContent: "center",
-    borderWidth: 1,
-    borderColor: "black",
-    borderRadius: constants.componentBorderRadius,
-    paddingVertical: 15,
-    paddingHorizontal: 30,
-    maxWidth: "80%",
-  },
-  text: {
-    textAlign: "right",
-  },
-  buttonRow: {
-    flexDirection: "row",
-    alignSelf: "stretch",
-    justifyContent: "space-around",
-    gap: 30,
-  },
-
-  button: {
-    borderWidth: 1,
-    borderColor: "black",
-    paddingVertical: 10,
-    paddingHorizontal: 25,
-    borderRadius: constants.componentBorderRadius,
-  },
-
-  cancel: {
-    backgroundColor: "red",
-  },
-  confirm: {
-    backgroundColor: "green",
-  },
-});
-
-const cancelButton = StyleSheet.compose(modal.button, modal.cancel);
-const confirmButton = StyleSheet.compose(modal.button, modal.confirm);
