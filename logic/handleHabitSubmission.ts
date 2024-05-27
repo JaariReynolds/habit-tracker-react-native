@@ -48,7 +48,6 @@ export default function handleHabitSubmission(
     return habit;
   });
 
-  console.log(newHabits);
   return newHabits;
 }
 
