@@ -7,12 +7,18 @@ import {
   View,
   ViewStyle,
 } from "react-native";
-import React from "react";
+import React, { useMemo } from "react";
 import { Habit } from "../interfaces/habit";
 import { constants } from "../styles/constants";
 import { useHabitContext } from "../contexts/habitContext";
 import { router } from "expo-router";
 import handleHabitSubmission from "../logic/handleHabitSubmission";
+import SubmissionModal from "./interactive-fields/SubmissionModal";
+import { FontAwesomeIcon } from "@fortawesome/react-native-fontawesome";
+import {
+  faCircleCheck,
+  faCircleXmark,
+} from "@fortawesome/free-solid-svg-icons";
 
 interface HabitPreviewProps {
   habit: Habit;
@@ -46,26 +52,50 @@ const HabitPreview = ({ habit, arrayIndex }: HabitPreviewProps) => {
           <Text>streak: {habit.currentStreak}</Text>
         </View>
       </Pressable>
-      {openedHabit == arrayIndex && <OpenedPreview />}
+      {openedHabit == arrayIndex && <OpenedPreview habit={habit} />}
     </View>
   );
 };
 
-const OpenedPreview = () => {
+const OpenedPreview = ({ habit }: { habit: Habit }) => {
+  const { habits, setHabits, setModalVisible } = useHabitContext();
+
+  const submitIcon =
+    habit.submissions.length == 0 ? (
+      <FontAwesomeIcon icon={faCircleXmark} />
+    ) : habit.submissions[habit.submissions.length - 1].completionPercentage ==
+      1 ? (
+      <FontAwesomeIcon icon={faCircleCheck} />
+    ) : (
+      <FontAwesomeIcon icon={faCircleXmark} />
+    );
   return (
-    <View style={openedPreview.container}>
-      <TouchableOpacity
-        style={[openedPreview.button, openedPreview.first, { flexGrow: 2 }]}
-      >
-        <Text>Submit</Text>
-      </TouchableOpacity>
-      <TouchableOpacity
-        style={[openedPreview.button, openedPreview.last, { flexGrow: 1 }]}
-        onPress={() => router.push("./EditHabit")}
-      >
-        <Text>Edit</Text>
-      </TouchableOpacity>
-    </View>
+    <>
+      <SubmissionModal
+        modalText={"submission for " + habit.habitName}
+        leftButtonAction={() =>
+          setHabits(handleHabitSubmission(habit.id, 1, habits))
+        }
+        rightButtonAction={() =>
+          setHabits(handleHabitSubmission(habit.id, 0, habits))
+        }
+      />
+      <View style={openedPreview.container}>
+        <TouchableOpacity
+          style={[openedPreview.button, openedPreview.first, { flexGrow: 2 }]}
+          onPress={() => setModalVisible(true)}
+        >
+          <Text>{submitIcon}</Text>
+          <Text>Submit</Text>
+        </TouchableOpacity>
+        <TouchableOpacity
+          style={[openedPreview.button, openedPreview.last, { flexGrow: 1 }]}
+          onPress={() => router.push("./EditHabit")}
+        >
+          <Text>Edit</Text>
+        </TouchableOpacity>
+      </View>
+    </>
   );
 };
 export default HabitPreview;
