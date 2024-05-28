@@ -26,10 +26,10 @@ function handleEditHabitObject(
   return {
     id: updatedHabitForm.habitId!,
     habitName: updatedHabitForm.habitName,
-    creationDate: originalHabit.creationDate,
-    lastUpdateDate: new Date(),
-    submissions: originalHabit.submissions,
     frequency: frequencyType,
+    lastUpdateDate: new Date(),
+    creationDate: originalHabit.creationDate,
+    submissions: originalHabit.submissions,
     currentStreak: originalHabit.currentStreak,
   };
 }
