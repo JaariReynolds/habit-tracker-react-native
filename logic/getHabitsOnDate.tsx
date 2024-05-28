@@ -1,30 +1,33 @@
 import { CustomFrequency, Habit, WeeklyFrequency } from "../interfaces/habit";
+import { toMidnight } from "./dateLogic";
 
-export default function getHabitsOnDate(date: Date, habits: Habit[]): Habit[] {
-  return habits.filter((habit) => {
-    if (habit.frequency == "Daily") return habit;
+const MILLISECONDS_PER_DAY = 86400000;
 
-    const castedFrequency = habit.frequency as WeeklyFrequency;
+// export default function getHabitsOnDate(date: Date, habits: Habit[]): Habit[] {
+//   return habits.filter((habit) => {
+//     if (habit.frequency == "Daily") return habit;
 
-    // if weekly
-    if (castedFrequency.days) {
-      if (castedFrequency.days.includes(date.getDay())) {
-        return habit;
-      }
-      // if custom
-    } else {
-      if (
-        isHabitWithinDaysMultiple(
-          date,
-          (habit.frequency as CustomFrequency).lastUpdated,
-          (habit.frequency as CustomFrequency).customFrequency
-        )
-      ) {
-        return habit;
-      }
-    }
-  });
-}
+//     const castedFrequency = habit.frequency as WeeklyFrequency;
+
+//     // if weekly
+//     if (castedFrequency.days) {
+//       if (castedFrequency.days.includes(date.getDay())) {
+//         return habit;
+//       }
+//       // if custom
+//     } else {
+//       if (
+//         isHabitWithinDaysMultiple(
+//           date,
+//           (habit.frequency as CustomFrequency).lastUpdated,
+//           (habit.frequency as CustomFrequency).customFrequency
+//         )
+//       ) {
+//         return habit;
+//       }
+//     }
+//   });
+// }
 
 // returns true if the gap in days between date1 and date2 are a multiple of daysGap apart
 function isHabitWithinDaysMultiple(
@@ -32,16 +35,11 @@ function isHabitWithinDaysMultiple(
   date2: Date,
   daysGap: number
 ): boolean {
-  const millisecondsPerDay = 86400000;
   const differenceInMilliseconds = Math.abs(
     toMidnight(date1).getTime() - toMidnight(date2).getTime()
   );
   const differenceInDays = Math.round(
-    differenceInMilliseconds / millisecondsPerDay
+    differenceInMilliseconds / MILLISECONDS_PER_DAY
   );
   return differenceInDays % daysGap === 0;
-}
-
-function toMidnight(date: Date): Date {
-  return new Date(date.getFullYear(), date.getMonth(), date.getDate());
 }
