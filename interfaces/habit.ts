@@ -44,7 +44,7 @@ export type CustomFrequency = {
 // export type HabitEntry = "Timed" | "Checkbox" | "Percentage";
 // export const HabitEntryNames = ["Timed", "Checkbox", "Percentage"];
 
-export const dayNames = ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"];
+export const dayNames = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
 
 export type Frequency = "Daily" | WeeklyFrequency | CustomFrequency;
 export const FrequencyNames = ["Daily", "Weekly", "Custom"];
