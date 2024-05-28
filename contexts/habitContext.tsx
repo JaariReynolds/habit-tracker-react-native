@@ -16,8 +16,6 @@ interface HabitContext {
   setHabits: Dispatch<SetStateAction<Habit[]>>;
   openedHabit: number;
   setOpenedHabit: Dispatch<SetStateAction<number>>;
-  modalVisible: boolean;
-  setModalVisible: Dispatch<SetStateAction<boolean>>;
 }
 const HabitContext = createContext<HabitContext | null>(null);
 
@@ -26,7 +24,6 @@ export default function HabitContextProvider({
 }: HabitContextProviderProps) {
   const [habits, setHabits] = useState<Habit[]>([]);
   const [openedHabit, setOpenedHabit] = useState<number>(-1);
-  const [modalVisible, setModalVisible] = useState<boolean>(false);
 
   return (
     <HabitContext.Provider
@@ -35,8 +32,6 @@ export default function HabitContextProvider({
         setHabits,
         openedHabit,
         setOpenedHabit,
-        modalVisible,
-        setModalVisible,
       }}
     >
       {children}
