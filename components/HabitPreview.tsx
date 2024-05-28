@@ -19,6 +19,7 @@ import {
   faCircleCheck,
   faCircleXmark,
 } from "@fortawesome/free-solid-svg-icons";
+import { useModalVisibility } from "../hooks/useModalVisibility";
 
 interface HabitPreviewProps {
   habit: Habit;
@@ -58,7 +59,8 @@ const HabitPreview = ({ habit, arrayIndex }: HabitPreviewProps) => {
 };
 
 const OpenedPreview = ({ habit }: { habit: Habit }) => {
-  const { habits, setHabits, setModalVisible } = useHabitContext();
+  const { habits, setHabits } = useHabitContext();
+  const { modalVisibility, setModalVisibility } = useModalVisibility();
 
   const submitIcon =
     habit.submissions.length == 0 ? (
@@ -73,6 +75,8 @@ const OpenedPreview = ({ habit }: { habit: Habit }) => {
     <>
       <SubmissionModal
         modalText={"submission for " + habit.habitName}
+        modalVisibility={modalVisibility}
+        setModalVisibility={setModalVisibility}
         leftButtonAction={() =>
           setHabits(handleHabitSubmission(habit.id, 1, habits))
         }
@@ -83,7 +87,7 @@ const OpenedPreview = ({ habit }: { habit: Habit }) => {
       <View style={openedPreview.container}>
         <TouchableOpacity
           style={[openedPreview.button, openedPreview.first, { flexGrow: 2 }]}
-          onPress={() => setModalVisible(true)}
+          onPress={() => setModalVisibility(true)}
         >
           <Text>{submitIcon}</Text>
           <Text>Submit</Text>

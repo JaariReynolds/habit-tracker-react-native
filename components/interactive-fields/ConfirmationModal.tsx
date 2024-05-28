@@ -1,9 +1,10 @@
 import { Modal, Pressable, Text, View, ViewStyle } from "react-native";
 import React from "react";
-import { useHabitContext } from "../../contexts/habitContext";
 import { baseModal } from "../../styles/base-styles";
 
 interface ConfirmationModalProps {
+  modalVisibility: boolean;
+  setModalVisibility: (bool: boolean) => void;
   modalText: string;
   confirmButtonText: string;
   confirmationAction: () => void;
@@ -11,21 +12,21 @@ interface ConfirmationModalProps {
 
 const ConfirmationModal = ({
   modalText,
+  modalVisibility,
+  setModalVisibility,
   confirmButtonText,
   confirmationAction,
 }: ConfirmationModalProps) => {
-  const { modalVisible, setModalVisible } = useHabitContext();
-
   const handleConfirmationAction = () => {
     confirmationAction();
-    setModalVisible(false);
+    setModalVisibility(false);
   };
   return (
     <Modal
-      visible={modalVisible}
+      visible={modalVisibility}
       transparent={true}
       animationType="slide"
-      onRequestClose={() => setModalVisible(false)}
+      onRequestClose={() => setModalVisibility(false)}
     >
       <View style={baseModal.container}>
         <View style={baseModal.text as ViewStyle}>
@@ -33,7 +34,7 @@ const ConfirmationModal = ({
         </View>
         <View style={baseModal.buttonRow}>
           <Pressable
-            onPress={() => setModalVisible(false)}
+            onPress={() => setModalVisibility(false)}
             style={[baseModal.button, { backgroundColor: "red" }]}
           >
             <Text>Cancel</Text>

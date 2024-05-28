@@ -4,13 +4,15 @@ import handleDeleteHabit from "../../logic/handleDeleteHabit";
 import { useHabitContext } from "../../contexts/habitContext";
 import { router } from "expo-router";
 import ConfirmationModal from "../interactive-fields/ConfirmationModal";
+import { useModalVisibility } from "../../hooks/useModalVisibility";
 
 interface DeleteHabitButtonProps {
   habitId: string;
 }
 
 export default function DeleteHabitButton({ habitId }: DeleteHabitButtonProps) {
-  const { habits, setHabits, setModalVisible } = useHabitContext();
+  const { habits, setHabits } = useHabitContext();
+  const { modalVisibility, setModalVisibility } = useModalVisibility();
 
   const deleteHabit = () => {
     setHabits(handleDeleteHabit(habitId, habits));
@@ -20,13 +22,15 @@ export default function DeleteHabitButton({ habitId }: DeleteHabitButtonProps) {
   return (
     <>
       <ConfirmationModal
+        modalVisibility={modalVisibility}
+        setModalVisibility={setModalVisibility}
         modalText="delete habit?"
         confirmButtonText="Confirm"
         confirmationAction={deleteHabit}
       />
       <TouchableOpacity
         style={styles.backButton}
-        onPress={() => setModalVisible(true)}
+        onPress={() => setModalVisibility(true)}
       >
         <Text>DeleteHabitButton</Text>
       </TouchableOpacity>

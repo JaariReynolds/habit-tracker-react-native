@@ -1,13 +1,5 @@
-import {
-  Modal,
-  Pressable,
-  StyleSheet,
-  Text,
-  View,
-  ViewStyle,
-} from "react-native";
+import { Modal, Pressable, Text, View, ViewStyle } from "react-native";
 import React from "react";
-import { useHabitContext } from "../../contexts/habitContext";
 import { baseModal } from "../../styles/base-styles";
 import { FontAwesomeIcon } from "@fortawesome/react-native-fontawesome";
 import {
@@ -16,6 +8,8 @@ import {
 } from "@fortawesome/free-solid-svg-icons";
 
 interface SubmissionModalProps {
+  modalVisibility: boolean;
+  setModalVisibility: (bool: boolean) => void;
   modalText: string;
   leftButtonAction: () => void;
   rightButtonAction: () => void;
@@ -23,26 +17,26 @@ interface SubmissionModalProps {
 
 const SubmissionModal = ({
   modalText,
+  modalVisibility,
+  setModalVisibility,
   leftButtonAction,
   rightButtonAction,
 }: SubmissionModalProps) => {
-  const { modalVisible, setModalVisible } = useHabitContext();
-
   const handleLeftButton = () => {
     leftButtonAction();
-    setModalVisible(false);
+    setModalVisibility(false);
   };
 
   const handleRightButton = () => {
     rightButtonAction();
-    setModalVisible(false);
+    setModalVisibility(false);
   };
   return (
     <Modal
-      visible={modalVisible}
+      visible={modalVisibility}
       transparent={true}
       animationType="slide"
-      onRequestClose={() => setModalVisible(false)}
+      onRequestClose={() => setModalVisibility(false)}
     >
       <View style={baseModal.container}>
         <View style={baseModal.text as ViewStyle}>
