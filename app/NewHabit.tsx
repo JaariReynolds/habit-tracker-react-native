@@ -16,6 +16,7 @@ import NewHabitSubmitButton from "../components/buttons/NewHabitSubmitButton";
 import FullHeightScrollView from "../components/FullHeightScrollView";
 import Header from "../components/Header";
 import { buttonStyles } from "../styles/base-styles";
+import DatePicker from "../components/interactive-fields/DatePicker";
 
 const NewHabit = () => {
   const [showDays, setShowDays] = useState<boolean>(false);
@@ -55,11 +56,15 @@ const NewHabit = () => {
           />
         )}
         {showCustom && (
-          <Counter
-            title="Num of days"
-            number={form.customFrequency}
-            setNumber={(e) => setForm({ ...form, customFrequency: e })}
-          />
+          <>
+            <Counter
+              title="Num of days"
+              number={form.customFrequency}
+              setNumber={(e) => setForm({ ...form, customFrequency: e })}
+            />
+
+            <DatePicker title="Start Date" />
+          </>
         )}
 
         <View style={buttonStyles.dualButtonContainer}>
