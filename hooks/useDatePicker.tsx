@@ -1,24 +1,24 @@
 import { useState } from "react";
 
-export function useDatePicker() {
-  const [datePickerVisibile, setDatePickerVisibile] = useState<boolean>(false);
-  const [date, setDate] = useState<Date>(new Date());
+export function useDatePicker(startDate: Date) {
+  const [datePickerVisible, setDatePickerVisible] = useState<boolean>(false);
+  const [date, setDate] = useState<Date>(startDate);
 
   const changeDate = (selectedDate: Date | undefined) => {
     const date = selectedDate;
-    setDatePickerVisibile(false);
+    setDatePickerVisible(false);
 
     if (!date) return;
     setDate(date);
   };
 
   const showDatePicker = () => {
-    setDatePickerVisibile(true);
+    setDatePickerVisible(true);
   };
 
   return {
     date,
-    datePickerVisibile,
+    datePickerVisible,
     showDatePicker,
     changeDate,
   };

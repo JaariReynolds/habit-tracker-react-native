@@ -7,12 +7,18 @@ import { faCalendarDays } from "@fortawesome/free-solid-svg-icons";
 
 interface DatePickerProps {
   title: string;
+  date: Date;
+  datePickerVisible: boolean;
+  showDatePicker: () => void;
+  changeDate: (selectedDate: Date | undefined) => void;
 }
-
-const DatePicker = ({ title }: DatePickerProps) => {
-  const { date, datePickerVisibile, showDatePicker, changeDate } =
-    useDatePicker();
-
+const DatePicker = ({
+  title,
+  date,
+  datePickerVisible,
+  showDatePicker,
+  changeDate,
+}: DatePickerProps) => {
   return (
     <>
       <Text style={styles.title}>{title}</Text>
@@ -26,7 +32,7 @@ const DatePicker = ({ title }: DatePickerProps) => {
           </View>
         </Pressable>
 
-        {datePickerVisibile && (
+        {datePickerVisible && (
           <DateTimePicker
             testID="dateTimePicker"
             value={date}
