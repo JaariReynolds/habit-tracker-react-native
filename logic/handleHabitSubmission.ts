@@ -1,5 +1,6 @@
 import { uuid } from "expo-modules-core";
 import { Habit, Submission } from "../interfaces/habit";
+import { isTodaysDate } from "./dateLogic";
 
 // this feels longer than it i thought it would be?
 export default function handleHabitSubmission(
@@ -68,8 +69,4 @@ function updateSubmissionObject(
   newSubmissionPercentage: number
 ): Submission {
   return { ...submission, completionPercentage: newSubmissionPercentage };
-}
-
-function isTodaysDate(date: Date): boolean {
-  return date.toLocaleDateString() == Date.now().toLocaleString();
 }
