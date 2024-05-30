@@ -1,41 +1,51 @@
 import { Dimensions, Pressable, StyleSheet, Text, View } from "react-native";
-import React, { useState } from "react";
+import React from "react";
 import FullPageView from "../../components/FullPageView";
 import RouterPushButton from "../../components/buttons/RouterPushButton";
-import { Habit } from "../../interfaces/habit";
 import { useHabitContext } from "../../contexts/habitContext";
 import FullHeightScrollView from "../../components/FullHeightScrollView";
 import Header from "../../components/Header";
 import HabitPreview from "../../components/HabitPreview";
-import { useSwipe } from "../../hooks/useSwipe";
 import Carousel, { ICarouselInstance } from "react-native-reanimated-carousel";
 import { interpolate } from "react-native-reanimated";
+import getHabitsOnDate from "../../logic/getHabitsOnDate";
 
 const numbers = [1, 2, 3, 4, 5];
 const PAGE_WIDTH = Dimensions.get("window").width;
 
 const Habits = () => {
-  const { habits } = useHabitContext();
-  const { onTouchStart, onTouchEnd } = useSwipe(onSwipeLeft, onSwipeRight);
-  const [date, setDate] = useState<Date>(new Date());
-
+  const { habits, filteredHabits, setFilteredHabits, dateShown, setDateShown } =
+    useHabitContext();
   const ref = React.useRef<ICarouselInstance>(null);
 
-  function onSwipeLeft() {
-    var newDate = new Date(date);
-    newDate.setDate(newDate.getDate() + 1);
-    setDate(newDate);
+  // filter habits by dateOffset relative to the current dateShown, else reset back to today
+  function filterHabits(dateOffset?: number) {
+    var newDate: Date;
+    if (dateOffset) {
+      newDate = new Date(dateShown);
+      newDate.setDate(newDate.getDate() + dateOffset);
+    } else {
+      newDate = new Date();
+    }
+
+    const filteredHabits = getHabitsOnDate(newDate, habits);
+    setDateShown(newDate);
+    setFilteredHabits(filteredHabits);
   }
 
-  function onSwipeRight() {
-    var newDate = new Date(date);
-    newDate.setDate(newDate.getDate() - 1);
-    setDate(newDate);
-    console.log("test");
+  function buttonPressNext() {
+    ref.current!.next();
+    filterHabits(1);
   }
 
-  function buttonPress() {
+  function buttonPressCurrent() {
+    ref.current!.next();
+    filterHabits();
+  }
+
+  function buttonPressPrev() {
     ref.current!.prev();
+    filterHabits(-1);
   }
 
   const animationStyle = React.useCallback((value: number) => {
@@ -60,27 +70,48 @@ const Habits = () => {
       width={PAGE_WIDTH}
       style={{ flex: 1 }}
       data={numbers}
-      customAnimation={animationStyle}
       enabled={false}
+      customAnimation={animationStyle}
       renderItem={() => {
         return (
-          <FullHeightScrollView
-            onTouchStart={onTouchStart}
-            onTouchEnd={onTouchEnd}
-          >
+          <FullHeightScrollView>
             <Header title="habits" />
             <FullPageView>
-              <Text>{date.toDateString()}</Text>
-              <View>
+              <Text>{dateShown.toDateString()}</Text>
+              <View style={{ flexDirection: "row", gap: 20 }}>
                 <Pressable
-                  onPress={buttonPress}
-                  style={{ height: 30, width: 40, backgroundColor: "blue" }}
+                  onPress={buttonPressPrev}
+                  style={{
+                    height: 30,
+                    width: 40,
+                    backgroundColor: "Beige",
+                  }}
+                >
+                  <Text>Prev</Text>
+                </Pressable>
+                <Pressable
+                  onPress={buttonPressCurrent}
+                  style={{
+                    height: 30,
+                    width: 50,
+                    backgroundColor: "Coral",
+                  }}
+                >
+                  <Text>Current</Text>
+                </Pressable>
+                <Pressable
+                  onPress={buttonPressNext}
+                  style={{
+                    height: 30,
+                    width: 40,
+                    backgroundColor: "Beige",
+                  }}
                 >
                   <Text>Next</Text>
                 </Pressable>
               </View>
               <View style={styles.habitContainer}>
-                {habits.map((habit, index) => (
+                {filteredHabits.map((habit, index) => (
                   <HabitPreview key={index} arrayIndex={index} habit={habit} />
                 ))}
               </View>

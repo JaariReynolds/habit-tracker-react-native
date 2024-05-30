@@ -3,31 +3,31 @@ import { toMidnight } from "./dateLogic";
 
 const MILLISECONDS_PER_DAY = 86400000;
 
-// export default function getHabitsOnDate(date: Date, habits: Habit[]): Habit[] {
-//   return habits.filter((habit) => {
-//     if (habit.frequency == "Daily") return habit;
+export default function getHabitsOnDate(date: Date, habits: Habit[]): Habit[] {
+  return habits.filter((habit) => {
+    if (habit.frequency == "Daily") return habit;
 
-//     const castedFrequency = habit.frequency as WeeklyFrequency;
+    const castedFrequency = habit.frequency as WeeklyFrequency;
 
-//     // if weekly
-//     if (castedFrequency.days) {
-//       if (castedFrequency.days.includes(date.getDay())) {
-//         return habit;
-//       }
-//       // if custom
-//     } else {
-//       if (
-//         isHabitWithinDaysMultiple(
-//           date,
-//           (habit.frequency as CustomFrequency).lastUpdated,
-//           (habit.frequency as CustomFrequency).customFrequency
-//         )
-//       ) {
-//         return habit;
-//       }
-//     }
-//   });
-// }
+    // if weekly
+    if (castedFrequency.days) {
+      if (castedFrequency.days.includes(date.getDay())) {
+        return habit;
+      }
+      // if custom
+    } else {
+      if (
+        isHabitWithinDaysMultiple(
+          date,
+          (habit.frequency as CustomFrequency).startDate,
+          (habit.frequency as CustomFrequency).customFrequency
+        )
+      ) {
+        return habit;
+      }
+    }
+  });
+}
 
 // returns true if the gap in days between date1 and date2 are a multiple of daysGap apart
 function isHabitWithinDaysMultiple(
