@@ -32,6 +32,7 @@ export function getFrequencyType(habitForm: HabitForm): Frequency {
   else if (habitForm.frequencyString == "Custom")
     return {
       customFrequency: habitForm.customFrequency,
+      startDate: habitForm.customFrequencyStartDate,
     } as CustomFrequency;
   else if (habitForm.frequencyString == "Daily") {
     return "Daily";
@@ -47,9 +48,15 @@ function getFrequencyProperties(habit: Habit): {
   frequencyString: string;
   selectedDays: number[];
   customFrequency: number;
+  customFrequencyStartDate: Date;
 } {
   if (habit.frequency == "Daily")
-    return { frequencyString: "Daily", selectedDays: [], customFrequency: 0 };
+    return {
+      frequencyString: "Daily",
+      selectedDays: [],
+      customFrequency: 0,
+      customFrequencyStartDate: new Date(),
+    };
 
   // this currently only works with 3 frequency types (daily, weekly, custom). If more are added, this needs to be refactored
   const castedFrequency = habit.frequency as WeeklyFrequency;
@@ -59,12 +66,14 @@ function getFrequencyProperties(habit: Habit): {
       frequencyString: "Weekly",
       selectedDays: (habit.frequency as WeeklyFrequency).days,
       customFrequency: 0,
+      customFrequencyStartDate: new Date(),
     };
   else
     return {
       frequencyString: "Custom",
       selectedDays: [],
       customFrequency: (habit.frequency as CustomFrequency).customFrequency,
+      customFrequencyStartDate: (habit.frequency as CustomFrequency).startDate,
     };
 }
 

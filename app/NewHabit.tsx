@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import FullPageView from "../components/FullPageView";
 import FormField from "../components/interactive-fields/FormField";
 import BackButton from "../components/buttons/BackButton";
@@ -17,13 +17,22 @@ import FullHeightScrollView from "../components/FullHeightScrollView";
 import Header from "../components/Header";
 import { buttonStyles } from "../styles/base-styles";
 import DatePicker from "../components/interactive-fields/DatePicker";
+import { useDatePicker } from "../hooks/useDatePicker";
 
 const NewHabit = () => {
   const [showDays, setShowDays] = useState<boolean>(false);
   const [showCustom, setShowCustom] = useState<boolean>(false);
   const [errorString, setErrorString] = useState<string>("");
-
   const [form, setForm] = useState<HabitForm>(emptyForm);
+  const { date, datePickerVisible, showDatePicker, changeDate } = useDatePicker(
+    new Date()
+  );
+
+  useEffect(() => {
+    setForm(
+      (prev) => ({ ...prev, customFrequencyStartDate: date } as HabitForm)
+    );
+  }, [date]);
 
   return (
     <FullHeightScrollView>
@@ -63,7 +72,13 @@ const NewHabit = () => {
               setNumber={(e) => setForm({ ...form, customFrequency: e })}
             />
 
-            <DatePicker title="Start Date" />
+            <DatePicker
+              title="Start Date"
+              date={date}
+              datePickerVisible={datePickerVisible}
+              showDatePicker={showDatePicker}
+              changeDate={changeDate}
+            />
           </>
         )}
 

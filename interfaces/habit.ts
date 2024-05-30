@@ -14,6 +14,7 @@ export interface HabitForm {
   frequencyString: string;
   selectedDays: number[];
   customFrequency: number;
+  customFrequencyStartDate: Date;
   lastUpdateDate: Date | null;
 }
 
@@ -23,6 +24,7 @@ export const emptyForm: HabitForm = {
   frequencyString: "Daily",
   selectedDays: [],
   customFrequency: 0,
+  customFrequencyStartDate: new Date(),
   lastUpdateDate: null,
 };
 
@@ -39,6 +41,7 @@ export type WeeklyFrequency = {
 
 export type CustomFrequency = {
   customFrequency: number;
+  startDate: Date;
 };
 
 // export type HabitEntry = "Timed" | "Checkbox" | "Percentage";

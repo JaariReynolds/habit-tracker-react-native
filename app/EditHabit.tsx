@@ -1,5 +1,5 @@
 import { StyleSheet, Text, View } from "react-native";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import {
   FrequencyNames,
   Habit,
@@ -19,6 +19,8 @@ import { habitObjectToForm } from "../logic/baseHabitLogic";
 import { useHabitContext } from "../contexts/habitContext";
 import EditHabitSubmitButton from "../components/buttons/EditHabitSubmitButton";
 import DeleteHabitButton from "../components/buttons/DeleteHabitButton";
+import { useDatePicker } from "../hooks/useDatePicker";
+import DatePicker from "../components/interactive-fields/DatePicker";
 
 const EditHabit = () => {
   const { openedHabit, habits } = useHabitContext();
@@ -29,6 +31,15 @@ const EditHabit = () => {
   const [form, setForm] = useState<HabitForm>(
     habitObjectToForm(habits[openedHabit])
   );
+  const { date, datePickerVisible, showDatePicker, changeDate } = useDatePicker(
+    form.customFrequencyStartDate
+  );
+
+  useEffect(() => {
+    setForm(
+      (prev) => ({ ...prev, customFrequencyStartDate: date } as HabitForm)
+    );
+  }, [date]);
 
   return (
     <FullHeightScrollView>
@@ -62,11 +73,20 @@ const EditHabit = () => {
           />
         )}
         {showCustom && (
-          <Counter
-            title="Num of days"
-            number={form.customFrequency}
-            setNumber={(e) => setForm({ ...form, customFrequency: e })}
-          />
+          <>
+            <Counter
+              title="Num of days"
+              number={form.customFrequency}
+              setNumber={(e) => setForm({ ...form, customFrequency: e })}
+            />
+            <DatePicker
+              title="Start Date"
+              date={date}
+              datePickerVisible={datePickerVisible}
+              showDatePicker={showDatePicker}
+              changeDate={changeDate}
+            />
+          </>
         )}
 
         <View style={buttonStyles.dualButtonContainer}>

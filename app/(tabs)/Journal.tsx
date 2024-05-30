@@ -1,12 +1,13 @@
-import { Text, Button } from "react-native";
+import { Text } from "react-native";
 import React from "react";
 import FullPageView from "../../components/FullPageView";
-import DateTimePicker from "@react-native-community/datetimepicker";
-import { useDatePicker } from "../../hooks/useDatePicker";
-import DatePicker from "../../components/interactive-fields/DatePicker";
 
 const Journal = () => {
-  return <DatePicker />;
+  return (
+    <FullPageView>
+      <Text>Journal</Text>
+    </FullPageView>
+  );
 };
 
 export default Journal;
