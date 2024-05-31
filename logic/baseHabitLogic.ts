@@ -10,17 +10,10 @@ import {
 // return nothing if valid, otherwise return error string
 export function handleHabitValidation(newHabit: HabitForm): string | undefined {
   if (newHabit.habitName.trim().length == 0) return "Please enter a habit name";
-  else if (!FrequencyNames.includes(newHabit.frequencyString))
-    return "Invalid frequency type";
-  else if (
-    newHabit.frequencyString == "Weekly" &&
-    newHabit.selectedDays.length == 0
-  ) {
+  else if (!FrequencyNames.includes(newHabit.frequencyString)) return "Invalid frequency type";
+  else if (newHabit.frequencyString == "Weekly" && newHabit.selectedDays.length == 0) {
     return "Please selected which days";
-  } else if (
-    newHabit.frequencyString == "Custom" &&
-    newHabit.customFrequency == 0
-  ) {
+  } else if (newHabit.frequencyString == "Custom" && newHabit.customFrequency == 0) {
     return "Please select a valid frequency";
   }
 }
@@ -37,9 +30,7 @@ export function getFrequencyType(habitForm: HabitForm): Frequency {
   else if (habitForm.frequencyString == "Daily") {
     return "Daily";
   } else {
-    throw new Error(
-      `frequency option ${habitForm.frequencyString} not yet handled`
-    );
+    throw new Error(`frequency option ${habitForm.frequencyString} not yet handled`);
   }
 }
 

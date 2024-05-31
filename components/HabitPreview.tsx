@@ -17,8 +17,6 @@ import { FontAwesomeIcon } from "@fortawesome/react-native-fontawesome";
 import { faCircleCheck, faCircleXmark } from "@fortawesome/free-solid-svg-icons";
 import { useModalVisibility } from "../hooks/useModalVisibility";
 import handleHabitSubmission from "../logic/habitCRUD/handleHabitSubmission";
-import getHabitCompletion from "../logic/reportLogic/getHabitCompletion";
-import { toMidnight } from "../logic/dateLogic";
 
 interface HabitPreviewProps {
   habit: Habit;
@@ -26,7 +24,7 @@ interface HabitPreviewProps {
 }
 
 const HabitPreview = ({ habit, arrayIndex }: HabitPreviewProps) => {
-  const { openedHabit, setOpenedHabit, dateShown } = useHabitContext();
+  const { openedHabit, setOpenedHabit } = useHabitContext();
 
   const handleHabitOpen = () => {
     openedHabit == arrayIndex ? setOpenedHabit(-1) : setOpenedHabit(arrayIndex);
