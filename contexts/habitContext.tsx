@@ -1,11 +1,4 @@
-import {
-  Dispatch,
-  SetStateAction,
-  createContext,
-  useContext,
-  useEffect,
-  useState,
-} from "react";
+import { Dispatch, SetStateAction, createContext, useContext, useEffect, useState } from "react";
 import { Habit } from "../interfaces/habit";
 import getHabitsOnDate from "../logic/getHabitsOnDate";
 
@@ -25,9 +18,7 @@ interface HabitContext {
 }
 const HabitContext = createContext<HabitContext | null>(null);
 
-export default function HabitContextProvider({
-  children,
-}: HabitContextProviderProps) {
+export default function HabitContextProvider({ children }: HabitContextProviderProps) {
   const [habits, setHabits] = useState<Habit[]>([]);
   const [filteredHabits, setFilteredHabits] = useState<Habit[]>([]);
   const [openedHabit, setOpenedHabit] = useState<number>(-1);
@@ -35,9 +26,9 @@ export default function HabitContextProvider({
 
   // when habits updated, reset home back to current day
   useEffect(() => {
-    const currentDate = new Date();
-    setDateShown(currentDate);
-    setFilteredHabits(getHabitsOnDate(currentDate, habits));
+    // const currentDate = new Date();
+    // setDateShown(currentDate);
+    setFilteredHabits(getHabitsOnDate(dateShown, habits));
   }, [habits]);
 
   return (
@@ -61,9 +52,7 @@ export default function HabitContextProvider({
 export function useHabitContext() {
   const context = useContext(HabitContext);
   if (!context) {
-    throw new Error(
-      "useHabitContext must be used within a HabitContextProvider"
-    );
+    throw new Error("useHabitContext must be used within a HabitContextProvider");
   }
   return context;
 }
