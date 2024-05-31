@@ -27,7 +27,6 @@ export default function handleHabitSubmission(
   // otherwise, push new submission
   if (!updatedSubmission)
     updatedSubmissions.push(newSubmissionObject(habitId, submissionPercentage, submissionDate));
-  console.log("new submission array..");
 
   // this is not necessary tbh but helps for debugging if needed
   updatedSubmissions = updatedSubmissions.sort(
