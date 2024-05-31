@@ -3,7 +3,7 @@ import React, { SetStateAction } from "react";
 import { HabitForm, emptyForm } from "../../interfaces/habit";
 import { router } from "expo-router";
 import { useHabitContext } from "../../contexts/habitContext";
-import handleNewHabit from "../../logic/handleNewHabit";
+import handleNewHabit from "../../logic/habitCRUD/handleNewHabit";
 
 interface SubmitButtonProps {
   title: string;

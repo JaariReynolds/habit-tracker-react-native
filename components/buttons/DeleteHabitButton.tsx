@@ -1,10 +1,10 @@
 import { StyleSheet, Text, TouchableOpacity, View } from "react-native";
 import React from "react";
-import handleDeleteHabit from "../../logic/handleDeleteHabit";
 import { useHabitContext } from "../../contexts/habitContext";
 import { router } from "expo-router";
 import ConfirmationModal from "../interactive-fields/ConfirmationModal";
 import { useModalVisibility } from "../../hooks/useModalVisibility";
+import handleDeleteHabit from "../../logic/habitCRUD/handleDeleteHabit";
 
 interface DeleteHabitButtonProps {
   habitId: string;
@@ -28,10 +28,7 @@ export default function DeleteHabitButton({ habitId }: DeleteHabitButtonProps) {
         confirmButtonText="Confirm"
         confirmationAction={deleteHabit}
       />
-      <TouchableOpacity
-        style={styles.backButton}
-        onPress={() => setModalVisibility(true)}
-      >
+      <TouchableOpacity style={styles.backButton} onPress={() => setModalVisibility(true)}>
         <Text>DeleteHabitButton</Text>
       </TouchableOpacity>
     </>

@@ -1,6 +1,6 @@
-import { Habit, HabitForm } from "../interfaces/habit";
+import { Habit, HabitForm } from "../../interfaces/habit";
+import { getFrequencyType, handleHabitValidation } from "../baseHabitLogic";
 import uuid from "react-native-uuid";
-import { getFrequencyType, handleHabitValidation } from "./baseHabitLogic";
 
 export default function handleNewHabit(newHabit: HabitForm): Habit | string {
   const errorString = handleHabitValidation(newHabit);

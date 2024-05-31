@@ -1,6 +1,5 @@
 import { uuid } from "expo-modules-core";
-import { Habit, Submission } from "../interfaces/habit";
-import { toMidnight } from "./dateLogic";
+import { Habit, Submission } from "../../interfaces/habit";
 
 // this feels longer than it i thought it would be?
 export default function handleHabitSubmission(
@@ -17,7 +16,7 @@ export default function handleHabitSubmission(
 
   // update submissions array if date already exists
   let updatedSubmission: boolean = false;
-  let updatedSubmissions = existingHabit.submissions.map((submission) => {
+  let updatedSubmissions: Submission[] = existingHabit.submissions.map((submission) => {
     if (submission.submissionDate.toLocaleDateString() == submissionDate.toLocaleDateString()) {
       updatedSubmission = true;
       return updateSubmissionObject(submission, submissionPercentage);
@@ -35,14 +34,14 @@ export default function handleHabitSubmission(
     (a, b) => a.submissionDate.getTime() - b.submissionDate.getTime()
   );
 
-  const log = updatedSubmissions.map((submission) => {
-    return {
-      x: submission.submissionDate.toLocaleDateString(),
-      y: submission.completionPercentage,
-    };
-  });
+  // const log = updatedSubmissions.map((submission) => {
+  //   return {
+  //     x: submission.submissionDate.toLocaleDateString(),
+  //     y: submission.completionPercentage,
+  //   };
+  // });
 
-  console.log(JSON.stringify(log, null, 2));
+  // console.log(JSON.stringify(log, null, 2));
 
   // update habits array with newly updated habit
   const newHabits = habits.map((habit) => {

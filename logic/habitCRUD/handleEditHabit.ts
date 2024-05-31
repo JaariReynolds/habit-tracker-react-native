@@ -1,11 +1,5 @@
-import { Handle } from "react-native";
-import {
-  CustomFrequency,
-  Habit,
-  HabitForm,
-  WeeklyFrequency,
-} from "../interfaces/habit";
-import { getFrequencyType, handleHabitValidation } from "./baseHabitLogic";
+import { Habit, HabitForm } from "../../interfaces/habit";
+import { getFrequencyType, handleHabitValidation } from "./../baseHabitLogic";
 
 export default function handleEditHabit(
   updatedHabitForm: HabitForm,
@@ -17,10 +11,7 @@ export default function handleEditHabit(
   return handleEditHabitObject(updatedHabitForm, originalHabit);
 }
 
-function handleEditHabitObject(
-  updatedHabitForm: HabitForm,
-  originalHabit: Habit
-): Habit {
+function handleEditHabitObject(updatedHabitForm: HabitForm, originalHabit: Habit): Habit {
   const frequencyType = getFrequencyType(updatedHabitForm);
 
   return {
@@ -34,11 +25,6 @@ function handleEditHabitObject(
   };
 }
 
-export function updateHabitsArray(
-  updatedHabit: Habit,
-  habitsArray: Habit[]
-): Habit[] {
-  return habitsArray.map((habit) =>
-    habit.id === updatedHabit.id ? { ...updatedHabit } : habit
-  );
+export function updateHabitsArray(updatedHabit: Habit, habitsArray: Habit[]): Habit[] {
+  return habitsArray.map((habit) => (habit.id === updatedHabit.id ? { ...updatedHabit } : habit));
 }

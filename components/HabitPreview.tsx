@@ -12,11 +12,11 @@ import { Habit } from "../interfaces/habit";
 import { constants } from "../styles/constants";
 import { useHabitContext } from "../contexts/habitContext";
 import { router } from "expo-router";
-import handleHabitSubmission from "../logic/handleHabitSubmission";
 import SubmissionModal from "./interactive-fields/SubmissionModal";
 import { FontAwesomeIcon } from "@fortawesome/react-native-fontawesome";
 import { faCircleCheck, faCircleXmark } from "@fortawesome/free-solid-svg-icons";
 import { useModalVisibility } from "../hooks/useModalVisibility";
+import handleHabitSubmission from "../logic/habitCRUD/handleHabitSubmission";
 
 interface HabitPreviewProps {
   habit: Habit;
