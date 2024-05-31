@@ -1,11 +1,12 @@
 import { uuid } from "expo-modules-core";
 import { Habit, Submission } from "../interfaces/habit";
-import { isTodaysDate } from "./dateLogic";
+import { toMidnight } from "./dateLogic";
 
 // this feels longer than it i thought it would be?
 export default function handleHabitSubmission(
   habitId: string,
   submissionPercentage: number,
+  submissionDate: Date,
   habits: Habit[]
 ): Habit[] {
   const existingHabit = habits.find((habit) => habit.id == habitId);
@@ -14,37 +15,43 @@ export default function handleHabitSubmission(
     return habits;
   }
 
-  const currentSubmittions = existingHabit.submissions;
-  const mostRecentSubmission = currentSubmittions.pop();
+  // update submissions array if date already exists
+  let updatedSubmission: boolean = false;
+  let updatedSubmissions = existingHabit.submissions.map((submission) => {
+    if (submission.submissionDate.toLocaleDateString() == submissionDate.toLocaleDateString()) {
+      updatedSubmission = true;
+      return updateSubmissionObject(submission, submissionPercentage);
+    }
+    return submission;
+  });
 
-  let newSubmissionsArray: Submission[] = [];
+  // otherwise, push new submission
+  if (!updatedSubmission)
+    updatedSubmissions.push(newSubmissionObject(habitId, submissionPercentage, submissionDate));
+  console.log("new submission array..");
 
-  // if first submission || previous submissionDate is NOT todays date
-  if (
-    mostRecentSubmission == undefined ||
-    (mostRecentSubmission && !isTodaysDate(mostRecentSubmission.submissionDate))
-  ) {
-    // append (unpopped) submissions array with new submission
-    newSubmissionsArray = [
-      ...existingHabit.submissions,
-      newSubmissionObject(habitId, submissionPercentage),
-    ];
-    // if previous submissionDate IS todays date
-  } else if (
-    mostRecentSubmission.submissionDate.toLocaleString() ==
-    Date.now().toLocaleString()
-  ) {
-    // append (popped) submissions array with updated submission
-    newSubmissionsArray = [
-      ...currentSubmittions,
-      updateSubmissionObject(mostRecentSubmission, submissionPercentage),
-    ];
-  }
+  // this is not necessary tbh but helps for debugging if needed
+  updatedSubmissions = updatedSubmissions.sort(
+    (a, b) => a.submissionDate.getTime() - b.submissionDate.getTime()
+  );
+
+  const log = updatedSubmissions.map((submission) => {
+    return {
+      x: submission.submissionDate.toLocaleDateString(),
+      y: submission.completionPercentage,
+    };
+  });
+
+  console.log(JSON.stringify(log, null, 2));
 
   // update habits array with newly updated habit
   const newHabits = habits.map((habit) => {
     if (habit.id == existingHabit.id)
-      return { ...habit, submissions: newSubmissionsArray };
+      return {
+        ...habit,
+        lastUpdateDate: new Date(),
+        submissions: updatedSubmissions,
+      };
 
     return habit;
   });
@@ -54,12 +61,13 @@ export default function handleHabitSubmission(
 
 function newSubmissionObject(
   habitId: string,
-  submissionPercentage: number
+  submissionPercentage: number,
+  submissionDate: Date
 ): Submission {
   return {
     id: uuid.v4() as string,
     habitId: habitId,
-    submissionDate: new Date(),
+    submissionDate: submissionDate,
     completionPercentage: submissionPercentage,
   };
 }

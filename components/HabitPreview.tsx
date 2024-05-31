@@ -15,10 +15,7 @@ import { router } from "expo-router";
 import handleHabitSubmission from "../logic/handleHabitSubmission";
 import SubmissionModal from "./interactive-fields/SubmissionModal";
 import { FontAwesomeIcon } from "@fortawesome/react-native-fontawesome";
-import {
-  faCircleCheck,
-  faCircleXmark,
-} from "@fortawesome/free-solid-svg-icons";
+import { faCircleCheck, faCircleXmark } from "@fortawesome/free-solid-svg-icons";
 import { useModalVisibility } from "../hooks/useModalVisibility";
 
 interface HabitPreviewProps {
@@ -59,37 +56,38 @@ const HabitPreview = ({ habit, arrayIndex }: HabitPreviewProps) => {
 };
 
 const OpenedPreview = ({ habit }: { habit: Habit }) => {
-  const { habits, setHabits } = useHabitContext();
+  const { habits, setHabits, dateShown } = useHabitContext();
   const { modalVisibility, setModalVisibility } = useModalVisibility();
 
-  const submitIcon =
-    habit.submissions.length == 0 ? (
-      <FontAwesomeIcon icon={faCircleXmark} />
-    ) : habit.submissions[habit.submissions.length - 1].completionPercentage ==
-      1 ? (
-      <FontAwesomeIcon icon={faCircleCheck} />
-    ) : (
-      <FontAwesomeIcon icon={faCircleXmark} />
+  const submitIcon = () => {
+    const specificSubmission = habit.submissions.find(
+      (submission) =>
+        submission.submissionDate.toLocaleDateString() == dateShown.toLocaleDateString()
     );
+
+    if (!specificSubmission) return <FontAwesomeIcon icon={faCircleXmark} />;
+
+    if (specificSubmission.completionPercentage == 1)
+      return <FontAwesomeIcon icon={faCircleCheck} />;
+
+    return <FontAwesomeIcon icon={faCircleXmark} />;
+  };
+
   return (
     <>
       <SubmissionModal
         modalText={"submission for " + habit.habitName}
         modalVisibility={modalVisibility}
         setModalVisibility={setModalVisibility}
-        leftButtonAction={() =>
-          setHabits(handleHabitSubmission(habit.id, 1, habits))
-        }
-        rightButtonAction={() =>
-          setHabits(handleHabitSubmission(habit.id, 0, habits))
-        }
+        leftButtonAction={() => setHabits(handleHabitSubmission(habit.id, 1, dateShown, habits))}
+        rightButtonAction={() => setHabits(handleHabitSubmission(habit.id, 0, dateShown, habits))}
       />
       <View style={openedPreview.container}>
         <TouchableOpacity
           style={[openedPreview.button, openedPreview.first, { flexGrow: 2 }]}
           onPress={() => setModalVisibility(true)}
         >
-          <Text>{submitIcon}</Text>
+          {submitIcon()}
           <Text>Submit</Text>
         </TouchableOpacity>
         <TouchableOpacity

@@ -2,10 +2,7 @@ import { Modal, Pressable, Text, View, ViewStyle } from "react-native";
 import React from "react";
 import { baseModal } from "../../styles/base-styles";
 import { FontAwesomeIcon } from "@fortawesome/react-native-fontawesome";
-import {
-  faCircleCheck,
-  faCircleXmark,
-} from "@fortawesome/free-solid-svg-icons";
+import { faCircleCheck, faCircleXmark } from "@fortawesome/free-solid-svg-icons";
 
 interface SubmissionModalProps {
   modalVisibility: boolean;
@@ -44,11 +41,11 @@ const SubmissionModal = ({
         </View>
 
         <View style={baseModal.buttonRow}>
-          <Pressable onPress={handleRightButton} style={baseModal.button}>
-            <FontAwesomeIcon icon={faCircleXmark} />
-          </Pressable>
           <Pressable onPress={handleLeftButton} style={baseModal.button}>
             <FontAwesomeIcon icon={faCircleCheck} />
+          </Pressable>
+          <Pressable onPress={handleRightButton} style={baseModal.button}>
+            <FontAwesomeIcon icon={faCircleXmark} />
           </Pressable>
         </View>
       </View>
