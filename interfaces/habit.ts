@@ -35,11 +35,19 @@ export interface Submission {
   completionPercentage: number;
 }
 
+export type DailyFrequency = {
+  name: FrequencyString;
+  startDate: Date;
+};
+
 export type WeeklyFrequency = {
+  name: FrequencyString;
   days: number[]; // 0 for Monday, ..., 6 for Sunday
+  startDate: Date;
 };
 
 export type CustomFrequency = {
+  name: FrequencyString;
   customFrequency: number;
   startDate: Date;
 };
@@ -49,5 +57,6 @@ export type CustomFrequency = {
 
 export const dayNames = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
 
-export type Frequency = "Daily" | WeeklyFrequency | CustomFrequency;
+export type Frequency = DailyFrequency | WeeklyFrequency | CustomFrequency;
+export type FrequencyString = "Daily" | "Weekly" | "Custom";
 export const FrequencyNames = ["Daily", "Weekly", "Custom"];

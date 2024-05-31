@@ -8,28 +8,27 @@ export default function getHabitsOnDate(date: Date, habits: Habit[]): Habit[] {
 }
 
 export function isHabitOnDate(habit: Habit, date: Date): boolean {
-  if (habit.frequency == "Daily") {
-    return true;
-  }
-
-  const castedFrequency = habit.frequency as WeeklyFrequency;
-
-  // if weekly
-  if (castedFrequency.days) {
-    if (castedFrequency.days.includes(date.getDay())) {
+  switch (habit.frequency.name) {
+    case "Daily": {
       return true;
     }
-    // if custom
-  } else {
-    if (
-      isDateWithinDaysMultiple(
-        date,
-        (habit.frequency as CustomFrequency).startDate,
-        (habit.frequency as CustomFrequency).customFrequency
+    case "Weekly": {
+      if ((habit.frequency as WeeklyFrequency).days.includes(date.getDay())) {
+        return true;
+      }
+    }
+    case "Custom": {
+      if (
+        isDateWithinDaysMultiple(
+          date,
+          (habit.frequency as CustomFrequency).startDate,
+          (habit.frequency as CustomFrequency).customFrequency
+        )
       )
-    )
-      return true;
+        return true;
+    }
+    default: {
+      return false;
+    }
   }
-
-  return false;
 }

@@ -1,7 +1,9 @@
 import {
   CustomFrequency,
+  DailyFrequency,
   Frequency,
   FrequencyNames,
+  FrequencyString,
   Habit,
   HabitForm,
   WeeklyFrequency,
@@ -21,14 +23,22 @@ export function handleHabitValidation(newHabit: HabitForm): string | undefined {
 // based on the habitForm properties, return a Frequency type from the Frequency union type
 export function getFrequencyType(habitForm: HabitForm): Frequency {
   if (habitForm.frequencyString == "Weekly")
-    return { days: habitForm.selectedDays } as WeeklyFrequency;
+    return {
+      name: habitForm.frequencyString,
+      days: habitForm.selectedDays,
+      startDate: new Date(),
+    } as WeeklyFrequency;
   else if (habitForm.frequencyString == "Custom")
     return {
+      name: habitForm.frequencyString,
       customFrequency: habitForm.customFrequency,
       startDate: habitForm.customFrequencyStartDate,
     } as CustomFrequency;
   else if (habitForm.frequencyString == "Daily") {
-    return "Daily";
+    return {
+      name: habitForm.frequencyString,
+      startDate: new Date(),
+    } as DailyFrequency;
   } else {
     throw new Error(`frequency option ${habitForm.frequencyString} not yet handled`);
   }
@@ -36,36 +46,40 @@ export function getFrequencyType(habitForm: HabitForm): Frequency {
 
 // based on the existing Habit, destructure "Frequency" down to the properties it was created from in the habitForm
 function getFrequencyProperties(habit: Habit): {
-  frequencyString: string;
+  frequencyString: FrequencyString;
   selectedDays: number[];
   customFrequency: number;
   customFrequencyStartDate: Date;
 } {
-  if (habit.frequency == "Daily")
-    return {
-      frequencyString: "Daily",
-      selectedDays: [],
-      customFrequency: 0,
-      customFrequencyStartDate: new Date(),
-    };
-
-  // this currently only works with 3 frequency types (daily, weekly, custom). If more are added, this needs to be refactored
-  const castedFrequency = habit.frequency as WeeklyFrequency;
-
-  if (castedFrequency.days)
-    return {
-      frequencyString: "Weekly",
-      selectedDays: (habit.frequency as WeeklyFrequency).days,
-      customFrequency: 0,
-      customFrequencyStartDate: new Date(),
-    };
-  else
-    return {
-      frequencyString: "Custom",
-      selectedDays: [],
-      customFrequency: (habit.frequency as CustomFrequency).customFrequency,
-      customFrequencyStartDate: (habit.frequency as CustomFrequency).startDate,
-    };
+  switch (habit.frequency.name) {
+    case "Daily": {
+      return {
+        frequencyString: "Daily",
+        selectedDays: [],
+        customFrequency: 0,
+        customFrequencyStartDate: new Date(),
+      };
+    }
+    case "Weekly": {
+      return {
+        frequencyString: "Weekly",
+        selectedDays: (habit.frequency as WeeklyFrequency).days,
+        customFrequency: 0,
+        customFrequencyStartDate: new Date(),
+      };
+    }
+    case "Custom": {
+      return {
+        frequencyString: "Custom",
+        selectedDays: [],
+        customFrequency: (habit.frequency as CustomFrequency).customFrequency,
+        customFrequencyStartDate: (habit.frequency as CustomFrequency).startDate,
+      };
+    }
+    default: {
+      throw new Error("Frequency type not yet handled");
+    }
+  }
 }
 
 // based on the existing Habit, convert to a habitForm
