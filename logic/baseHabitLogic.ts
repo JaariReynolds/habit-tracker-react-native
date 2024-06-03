@@ -87,6 +87,9 @@ function getFrequencyProperties(habit: Habit): {
 
 // based on the existing Habit, convert to a habitForm
 export function habitObjectToForm(habit: Habit): HabitForm {
+  if (!habit) {
+    throw new Error("Habit no longer exists");
+  }
   return {
     habitId: habit.id,
     habitName: habit.habitName,

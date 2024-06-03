@@ -1,5 +1,5 @@
 import { StyleSheet, Text, View } from "react-native";
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { FrequencyNames, Habit, HabitForm, dayNames } from "../interfaces/habit";
 import FullHeightScrollView from "../components/FullHeightScrollView";
 import Header from "../components/Header";
@@ -19,11 +19,11 @@ import DatePicker from "../components/interactive-fields/DatePicker";
 
 const EditHabit = () => {
   const { openedHabit, habits } = useHabitContext();
+  const originalHabit = useRef<Habit>(habits.find((habit) => habit.id === openedHabit)!);
   const [showDays, setShowDays] = useState<boolean>(false);
   const [showCustom, setShowCustom] = useState<boolean>(false);
   const [errorString, setErrorString] = useState<string>("");
-
-  const [form, setForm] = useState<HabitForm>(habitObjectToForm(habits[openedHabit]));
+  const [form, setForm] = useState<HabitForm>(habitObjectToForm(originalHabit.current));
   const { date, datePickerVisible, showDatePicker, changeDate } = useDatePicker(
     form.customFrequencyStartDate
   );
@@ -41,7 +41,7 @@ const EditHabit = () => {
             <Text style={{ color: "red" }}>{errorString} </Text>
           </View>
         )}
-        <DeleteHabitButton habitId={habits[openedHabit].id} />
+        <DeleteHabitButton habitId={form.habitId!} />
         <FormField
           title="Habit Name"
           handleChangeText={(e) => setForm({ ...form, habitName: e })}
@@ -85,7 +85,7 @@ const EditHabit = () => {
           <EditHabitSubmitButton
             title="Update"
             habitForm={form}
-            originalHabit={habits[openedHabit]}
+            originalHabit={originalHabit.current}
             setErrorString={setErrorString}
             setForm={setForm}
             pageLink="/(tabs)" // no file name assumes index page of (tabs) i think?
@@ -97,5 +97,3 @@ const EditHabit = () => {
 };
 
 export default EditHabit;
-
-const styles = StyleSheet.create({});

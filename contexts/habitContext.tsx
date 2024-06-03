@@ -12,8 +12,8 @@ interface HabitContext {
   setHabits: Dispatch<SetStateAction<Habit[]>>;
   filteredHabits: Habit[];
   setFilteredHabits: Dispatch<SetStateAction<Habit[]>>;
-  openedHabit: number;
-  setOpenedHabit: Dispatch<SetStateAction<number>>;
+  openedHabit: string;
+  setOpenedHabit: Dispatch<SetStateAction<string>>;
   dateShown: Date;
   setDateShown: Dispatch<SetStateAction<Date>>;
 }
@@ -22,7 +22,7 @@ const HabitContext = createContext<HabitContext | null>(null);
 export default function HabitContextProvider({ children }: HabitContextProviderProps) {
   const [habits, setHabits] = useState<Habit[]>([]);
   const [filteredHabits, setFilteredHabits] = useState<Habit[]>([]);
-  const [openedHabit, setOpenedHabit] = useState<number>(-1);
+  const [openedHabit, setOpenedHabit] = useState<string>("");
   const [dateShown, setDateShown] = useState<Date>(new MidnightDate());
 
   useEffect(() => {

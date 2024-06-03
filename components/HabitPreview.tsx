@@ -27,12 +27,12 @@ interface HabitPreviewProps {
 const HabitPreview = ({ habit, arrayIndex }: HabitPreviewProps) => {
   const { openedHabit, setOpenedHabit, dateShown } = useHabitContext();
 
-  const handleHabitOpen = () => {
-    openedHabit == arrayIndex ? setOpenedHabit(-1) : setOpenedHabit(arrayIndex);
+  const handleHabitPress = () => {
+    habit.id === openedHabit ? setOpenedHabit("") : setOpenedHabit(habit.id);
   };
 
   const openedPreviewStyle = () => {
-    if (openedHabit == arrayIndex) {
+    if (habit.id === openedHabit) {
       return {
         borderBottomLeftRadius: 0,
         borderBottomRightRadius: 0,
@@ -44,7 +44,7 @@ const HabitPreview = ({ habit, arrayIndex }: HabitPreviewProps) => {
     <View>
       <Pressable
         style={[styles.habitPreviewContainer, openedPreviewStyle()]}
-        onPress={handleHabitOpen}
+        onPress={handleHabitPress}
       >
         <View style={styles.habitRow}>
           <Text>{habit.habitName}</Text>
@@ -53,7 +53,7 @@ const HabitPreview = ({ habit, arrayIndex }: HabitPreviewProps) => {
           </Text>
         </View>
       </Pressable>
-      {openedHabit == arrayIndex && <OpenedPreview habit={habit} />}
+      {habit.id === openedHabit && <OpenedPreview habit={habit} />}
     </View>
   );
 };
