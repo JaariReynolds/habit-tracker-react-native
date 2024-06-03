@@ -10,9 +10,7 @@ export function isTodaysDate(date: Date): boolean {
 
 // returns true if the gap in days between date1 and date2 are a multiple of daysGap apart
 export function isDateWithinDaysMultiple(date1: Date, date2: Date, daysGap: number): boolean {
-  const differenceInMilliseconds = Math.abs(
-    toMidnight(date1).getTime() - toMidnight(date2).getTime()
-  );
+  const differenceInMilliseconds = Math.abs(date1.getTime() - date2.getTime());
   const differenceInDays = Math.round(differenceInMilliseconds / MILLISECONDS_PER_DAY);
   return differenceInDays % daysGap === 0;
 }

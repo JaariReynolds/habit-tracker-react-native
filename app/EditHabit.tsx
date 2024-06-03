@@ -1,11 +1,6 @@
 import { StyleSheet, Text, View } from "react-native";
 import React, { useEffect, useState } from "react";
-import {
-  FrequencyNames,
-  Habit,
-  HabitForm,
-  dayNames,
-} from "../interfaces/habit";
+import { FrequencyNames, Habit, HabitForm, dayNames } from "../interfaces/habit";
 import FullHeightScrollView from "../components/FullHeightScrollView";
 import Header from "../components/Header";
 import FullPageView from "../components/FullPageView";
@@ -28,17 +23,13 @@ const EditHabit = () => {
   const [showCustom, setShowCustom] = useState<boolean>(false);
   const [errorString, setErrorString] = useState<string>("");
 
-  const [form, setForm] = useState<HabitForm>(
-    habitObjectToForm(habits[openedHabit])
-  );
+  const [form, setForm] = useState<HabitForm>(habitObjectToForm(habits[openedHabit]));
   const { date, datePickerVisible, showDatePicker, changeDate } = useDatePicker(
     form.customFrequencyStartDate
   );
 
   useEffect(() => {
-    setForm(
-      (prev) => ({ ...prev, customFrequencyStartDate: date } as HabitForm)
-    );
+    setForm((prev) => ({ ...prev, customFrequencyStartDate: date } as HabitForm));
   }, [date]);
 
   return (

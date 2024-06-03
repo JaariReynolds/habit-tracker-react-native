@@ -1,6 +1,7 @@
 import { Dispatch, SetStateAction, createContext, useContext, useEffect, useState } from "react";
 import { Habit } from "../interfaces/habit";
 import getHabitsOnDate from "../logic/getHabitsOnDate";
+import { MidnightDate } from "../interfaces/date";
 
 interface HabitContextProviderProps {
   children: React.ReactNode;
@@ -22,12 +23,9 @@ export default function HabitContextProvider({ children }: HabitContextProviderP
   const [habits, setHabits] = useState<Habit[]>([]);
   const [filteredHabits, setFilteredHabits] = useState<Habit[]>([]);
   const [openedHabit, setOpenedHabit] = useState<number>(-1);
-  const [dateShown, setDateShown] = useState<Date>(new Date());
+  const [dateShown, setDateShown] = useState<Date>(new MidnightDate());
 
-  // when habits updated, reset home back to current day
   useEffect(() => {
-    // const currentDate = new Date();
-    // setDateShown(currentDate);
     setFilteredHabits(getHabitsOnDate(dateShown, habits));
   }, [habits]);
 

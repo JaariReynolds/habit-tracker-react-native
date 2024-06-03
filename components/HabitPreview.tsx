@@ -17,6 +17,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-native-fontawesome";
 import { faCircleCheck, faCircleXmark } from "@fortawesome/free-solid-svg-icons";
 import { useModalVisibility } from "../hooks/useModalVisibility";
 import handleHabitSubmission from "../logic/habitCRUD/handleHabitSubmission";
+import { getNextSubmissionDate } from "../logic/getHabitsOnDate";
 
 interface HabitPreviewProps {
   habit: Habit;
@@ -24,7 +25,7 @@ interface HabitPreviewProps {
 }
 
 const HabitPreview = ({ habit, arrayIndex }: HabitPreviewProps) => {
-  const { openedHabit, setOpenedHabit } = useHabitContext();
+  const { openedHabit, setOpenedHabit, dateShown } = useHabitContext();
 
   const handleHabitOpen = () => {
     openedHabit == arrayIndex ? setOpenedHabit(-1) : setOpenedHabit(arrayIndex);
@@ -47,6 +48,9 @@ const HabitPreview = ({ habit, arrayIndex }: HabitPreviewProps) => {
       >
         <View style={styles.habitRow}>
           <Text>{habit.habitName}</Text>
+          <Text>
+            {getNextSubmissionDate(habit, dateShown, "Forwards").toLocaleDateString("en-GB")}
+          </Text>
         </View>
       </Pressable>
       {openedHabit == arrayIndex && <OpenedPreview habit={habit} />}

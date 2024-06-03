@@ -3,14 +3,15 @@ import React from "react";
 import FullPageView from "../../components/FullPageView";
 import { useHabitContext } from "../../contexts/habitContext";
 import getHabitCompletion from "../../logic/reportLogic/getHabitCompletion";
+import { MidnightDate } from "../../interfaces/date";
 
 const HabitReports = () => {
   const { habits } = useHabitContext();
-  const tenth = new Date(2024, 5, 10);
+  const tenth = new MidnightDate(2024, 5, 10);
   const completionArray = habits.map((habit) => {
     return {
       habitName: habit.habitName,
-      completion: getHabitCompletion(habit, new Date(2024, 5, 1), tenth),
+      completion: getHabitCompletion(habit, new MidnightDate(2024, 5, 1), tenth),
     };
   });
   return (

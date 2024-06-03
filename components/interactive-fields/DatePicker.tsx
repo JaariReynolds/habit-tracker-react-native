@@ -4,6 +4,7 @@ import DateTimePicker from "@react-native-community/datetimepicker";
 import { useDatePicker } from "../../hooks/useDatePicker";
 import { FontAwesomeIcon } from "@fortawesome/react-native-fontawesome";
 import { faCalendarDays } from "@fortawesome/free-solid-svg-icons";
+import { MidnightDate } from "../../interfaces/date";
 
 interface DatePickerProps {
   title: string;
@@ -24,9 +25,7 @@ const DatePicker = ({
       <Text style={styles.title}>{title}</Text>
       <View style={styles.container}>
         <Pressable style={styles.button} onPress={showDatePicker}>
-          <Text style={styles.selectedDate}>
-            {date.toLocaleDateString("en-GB")}
-          </Text>
+          <Text style={styles.selectedDate}>{date.toLocaleDateString("en-GB")}</Text>
           <View style={styles.icon}>
             <FontAwesomeIcon icon={faCalendarDays} />
           </View>
@@ -37,7 +36,7 @@ const DatePicker = ({
             testID="dateTimePicker"
             value={date}
             mode={"date"}
-            minimumDate={new Date()}
+            minimumDate={new MidnightDate()}
             is24Hour={true}
             onChange={(e, d) => changeDate(d)}
           />

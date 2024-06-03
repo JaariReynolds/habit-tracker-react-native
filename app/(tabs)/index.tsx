@@ -9,23 +9,23 @@ import HabitPreview from "../../components/HabitPreview";
 import Carousel, { ICarouselInstance } from "react-native-reanimated-carousel";
 import { interpolate } from "react-native-reanimated";
 import getHabitsOnDate from "../../logic/getHabitsOnDate";
+import { MidnightDate } from "../../interfaces/date";
 
 const numbers = [1, 2, 3, 4, 5];
 const PAGE_WIDTH = Dimensions.get("window").width;
 
 const Habits = () => {
-  const { habits, filteredHabits, setFilteredHabits, dateShown, setDateShown } =
-    useHabitContext();
+  const { habits, filteredHabits, setFilteredHabits, dateShown, setDateShown } = useHabitContext();
   const ref = React.useRef<ICarouselInstance>(null);
 
   // filter habits by dateOffset relative to the current dateShown, else reset back to today
   function filterHabits(dateOffset?: number) {
     var newDate: Date;
     if (dateOffset) {
-      newDate = new Date(dateShown);
+      newDate = new MidnightDate(dateShown);
       newDate.setDate(newDate.getDate() + dateOffset);
     } else {
-      newDate = new Date();
+      newDate = new MidnightDate();
     }
 
     const filteredHabits = getHabitsOnDate(newDate, habits);
@@ -52,11 +52,7 @@ const Habits = () => {
     "worklet";
 
     const zIndex = interpolate(value, [-1, 0, 1], [-1000, 0, 1000]);
-    const translateX = interpolate(
-      value,
-      [-1, 0, 1],
-      [-PAGE_WIDTH, 0, PAGE_WIDTH]
-    );
+    const translateX = interpolate(value, [-1, 0, 1], [-PAGE_WIDTH, 0, PAGE_WIDTH]);
 
     return {
       transform: [{ translateX }],
@@ -115,10 +111,7 @@ const Habits = () => {
                   <HabitPreview key={index} arrayIndex={index} habit={habit} />
                 ))}
               </View>
-              <RouterPushButton
-                buttonText="New Habit :3"
-                pageLink="./../NewHabit"
-              />
+              <RouterPushButton buttonText="New Habit :3" pageLink="./../NewHabit" />
             </FullPageView>
           </FullHeightScrollView>
         );

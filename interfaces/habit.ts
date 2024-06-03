@@ -1,3 +1,5 @@
+import { MidnightDate } from "./date";
+
 export interface Habit {
   id: string;
   habitName: string;
@@ -24,7 +26,7 @@ export const emptyForm: HabitForm = {
   frequencyString: "Daily",
   selectedDays: [],
   customFrequency: 0,
-  customFrequencyStartDate: new Date(),
+  customFrequencyStartDate: new MidnightDate(),
   lastUpdateDate: null,
 };
 
