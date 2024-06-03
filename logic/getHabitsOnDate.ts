@@ -1,3 +1,4 @@
+import { MidnightDate } from "../interfaces/date";
 import { CustomFrequency, Habit, WeeklyFrequency } from "../interfaces/habit";
 import { isDateWithinDaysMultiple, toMidnight } from "./dateLogic";
 
@@ -8,6 +9,8 @@ export default function getHabitsOnDate(date: Date, habits: Habit[]): Habit[] {
 }
 
 export function isHabitOnDate(habit: Habit, date: Date): boolean {
+  if (habit.frequency.startDate > date) return false;
+
   switch (habit.frequency.name) {
     case "Daily": {
       return true;
@@ -40,7 +43,7 @@ export function getNextSubmissionDate(
 ): Date {
   const increment = direction === "Forwards" ? 1 : -1;
 
-  let nextSubmissionDate = new Date(referenceDate);
+  let nextSubmissionDate = new MidnightDate(referenceDate);
   nextSubmissionDate.setDate(nextSubmissionDate.getDate() + increment);
 
   let found = false;
