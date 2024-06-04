@@ -1,5 +1,5 @@
 import { Dimensions, Pressable, StyleSheet, Text, View } from "react-native";
-import React from "react";
+import React, { useRef } from "react";
 import FullPageView from "../../components/FullPageView";
 import RouterPushButton from "../../components/buttons/RouterPushButton";
 import { useHabitContext } from "../../contexts/habitContext";
@@ -8,57 +8,41 @@ import Header from "../../components/Header";
 import HabitPreview from "../../components/HabitPreview";
 import Carousel, { ICarouselInstance } from "react-native-reanimated-carousel";
 import { interpolate } from "react-native-reanimated";
-import getHabitsOnDate from "../../logic/getHabitsOnDate";
-import { MidnightDate } from "../../interfaces/date";
 
-const numbers = [1, 2, 3, 4, 5];
+const numbers = [1, 2, 3];
 const PAGE_WIDTH = Dimensions.get("window").width;
 
 const Habits = () => {
-  const { habits, filteredHabits, setFilteredHabits, dateShown, setDateShown } = useHabitContext();
+  const { habits, dateShown, handleSetDateShown } = useHabitContext();
   const ref = React.useRef<ICarouselInstance>(null);
-
-  // filter habits by dateOffset relative to the current dateShown, else reset back to today
-  function filterHabits(dateOffset?: number) {
-    var newDate: Date;
-    if (dateOffset) {
-      newDate = new MidnightDate(dateShown);
-      newDate.setDate(newDate.getDate() + dateOffset);
-    } else {
-      newDate = new MidnightDate();
-    }
-
-    const filteredHabits = getHabitsOnDate(newDate, habits);
-    setDateShown(newDate);
-    setFilteredHabits(filteredHabits);
-  }
+  const lastPressRef = useRef<"prev" | "next" | "current">("next");
 
   function buttonPressNext() {
     ref.current!.next();
-    filterHabits(1);
+    lastPressRef.current = "next";
+    handleSetDateShown(1);
   }
 
   function buttonPressCurrent() {
-    ref.current!.next();
-    filterHabits();
+    switch (lastPressRef.current) {
+      case "next":
+        ref.current!.prev();
+        break;
+      case "prev":
+        ref.current!.next();
+        break;
+      case "current": // do nothing if already on current
+        return;
+    }
+    lastPressRef.current = "current";
+    handleSetDateShown(0);
   }
 
   function buttonPressPrev() {
     ref.current!.prev();
-    filterHabits(-1);
+    lastPressRef.current = "prev";
+    handleSetDateShown(-1);
   }
-
-  const animationStyle = React.useCallback((value: number) => {
-    "worklet";
-
-    const zIndex = interpolate(value, [-1, 0, 1], [-1000, 0, 1000]);
-    const translateX = interpolate(value, [-1, 0, 1], [-PAGE_WIDTH, 0, PAGE_WIDTH]);
-
-    return {
-      transform: [{ translateX }],
-      zIndex,
-    };
-  }, []);
 
   return (
     <Carousel
@@ -67,7 +51,7 @@ const Habits = () => {
       style={{ flex: 1 }}
       data={numbers}
       enabled={false}
-      customAnimation={animationStyle}
+      scrollAnimationDuration={800}
       renderItem={() => {
         return (
           <FullHeightScrollView>
@@ -107,7 +91,7 @@ const Habits = () => {
                 </Pressable>
               </View>
               <View style={styles.habitContainer}>
-                {filteredHabits.map((habit, index) => (
+                {habits.map((habit, index) => (
                   <HabitPreview key={index} arrayIndex={index} habit={habit} />
                 ))}
               </View>

@@ -1,12 +1,4 @@
-import {
-  Pressable,
-  StyleSheet,
-  Text,
-  TouchableHighlight,
-  TouchableOpacity,
-  View,
-  ViewStyle,
-} from "react-native";
+import { Pressable, StyleSheet, Text, TouchableOpacity, View, ViewStyle } from "react-native";
 import React, { useMemo } from "react";
 import { Habit } from "../interfaces/habit";
 import { constants } from "../styles/constants";
@@ -17,15 +9,13 @@ import { FontAwesomeIcon } from "@fortawesome/react-native-fontawesome";
 import { faCircleCheck, faCircleXmark } from "@fortawesome/free-solid-svg-icons";
 import { useModalVisibility } from "../hooks/useModalVisibility";
 import handleHabitSubmission from "../logic/habitCRUD/handleHabitSubmission";
-import { getNextSubmissionDate } from "../logic/getHabitsOnDate";
 
 interface HabitPreviewProps {
   habit: Habit;
-  arrayIndex: number;
 }
 
-const HabitPreview = ({ habit, arrayIndex }: HabitPreviewProps) => {
-  const { openedHabit, setOpenedHabit, dateShown } = useHabitContext();
+const HabitPreview = ({ habit }: HabitPreviewProps) => {
+  const { openedHabit, setOpenedHabit } = useHabitContext();
 
   const handleHabitPress = () => {
     habit.id === openedHabit ? setOpenedHabit("") : setOpenedHabit(habit.id);
@@ -48,9 +38,10 @@ const HabitPreview = ({ habit, arrayIndex }: HabitPreviewProps) => {
       >
         <View style={styles.habitRow}>
           <Text>{habit.habitName}</Text>
-          <Text>
+          <Text>due today: {habit.isOnDateShown! ? "yes" : "no"}</Text>
+          {/* <Text>
             {getNextSubmissionDate(habit, dateShown, "Forwards").toLocaleDateString("en-GB")}
-          </Text>
+          </Text> */}
         </View>
       </Pressable>
       {habit.id === openedHabit && <OpenedPreview habit={habit} />}

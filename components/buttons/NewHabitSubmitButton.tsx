@@ -20,7 +20,7 @@ export default function NewHabitSubmitButton({
   setErrorString,
   pageLink,
 }: SubmitButtonProps) {
-  const { setHabits } = useHabitContext();
+  const { setHabits, handleSetDateShown } = useHabitContext();
 
   const handleSubmit = () => {
     const result = handleNewHabit(habitForm);
@@ -31,6 +31,7 @@ export default function NewHabitSubmitButton({
       setForm(emptyForm);
       setHabits((prev) => [...prev, result]);
       setErrorString("");
+      handleSetDateShown(0); // always reset back to current day after habit edit/creation
       router.navigate(pageLink); // unwinds back to most recent homescreen (index) in stack
     }
   };
