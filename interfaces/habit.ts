@@ -8,6 +8,7 @@ export interface Habit {
   creationDate: Date;
   lastUpdateDate: Date;
   currentStreak: number;
+  isOnDateShown?: boolean;
 }
 
 export interface HabitForm {
