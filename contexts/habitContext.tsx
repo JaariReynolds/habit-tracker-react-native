@@ -1,6 +1,6 @@
-import { Dispatch, SetStateAction, createContext, useContext, useEffect, useState } from "react";
+import { Dispatch, SetStateAction, createContext, useContext, useState } from "react";
 import { Habit } from "../interfaces/habit";
-import getHabitsOnDate from "../logic/getHabitsOnDate";
+import { isHabitOnDate } from "../logic/getHabitsOnDate";
 import { MidnightDate } from "../interfaces/date";
 
 interface HabitContextProviderProps {
@@ -10,36 +10,48 @@ interface HabitContextProviderProps {
 interface HabitContext {
   habits: Habit[];
   setHabits: Dispatch<SetStateAction<Habit[]>>;
-  filteredHabits: Habit[];
-  setFilteredHabits: Dispatch<SetStateAction<Habit[]>>;
   openedHabit: string;
   setOpenedHabit: Dispatch<SetStateAction<string>>;
   dateShown: Date;
-  setDateShown: Dispatch<SetStateAction<Date>>;
+  handleSetDateShown: (dayOffsetOrDate: number | Date) => void;
 }
 const HabitContext = createContext<HabitContext | null>(null);
 
 export default function HabitContextProvider({ children }: HabitContextProviderProps) {
   const [habits, setHabits] = useState<Habit[]>([]);
-  const [filteredHabits, setFilteredHabits] = useState<Habit[]>([]);
   const [openedHabit, setOpenedHabit] = useState<string>("");
   const [dateShown, setDateShown] = useState<Date>(new MidnightDate());
 
-  useEffect(() => {
-    setFilteredHabits(getHabitsOnDate(dateShown, habits));
-  }, [habits]);
+  function handleSetDateShown(dayOffsetOrDate: number | Date) {
+    var newDate: Date;
+    if (dayOffsetOrDate instanceof Date) {
+      newDate = new MidnightDate(dayOffsetOrDate);
+    } else {
+      if (dayOffsetOrDate === 0) {
+        newDate = new MidnightDate();
+      } else {
+        newDate = new MidnightDate(dateShown);
+        newDate.setDate(newDate.getDate() + dayOffsetOrDate);
+      }
+    }
+
+    setDateShown(newDate);
+    setHabits((prev) =>
+      prev.map((habit) => {
+        return { ...habit, isOnDateShown: isHabitOnDate(habit, newDate) };
+      })
+    );
+  }
 
   return (
     <HabitContext.Provider
       value={{
         habits,
         setHabits,
-        filteredHabits,
-        setFilteredHabits,
         openedHabit,
         setOpenedHabit,
         dateShown,
-        setDateShown,
+        handleSetDateShown,
       }}
     >
       {children}
