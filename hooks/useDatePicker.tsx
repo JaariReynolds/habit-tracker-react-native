@@ -6,7 +6,6 @@ export function useDatePicker(startDate: Date) {
 
   const changeDate = (selectedDate: Date | undefined) => {
     const date = selectedDate;
-    console.log("new date = " + date);
     setDatePickerVisible(false);
 
     if (!date) return;
