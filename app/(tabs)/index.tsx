@@ -15,7 +15,7 @@ const PAGE_WIDTH = Dimensions.get("window").width;
 const Habits = () => {
   const { habits, dateShown, handleSetDateShown } = useHabitContext();
   const ref = React.useRef<ICarouselInstance>(null);
-  const lastPressRef = useRef<"prev" | "next" | "current">("next");
+  const lastPressRef = useRef<"prev" | "next" | "current">("current");
 
   function buttonPressNext() {
     ref.current!.next();
@@ -92,7 +92,7 @@ const Habits = () => {
               </View>
               <View style={styles.habitContainer}>
                 {habits.map((habit, index) => (
-                  <HabitPreview key={index} arrayIndex={index} habit={habit} />
+                  <HabitPreview key={index} habit={habit} />
                 ))}
               </View>
               <RouterPushButton buttonText="New Habit :3" pageLink="./../NewHabit" />
