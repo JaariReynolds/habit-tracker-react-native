@@ -28,7 +28,8 @@ export default function handleHabitSubmission(
   if (!updatedSubmission)
     updatedSubmissions.push(newSubmissionObject(habitId, submissionPercentage, submissionDate));
 
-  // this is not necessary tbh but helps for debugging if needed
+  // this is necessary up until I no longer allow submissions on any date
+  // otherwise, submissions array will naturally be sorted
   updatedSubmissions = updatedSubmissions.sort(
     (a, b) => a.submissionDate.getTime() - b.submissionDate.getTime()
   );
