@@ -9,6 +9,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-native-fontawesome";
 import { faCircleCheck, faCircleXmark } from "@fortawesome/free-solid-svg-icons";
 import { useModalVisibility } from "../hooks/useModalVisibility";
 import handleHabitSubmission from "../logic/habitCRUD/handleHabitSubmission";
+import getHabitStreak from "../logic/reportLogic/getHabitStreak";
 
 interface HabitPreviewProps {
   habit: Habit;
@@ -42,6 +43,7 @@ const HabitPreview = ({ habit }: HabitPreviewProps) => {
           {/* <Text>
             {getNextSubmissionDate(habit, dateShown, "Forwards").toLocaleDateString("en-GB")}
           </Text> */}
+          <Text>streak = {getHabitStreak(habit)}</Text>
         </View>
       </Pressable>
       {habit.id === openedHabit && <OpenedPreview habit={habit} />}
