@@ -9,8 +9,6 @@ export default function getHabitsOnDate(date: Date, habits: Habit[]): Habit[] {
 }
 
 export function isHabitOnDate(habit: Habit, date: Date): boolean {
-  if (habit.frequency.startDate > date) return false;
-
   switch (habit.frequency.name) {
     case "Daily": {
       return true;
