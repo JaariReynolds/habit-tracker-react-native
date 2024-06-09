@@ -1,7 +1,6 @@
-import { Pressable, StyleSheet, Text, TouchableOpacity, View, ViewStyle } from "react-native";
-import React, { useMemo } from "react";
+import { Pressable, Text, TouchableOpacity, View } from "react-native";
+import React, { useEffect, useMemo } from "react";
 import { Habit } from "../interfaces/habit";
-import { constants } from "../styles/constants";
 import { useHabitContext } from "../contexts/habitContext";
 import { router } from "expo-router";
 import SubmissionModal from "./interactive-fields/SubmissionModal";
@@ -9,68 +8,19 @@ import { FontAwesomeIcon } from "@fortawesome/react-native-fontawesome";
 import { faCircleCheck, faCircleXmark } from "@fortawesome/free-solid-svg-icons";
 import { useModalVisibility } from "../hooks/useModalVisibility";
 import handleHabitSubmission from "../logic/habitCRUD/handleHabitSubmission";
-import getHabitStreak from "../logic/reportLogic/getHabitStreak";
+import Animated, { useAnimatedStyle, useSharedValue, withSpring } from "react-native-reanimated";
+import { SpringConfig } from "react-native-reanimated/lib/typescript/reanimated2/animation/springUtils";
 
 interface HabitPreviewProps {
   habit: Habit;
 }
 
 const HabitPreview = ({ habit }: HabitPreviewProps) => {
-  const { openedHabit, setOpenedHabit } = useHabitContext();
-
-  const handleHabitPress = () => {
-    habit.id === openedHabit ? setOpenedHabit("") : setOpenedHabit(habit.id);
-  };
-
-  const openedPreviewStyle = () => {
-    if (habit.id === openedHabit) {
-      return {
-        borderBottomLeftRadius: 0,
-        borderBottomRightRadius: 0,
-      } as ViewStyle;
-    }
-  };
-
-  return (
-    <View>
-      <Pressable
-        style={[styles.habitPreviewContainer, openedPreviewStyle()]}
-        onPress={handleHabitPress}
-      >
-        <View style={styles.habitRow}>
-          <Text>{habit.habitName}</Text>
-          <Text>due today: {habit.isOnDateShown! ? "yes" : "no"}</Text>
-          {/* <Text>
-            {getNextSubmissionDate(habit, dateShown, "Forwards").toLocaleDateString("en-GB")}
-          </Text> */}
-          <Text>streak = {getHabitStreak(habit)}</Text>
-        </View>
-      </Pressable>
-      {habit.id === openedHabit && <OpenedPreview habit={habit} />}
-    </View>
-  );
-};
-
-const OpenedPreview = ({ habit }: { habit: Habit }) => {
   const { habits, setHabits, dateShown } = useHabitContext();
   const { modalVisibility, setModalVisibility } = useModalVisibility();
 
-  const submitIcon = () => {
-    const specificSubmission = habit.submissions.find(
-      (submission) =>
-        submission.submissionDate.toLocaleDateString() == dateShown.toLocaleDateString()
-    );
-
-    if (!specificSubmission) return <FontAwesomeIcon icon={faCircleXmark} />;
-
-    if (specificSubmission.completionPercentage == 1)
-      return <FontAwesomeIcon icon={faCircleCheck} />;
-
-    return <FontAwesomeIcon icon={faCircleXmark} />;
-  };
-
   return (
-    <>
+    <View>
       <SubmissionModal
         modalText={"submission for " + habit.habitName}
         modalVisibility={modalVisibility}
@@ -78,65 +28,96 @@ const OpenedPreview = ({ habit }: { habit: Habit }) => {
         leftButtonAction={() => setHabits(handleHabitSubmission(habit.id, 1, dateShown, habits))}
         rightButtonAction={() => setHabits(handleHabitSubmission(habit.id, 0, dateShown, habits))}
       />
-      <View style={openedPreview.container}>
-        <TouchableOpacity
-          style={[openedPreview.button, openedPreview.first, { flexGrow: 2 }]}
-          onPress={() => setModalVisibility(true)}
-        >
-          {submitIcon()}
-          <Text>Submit</Text>
-        </TouchableOpacity>
-        <TouchableOpacity
-          style={[openedPreview.button, openedPreview.last, { flexGrow: 1 }]}
-          onPress={() => router.push("./EditHabit")}
-        >
-          <Text>Edit</Text>
-        </TouchableOpacity>
-      </View>
-    </>
+      <HabitCard
+        habit={habit}
+        modalVisibility={modalVisibility}
+        setModalVisibility={setModalVisibility}
+      />
+    </View>
   );
 };
+
+const habitPreviewSpringConfig: SpringConfig = {
+  stiffness: 400,
+  damping: 25,
+};
+
+const MIN_HEIGHT = 70;
+const MAX_HEIGHT = 160;
+
+interface HabitCardProps {
+  habit: Habit;
+  modalVisibility: boolean;
+  setModalVisibility: React.Dispatch<React.SetStateAction<boolean>>;
+}
+
+const HabitCard = ({ habit, setModalVisibility }: HabitCardProps) => {
+  const { openedHabit, setOpenedHabit } = useHabitContext();
+  const height = useSharedValue(MIN_HEIGHT);
+  const animatedHeight = useAnimatedStyle(() => ({ height: height.value }));
+
+  useEffect(() => {
+    if (habit.id !== openedHabit) {
+      height.value = withSpring(MIN_HEIGHT, habitPreviewSpringConfig);
+    } else height.value = withSpring(MAX_HEIGHT, habitPreviewSpringConfig);
+  }, [openedHabit]);
+
+  const handlePress = () => {
+    const newOpenedHabit = habit.id === openedHabit ? "" : habit.id;
+    setOpenedHabit((prev) => (prev === habit.id ? "" : habit.id));
+    if (habit.id === newOpenedHabit)
+      height.value = withSpring(MAX_HEIGHT, habitPreviewSpringConfig);
+  };
+
+  return (
+    <Animated.View style={[{ width: "100%", borderRadius: 5, overflow: "hidden" }, animatedHeight]}>
+      <Pressable
+        onPressIn={handlePress}
+        style={{
+          height: "100%",
+          backgroundColor: "grey",
+        }}
+      >
+        <Text style={{ height: MIN_HEIGHT, textAlignVertical: "center", paddingLeft: 10 }}>
+          {habit.habitName}
+        </Text>
+        <View
+          style={{
+            height: MAX_HEIGHT - MIN_HEIGHT,
+            flexDirection: "row",
+            borderTopColor: "black",
+            borderTopWidth: 1,
+          }}
+        >
+          <TouchableOpacity
+            style={{
+              height: "100%",
+              flexGrow: 2,
+              borderRightColor: "black",
+              borderRightWidth: 1,
+              alignItems: "center",
+              justifyContent: "center",
+            }}
+            onPress={() => setModalVisibility(true)}
+          >
+            <Text>Submit</Text>
+          </TouchableOpacity>
+
+          <TouchableOpacity
+            style={{
+              height: "100%",
+              flexGrow: 1,
+              alignItems: "center",
+              justifyContent: "center",
+            }}
+            onPress={() => router.push("./EditHabit")}
+          >
+            <Text>Edit</Text>
+          </TouchableOpacity>
+        </View>
+      </Pressable>
+    </Animated.View>
+  );
+};
+
 export default HabitPreview;
-
-const styles = StyleSheet.create({
-  habitPreviewContainer: {
-    padding: 5,
-    backgroundColor: "lavender",
-    justifyContent: "center",
-    borderRadius: constants.componentBorderRadius,
-    height: 60,
-    borderWidth: 1,
-    borderColor: "black",
-  },
-
-  habitRow: {
-    flexDirection: "row",
-    justifyContent: "space-between",
-    paddingHorizontal: 10,
-  },
-});
-
-const openedPreview = StyleSheet.create({
-  container: {
-    backgroundColor: "lavender",
-    borderBottomLeftRadius: constants.componentBorderRadius,
-    borderBottomRightRadius: constants.componentBorderRadius,
-    height: 60,
-    flexDirection: "row",
-    overflow: "hidden",
-  },
-  button: {
-    alignItems: "center",
-    justifyContent: "center",
-    borderTopWidth: 0,
-    borderColor: "black",
-    borderWidth: 1,
-  },
-  first: {
-    borderBottomLeftRadius: constants.componentBorderRadius,
-  },
-  last: {
-    borderBottomRightRadius: constants.componentBorderRadius,
-    borderLeftWidth: 0,
-  },
-});
