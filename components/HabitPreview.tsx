@@ -1,15 +1,16 @@
 import { Pressable, Text, TouchableOpacity, View } from "react-native";
-import React, { useEffect, useMemo } from "react";
+import React, { useEffect } from "react";
 import { Habit } from "../interfaces/habit";
 import { useHabitContext } from "../contexts/habitContext";
 import { router } from "expo-router";
 import SubmissionModal from "./interactive-fields/SubmissionModal";
-import { FontAwesomeIcon } from "@fortawesome/react-native-fontawesome";
-import { faCircleCheck, faCircleXmark } from "@fortawesome/free-solid-svg-icons";
 import { useModalVisibility } from "../hooks/useModalVisibility";
 import handleHabitSubmission from "../logic/habitCRUD/handleHabitSubmission";
 import Animated, { useAnimatedStyle, useSharedValue, withSpring } from "react-native-reanimated";
 import { SpringConfig } from "react-native-reanimated/lib/typescript/reanimated2/animation/springUtils";
+import { robotoFonts } from "../styles/base-styles";
+import { FontAwesomeIcon } from "@fortawesome/react-native-fontawesome";
+import { faPen } from "@fortawesome/free-solid-svg-icons";
 
 interface HabitPreviewProps {
   habit: Habit;
@@ -78,7 +79,12 @@ const HabitCard = ({ habit, setModalVisibility }: HabitCardProps) => {
           backgroundColor: "grey",
         }}
       >
-        <Text style={{ height: MIN_HEIGHT, textAlignVertical: "center", paddingLeft: 10 }}>
+        <Text
+          style={[
+            robotoFonts.regular,
+            { height: MIN_HEIGHT, textAlignVertical: "center", paddingLeft: 10 },
+          ]}
+        >
           {habit.habitName}
         </Text>
         <View
@@ -100,7 +106,7 @@ const HabitCard = ({ habit, setModalVisibility }: HabitCardProps) => {
             }}
             onPress={() => setModalVisibility(true)}
           >
-            <Text>Submit</Text>
+            <Text style={robotoFonts.bold}>Submit</Text>
           </TouchableOpacity>
 
           <TouchableOpacity
@@ -112,7 +118,9 @@ const HabitCard = ({ habit, setModalVisibility }: HabitCardProps) => {
             }}
             onPress={() => router.push("./EditHabit")}
           >
-            <Text>Edit</Text>
+            <Text style={robotoFonts.light}>
+              Edit <FontAwesomeIcon icon={faPen} />
+            </Text>
           </TouchableOpacity>
         </View>
       </Pressable>
