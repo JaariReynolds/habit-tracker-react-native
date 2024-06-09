@@ -1,12 +1,29 @@
-import React from "react";
-import { Stack } from "expo-router";
+import React, { useCallback, useEffect } from "react";
+import { SplashScreen, Stack } from "expo-router";
 import { SafeAreaProvider, SafeAreaView } from "react-native-safe-area-context";
 import HabitContextProvider from "../contexts/habitContext";
 import { GestureHandlerRootView } from "react-native-gesture-handler";
+import { useFonts } from "expo-font";
+
+SplashScreen.preventAutoHideAsync();
 
 const RootLayout = () => {
+  const [fontsLoaded, fontError] = useFonts({
+    "RobotoMono-Light": require("../assets/fonts/RobotoMono-Light.ttf"),
+    "RobotoMono-Regular": require("../assets/fonts/RobotoMono-Regular.ttf"),
+    "RobotoMono-Bold": require("../assets/fonts/RobotoMono-Bold.ttf"),
+  });
+
+  const onLayoutRootView = useCallback(async () => {
+    if (fontsLoaded || fontError) {
+      await SplashScreen.hideAsync();
+    }
+  }, [fontsLoaded, fontError]);
+
+  if (!fontsLoaded && !fontError) return null;
+
   return (
-    <GestureHandlerRootView style={{ flex: 1 }}>
+    <GestureHandlerRootView style={{ flex: 1 }} onLayout={onLayoutRootView}>
       <SafeAreaProvider>
         <HabitContextProvider>
           <SafeAreaView style={{ height: "100%" }}>

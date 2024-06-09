@@ -87,3 +87,18 @@ export const baseModal = StyleSheet.create({
     borderRadius: constants.componentBorderRadius,
   },
 });
+
+export const robotoFonts = StyleSheet.create({
+  light: {
+    fontFamily: "RobotoMono-Light",
+    fontSize: 20,
+  },
+  regular: {
+    fontFamily: "RobotoMono-Regular",
+    fontSize: 20,
+  },
+  bold: {
+    fontFamily: "RobotoMono-Bold",
+    fontSize: 20,
+  },
+});
