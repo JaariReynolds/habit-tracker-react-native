@@ -9,7 +9,7 @@ import HabitPreview from "../../components/HabitPreview";
 import Carousel, { ICarouselInstance } from "react-native-reanimated-carousel";
 import { interpolate } from "react-native-reanimated";
 
-const numbers = [1, 2, 3];
+const numbers = [1];
 const PAGE_WIDTH = Dimensions.get("window").width;
 
 const Habits = () => {
