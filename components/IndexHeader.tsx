@@ -5,12 +5,8 @@ import { ICarouselInstance } from "react-native-reanimated-carousel";
 import { FontAwesomeIcon } from "@fortawesome/react-native-fontawesome";
 import { faChevronLeft, faChevronRight } from "@fortawesome/free-solid-svg-icons";
 import { robotoFonts } from "../styles/base-styles";
-import Animated, {
-  useAnimatedStyle,
-  useSharedValue,
-  withSequence,
-  withTiming,
-} from "react-native-reanimated";
+import Animated from "react-native-reanimated";
+import useTranslateReturnAnimation from "../hooks/useTranslateAnimation";
 
 interface IndexHeaderProps {
   carouselRef: React.RefObject<ICarouselInstance>;
@@ -18,24 +14,14 @@ interface IndexHeaderProps {
 
 const IndexHeader = ({ carouselRef }: IndexHeaderProps) => {
   const { dateShown, handleSetDateShown } = useHabitContext();
-
   const lastPressRef = useRef<"prev" | "next" | "current">("current");
-
-  const translationLeft = useSharedValue(0);
-  const animatedTranslationLeft = useAnimatedStyle(() => ({
-    transform: [{ translateX: translationLeft.value }],
-  }));
-
-  const translationRight = useSharedValue(0);
-  const animatedTranslationRight = useAnimatedStyle(() => ({
-    transform: [{ translateX: translationRight.value }],
-  }));
+  const { animatedTranslation: leftAnimationStyle, handleAnimation: handleLeftAnimation } =
+    useTranslateReturnAnimation(7, 75, "X");
+  const { animatedTranslation: rightAnimationStyle, handleAnimation: handleRightAnimation } =
+    useTranslateReturnAnimation(7, 75, "X");
 
   function buttonPressNext() {
-    translationRight.value = withSequence(
-      withTiming(7, { duration: 50 }),
-      withTiming(0, { duration: 50 })
-    );
+    handleRightAnimation();
 
     carouselRef.current!.next();
     lastPressRef.current = "next";
@@ -58,10 +44,7 @@ const IndexHeader = ({ carouselRef }: IndexHeaderProps) => {
   }
 
   function buttonPressPrev() {
-    translationLeft.value = withSequence(
-      withTiming(-7, { duration: 50 }),
-      withTiming(0, { duration: 50 })
-    );
+    handleLeftAnimation();
 
     carouselRef.current!.prev();
     lastPressRef.current = "prev";
@@ -70,7 +53,7 @@ const IndexHeader = ({ carouselRef }: IndexHeaderProps) => {
 
   return (
     <View style={styles.container}>
-      <Animated.View style={[animatedTranslationLeft, { justifyContent: "center", width: "20%" }]}>
+      <Animated.View style={[leftAnimationStyle, { justifyContent: "center", width: "20%" }]}>
         <TouchableOpacity onPressIn={buttonPressPrev} style={styles.button}>
           <FontAwesomeIcon icon={faChevronLeft} size={30} />
         </TouchableOpacity>
@@ -84,7 +67,7 @@ const IndexHeader = ({ carouselRef }: IndexHeaderProps) => {
           })}
         </Text>
       </TouchableOpacity>
-      <Animated.View style={[animatedTranslationRight, { justifyContent: "center", width: "20%" }]}>
+      <Animated.View style={[rightAnimationStyle, { justifyContent: "center", width: "20%" }]}>
         <TouchableOpacity onPressIn={buttonPressNext} style={styles.button}>
           <FontAwesomeIcon icon={faChevronRight} size={30} />
         </TouchableOpacity>
@@ -108,7 +91,5 @@ const styles = StyleSheet.create({
     alignItems: "center",
     height: "100%",
     paddingHorizontal: 25,
-    // borderColor: "black",
-    // borderWidth: 1,
   },
 });
