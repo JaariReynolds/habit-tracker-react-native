@@ -7,8 +7,6 @@ import FullHeightScrollView from "../../components/FullHeightScrollView";
 import HabitPreview from "../../components/HabitPreview";
 import Carousel, { ICarouselInstance } from "react-native-reanimated-carousel";
 import IndexHeader from "../../components/IndexHeader";
-import { FontAwesomeIcon } from "@fortawesome/react-native-fontawesome";
-import { faPlus } from "@fortawesome/free-solid-svg-icons";
 import { Easing } from "react-native-reanimated";
 
 const numbers = [1];
@@ -39,10 +37,7 @@ const Habits = () => {
                   <HabitPreview key={index} habit={habit} />
                 ))}
               </View>
-              <RouterPushButton
-                buttonLabel={<FontAwesomeIcon icon={faPlus} />}
-                pageLink="./../NewHabit"
-              />
+              <RouterPushButton buttonLabel="+" pageLink="./../NewHabit" />
             </FullPageView>
           );
         }}
