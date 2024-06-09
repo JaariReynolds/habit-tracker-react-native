@@ -2,25 +2,35 @@ import { Text, TouchableOpacity } from "react-native";
 import React from "react";
 import { router } from "expo-router";
 import { robotoFonts } from "../../styles/base-styles";
+import { useFontSizePulseAnimation } from "../../hooks/useFontSizePulseAnimation";
+import Animated from "react-native-reanimated";
 
 interface RouterPushButtonProps {
-  buttonLabel: string | JSX.Element; // either a string or FontAwesomeIcon
+  buttonLabel: string; // either a string or FontAwesomeIcon
   pageLink: string;
 }
 
 export default function RouterPushButton({ buttonLabel, pageLink }: RouterPushButtonProps) {
+  const { animatedFontSize, handleAnimation } = useFontSizePulseAnimation(25);
+
+  function handlePress() {
+    handleAnimation();
+    router.push(pageLink);
+  }
+
   return (
     <TouchableOpacity
       style={{
-        padding: 20,
+        height: 70,
         backgroundColor: "orange",
         alignSelf: "stretch",
+        justifyContent: "center",
         alignItems: "center",
         marginVertical: 10,
       }}
-      onPress={() => router.push(pageLink)}
+      onPress={handlePress}
     >
-      <Text style={robotoFonts.bold}>{buttonLabel}</Text>
+      <Animated.Text style={[animatedFontSize, robotoFonts.bold]}>{buttonLabel}</Animated.Text>
     </TouchableOpacity>
   );
 }
