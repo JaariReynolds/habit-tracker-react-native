@@ -11,6 +11,7 @@ import { SpringConfig } from "react-native-reanimated/lib/typescript/reanimated2
 import { robotoFonts } from "../styles/base-styles";
 import { FontAwesomeIcon } from "@fortawesome/react-native-fontawesome";
 import { faPen } from "@fortawesome/free-solid-svg-icons";
+import { useHeightAnimation } from "../hooks/useHeightAnimation";
 
 interface HabitPreviewProps {
   habit: Habit;
@@ -38,11 +39,6 @@ const HabitPreview = ({ habit }: HabitPreviewProps) => {
   );
 };
 
-const habitPreviewSpringConfig: SpringConfig = {
-  stiffness: 400,
-  damping: 25,
-};
-
 const MIN_HEIGHT = 70;
 const MAX_HEIGHT = 160;
 
@@ -54,20 +50,21 @@ interface HabitCardProps {
 
 const HabitCard = ({ habit, setModalVisibility }: HabitCardProps) => {
   const { openedHabit, setOpenedHabit } = useHabitContext();
-  const height = useSharedValue(MIN_HEIGHT);
-  const animatedHeight = useAnimatedStyle(() => ({ height: height.value }));
+  const { animatedHeight, handleOpen, handleClose } = useHeightAnimation(MIN_HEIGHT, MAX_HEIGHT);
 
   useEffect(() => {
     if (habit.id !== openedHabit) {
-      height.value = withSpring(MIN_HEIGHT, habitPreviewSpringConfig);
-    } else height.value = withSpring(MAX_HEIGHT, habitPreviewSpringConfig);
+      handleClose();
+    } else {
+      handleOpen();
+    }
   }, [openedHabit]);
 
   const handlePress = () => {
     const newOpenedHabit = habit.id === openedHabit ? "" : habit.id;
-    setOpenedHabit((prev) => (prev === habit.id ? "" : habit.id));
-    if (habit.id === newOpenedHabit)
-      height.value = withSpring(MAX_HEIGHT, habitPreviewSpringConfig);
+    setOpenedHabit(newOpenedHabit);
+
+    if (habit.id === newOpenedHabit) handleOpen();
   };
 
   return (
