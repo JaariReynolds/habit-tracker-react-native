@@ -1,16 +1,12 @@
-import { Dimensions, View } from "react-native";
+import { View } from "react-native";
 import React from "react";
 import FullPageView from "../../components/FullPageView";
 import RouterPushButton from "../../components/buttons/RouterPushButton";
 import { useHabitContext } from "../../contexts/habitContext";
 import FullHeightScrollView from "../../components/FullHeightScrollView";
 import HabitPreview from "../../components/HabitPreview";
-import Carousel, { ICarouselInstance } from "react-native-reanimated-carousel";
+import { ICarouselInstance } from "react-native-reanimated-carousel";
 import IndexHeader from "../../components/IndexHeader";
-import { Easing } from "react-native-reanimated";
-
-const numbers = [1];
-const PAGE_WIDTH = Dimensions.get("window").width;
 
 const Habits = () => {
   const { habits } = useHabitContext();
@@ -19,31 +15,16 @@ const Habits = () => {
   return (
     <>
       <IndexHeader carouselRef={carouselRef} />
-      <Carousel
-        ref={carouselRef}
-        width={PAGE_WIDTH}
-        style={{ flex: 1 }}
-        data={numbers}
-        enabled={false}
-        withAnimation={{
-          type: "timing",
-          config: { duration: 300, easing: Easing.bezier(0.4, 0, 0.2, 1) },
-        }}
-        renderItem={() => {
-          return (
-            <FullHeightScrollView>
-              <FullPageView>
-                <View style={{ alignSelf: "stretch", gap: 15 }}>
-                  {habits.map((habit, index) => (
-                    <HabitPreview key={index} habit={habit} />
-                  ))}
-                </View>
-                <RouterPushButton buttonLabel="+" pageLink="./../NewHabit" />
-              </FullPageView>
-            </FullHeightScrollView>
-          );
-        }}
-      />
+      <FullHeightScrollView>
+        <FullPageView>
+          <View style={{ alignSelf: "stretch", gap: 15 }}>
+            {habits.map((habit, index) => (
+              <HabitPreview key={index} arrayIndex={index} habit={habit} />
+            ))}
+          </View>
+          <RouterPushButton buttonLabel="+" pageLink="./../NewHabit" />
+        </FullPageView>
+      </FullHeightScrollView>
     </>
   );
 };

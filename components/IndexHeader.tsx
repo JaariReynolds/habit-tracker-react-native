@@ -22,32 +22,16 @@ const IndexHeader = ({ carouselRef }: IndexHeaderProps) => {
 
   function buttonPressNext() {
     handleRightAnimation();
-
-    carouselRef.current!.next();
-    lastPressRef.current = "next";
     handleSetDateShown(1);
   }
 
   function buttonPressCurrent() {
-    switch (lastPressRef.current) {
-      case "next":
-        carouselRef.current!.prev();
-        break;
-      case "prev":
-        carouselRef.current!.next();
-        break;
-      case "current":
-        return;
-    }
     lastPressRef.current = "current";
     handleSetDateShown(0);
   }
 
   function buttonPressPrev() {
     handleLeftAnimation();
-
-    carouselRef.current!.prev();
-    lastPressRef.current = "prev";
     handleSetDateShown(-1);
   }
 
