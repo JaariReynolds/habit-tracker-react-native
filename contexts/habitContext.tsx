@@ -10,8 +10,8 @@ interface HabitContextProviderProps {
 interface HabitContext {
   habits: Habit[];
   setHabits: Dispatch<SetStateAction<Habit[]>>;
-  openedHabit: string;
-  setOpenedHabit: Dispatch<SetStateAction<string>>;
+  openedHabit: number;
+  setOpenedHabit: Dispatch<SetStateAction<number>>;
   dateShown: Date;
   handleSetDateShown: (dayOffsetOrDate: number | Date) => void;
 }
@@ -19,7 +19,7 @@ const HabitContext = createContext<HabitContext | null>(null);
 
 export default function HabitContextProvider({ children }: HabitContextProviderProps) {
   const [habits, setHabits] = useState<Habit[]>([]);
-  const [openedHabit, setOpenedHabit] = useState<string>("");
+  const [openedHabit, setOpenedHabit] = useState<number>(-1);
   const [dateShown, setDateShown] = useState<Date>(new MidnightDate());
 
   function handleSetDateShown(dayOffsetOrDate: number | Date) {

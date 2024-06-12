@@ -19,7 +19,7 @@ import DatePicker from "../components/interactive-fields/DatePicker";
 
 const EditHabit = () => {
   const { openedHabit, habits } = useHabitContext();
-  const originalHabit = useRef<Habit>(habits.find((habit) => habit.id === openedHabit)!);
+  const originalHabit = useRef<Habit>(habits[openedHabit]);
   const [showDays, setShowDays] = useState<boolean>(false);
   const [showCustom, setShowCustom] = useState<boolean>(false);
   const [errorString, setErrorString] = useState<string>("");

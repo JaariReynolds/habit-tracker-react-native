@@ -15,9 +15,10 @@ import { useHeightAnimation } from "../hooks/useHeightAnimation";
 
 interface HabitPreviewProps {
   habit: Habit;
+  arrayIndex: number;
 }
 
-const HabitPreview = ({ habit }: HabitPreviewProps) => {
+const HabitPreview = ({ habit, arrayIndex }: HabitPreviewProps) => {
   const { habits, setHabits, dateShown } = useHabitContext();
   const { modalVisibility, setModalVisibility } = useModalVisibility();
 
@@ -30,11 +31,7 @@ const HabitPreview = ({ habit }: HabitPreviewProps) => {
         leftButtonAction={() => setHabits(handleHabitSubmission(habit.id, 1, dateShown, habits))}
         rightButtonAction={() => setHabits(handleHabitSubmission(habit.id, 0, dateShown, habits))}
       />
-      <HabitCard
-        habit={habit}
-        modalVisibility={modalVisibility}
-        setModalVisibility={setModalVisibility}
-      />
+      <HabitCard habit={habit} arrayIndex={arrayIndex} setModalVisibility={setModalVisibility} />
     </View>
   );
 };
@@ -44,27 +41,24 @@ const MAX_HEIGHT = 160;
 
 interface HabitCardProps {
   habit: Habit;
-  modalVisibility: boolean;
+  arrayIndex: number;
   setModalVisibility: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
-const HabitCard = ({ habit, setModalVisibility }: HabitCardProps) => {
+const HabitCard = ({ habit, arrayIndex, setModalVisibility }: HabitCardProps) => {
   const { openedHabit, setOpenedHabit } = useHabitContext();
   const { animatedHeight, handleOpen, handleClose } = useHeightAnimation(MIN_HEIGHT, MAX_HEIGHT);
 
   useEffect(() => {
-    if (habit.id !== openedHabit) {
-      handleClose();
-    } else {
-      handleOpen();
-    }
+    if (openedHabit !== arrayIndex) handleClose();
   }, [openedHabit]);
 
   const handlePress = () => {
-    const newOpenedHabit = habit.id === openedHabit ? "" : habit.id;
+    const newOpenedHabit = openedHabit === arrayIndex ? -1 : arrayIndex;
     setOpenedHabit(newOpenedHabit);
 
-    if (habit.id === newOpenedHabit) handleOpen();
+    if (newOpenedHabit === arrayIndex) handleOpen();
+    else handleClose();
   };
 
   return (
