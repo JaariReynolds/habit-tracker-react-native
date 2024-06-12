@@ -17,7 +17,7 @@ const Habits = () => {
   const carouselRef = React.useRef<ICarouselInstance>(null);
 
   return (
-    <FullHeightScrollView>
+    <>
       <IndexHeader carouselRef={carouselRef} />
       <Carousel
         ref={carouselRef}
@@ -31,18 +31,20 @@ const Habits = () => {
         }}
         renderItem={() => {
           return (
-            <FullPageView>
-              <View style={{ alignSelf: "stretch", gap: 15 }}>
-                {habits.map((habit, index) => (
-                  <HabitPreview key={index} habit={habit} />
-                ))}
-              </View>
-              <RouterPushButton buttonLabel="+" pageLink="./../NewHabit" />
-            </FullPageView>
+            <FullHeightScrollView>
+              <FullPageView>
+                <View style={{ alignSelf: "stretch", gap: 15 }}>
+                  {habits.map((habit, index) => (
+                    <HabitPreview key={index} habit={habit} />
+                  ))}
+                </View>
+                <RouterPushButton buttonLabel="+" pageLink="./../NewHabit" />
+              </FullPageView>
+            </FullHeightScrollView>
           );
         }}
       />
-    </FullHeightScrollView>
+    </>
   );
 };
 

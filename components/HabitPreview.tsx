@@ -70,7 +70,7 @@ const HabitCard = ({ habit, setModalVisibility }: HabitCardProps) => {
   return (
     <Animated.View style={[{ width: "100%", borderRadius: 5, overflow: "hidden" }, animatedHeight]}>
       <Pressable
-        onPressIn={handlePress}
+        onPress={handlePress}
         style={{
           height: "100%",
           backgroundColor: "grey",
