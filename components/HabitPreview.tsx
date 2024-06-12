@@ -6,8 +6,7 @@ import { router } from "expo-router";
 import SubmissionModal from "./interactive-fields/SubmissionModal";
 import { useModalVisibility } from "../hooks/useModalVisibility";
 import handleHabitSubmission from "../logic/habitCRUD/handleHabitSubmission";
-import Animated, { useAnimatedStyle, useSharedValue, withSpring } from "react-native-reanimated";
-import { SpringConfig } from "react-native-reanimated/lib/typescript/reanimated2/animation/springUtils";
+import Animated from "react-native-reanimated";
 import { robotoFonts } from "../styles/base-styles";
 import { FontAwesomeIcon } from "@fortawesome/react-native-fontawesome";
 import { faPen } from "@fortawesome/free-solid-svg-icons";
@@ -36,16 +35,18 @@ const HabitPreview = ({ habit, arrayIndex }: HabitPreviewProps) => {
   );
 };
 
-const MIN_HEIGHT = 70;
-const MAX_HEIGHT = 160;
+const MIN_HEIGHT = 80;
+const MAX_HEIGHT = 170;
 
-interface HabitCardProps {
+const HabitCard = ({
+  habit,
+  arrayIndex,
+  setModalVisibility,
+}: {
   habit: Habit;
   arrayIndex: number;
   setModalVisibility: React.Dispatch<React.SetStateAction<boolean>>;
-}
-
-const HabitCard = ({ habit, arrayIndex, setModalVisibility }: HabitCardProps) => {
+}) => {
   const { openedHabit, setOpenedHabit } = useHabitContext();
   const { animatedHeight, handleOpen, handleClose } = useHeightAnimation(MIN_HEIGHT, MAX_HEIGHT);
 
@@ -78,42 +79,44 @@ const HabitCard = ({ habit, arrayIndex, setModalVisibility }: HabitCardProps) =>
         >
           {habit.habitName}
         </Text>
-        <View
-          style={{
-            height: MAX_HEIGHT - MIN_HEIGHT,
-            flexDirection: "row",
-            borderTopColor: "black",
-            borderTopWidth: 1,
-          }}
-        >
-          <TouchableOpacity
+        {openedHabit === arrayIndex && (
+          <View
             style={{
-              height: "100%",
-              flexGrow: 2,
-              borderRightColor: "black",
-              borderRightWidth: 1,
-              alignItems: "center",
-              justifyContent: "center",
+              height: MAX_HEIGHT - MIN_HEIGHT,
+              flexDirection: "row",
+              borderTopColor: "black",
+              borderTopWidth: 1,
             }}
-            onPress={() => setModalVisibility(true)}
           >
-            <Text style={robotoFonts.bold}>Submit</Text>
-          </TouchableOpacity>
+            <TouchableOpacity
+              style={{
+                height: "100%",
+                flexGrow: 2,
+                borderRightColor: "black",
+                borderRightWidth: 1,
+                alignItems: "center",
+                justifyContent: "center",
+              }}
+              onPress={() => setModalVisibility(true)}
+            >
+              <Text style={robotoFonts.bold}>Submit</Text>
+            </TouchableOpacity>
 
-          <TouchableOpacity
-            style={{
-              height: "100%",
-              flexGrow: 1,
-              alignItems: "center",
-              justifyContent: "center",
-            }}
-            onPress={() => router.push("./EditHabit")}
-          >
-            <Text style={robotoFonts.light}>
-              Edit <FontAwesomeIcon icon={faPen} />
-            </Text>
-          </TouchableOpacity>
-        </View>
+            <TouchableOpacity
+              style={{
+                height: "100%",
+                flexGrow: 1,
+                alignItems: "center",
+                justifyContent: "center",
+              }}
+              onPress={() => router.push("./EditHabit")}
+            >
+              <Text style={robotoFonts.light}>
+                Edit <FontAwesomeIcon icon={faPen} />
+              </Text>
+            </TouchableOpacity>
+          </View>
+        )}
       </Pressable>
     </Animated.View>
   );
