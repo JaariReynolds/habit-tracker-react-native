@@ -2,7 +2,7 @@ import { Text, TouchableOpacity } from "react-native";
 import React from "react";
 import { router } from "expo-router";
 import { robotoFonts } from "../../styles/base-styles";
-import { useFontSizePulseAnimation } from "../../hooks/useFontSizePulseAnimation";
+import { useFontSizePulseAnimation } from "../../hooks/animations/useFontSizePulseAnimation";
 import Animated from "react-native-reanimated";
 
 interface RouterPushButtonProps {

@@ -6,7 +6,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-native-fontawesome";
 import { faChevronLeft, faChevronRight } from "@fortawesome/free-solid-svg-icons";
 import { robotoFonts } from "../styles/base-styles";
 import Animated from "react-native-reanimated";
-import useTranslateReturnAnimation from "../hooks/useTranslateAnimation";
+import useTranslateReturnAnimation from "../hooks/animations/useTranslateAnimation";
 
 interface IndexHeaderProps {
   carouselRef: React.RefObject<ICarouselInstance>;

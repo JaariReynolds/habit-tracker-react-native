@@ -10,8 +10,8 @@ import Animated from "react-native-reanimated";
 import { robotoFonts } from "../styles/base-styles";
 import { FontAwesomeIcon } from "@fortawesome/react-native-fontawesome";
 import { faPen } from "@fortawesome/free-solid-svg-icons";
-import { useHeightAnimation } from "../hooks/useHeightAnimation";
-import { useOpacityAnimation } from "../hooks/useOpacityAnimation";
+import { useHeightAnimation } from "../hooks/animations/useHeightAnimation";
+import { useOpacityAnimation } from "../hooks/animations/useOpacityAnimation";
 
 interface HabitPreviewProps {
   habit: Habit;
