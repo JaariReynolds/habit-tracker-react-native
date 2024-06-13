@@ -1,6 +1,6 @@
-import { StyleSheet, Text, View } from "react-native";
+import { Text, View } from "react-native";
 import React, { useEffect, useRef, useState } from "react";
-import { FrequencyNames, Habit, HabitForm, dayNames } from "../interfaces/habit";
+import { FrequencyNames, Habit, HabitForm, dayNames, emptyForm } from "../interfaces/habit";
 import FullHeightScrollView from "../components/FullHeightScrollView";
 import Header from "../components/Header";
 import FullPageView from "../components/FullPageView";
@@ -12,25 +12,42 @@ import { buttonStyles } from "../styles/base-styles";
 import BackButton from "../components/buttons/BackButton";
 import { habitObjectToForm } from "../logic/baseHabitLogic";
 import { useHabitContext } from "../contexts/habitContext";
-import EditHabitSubmitButton from "../components/buttons/EditHabitSubmitButton";
 import DeleteHabitButton from "../components/buttons/DeleteHabitButton";
 import { useDatePicker } from "../hooks/useDatePicker";
 import DatePicker from "../components/interactive-fields/DatePicker";
+import handleEditHabit, { updateHabitsArray } from "../logic/habitCRUD/handleEditHabit";
+import { router } from "expo-router";
+import HabitSubmitButton from "../components/buttons/HabitSubmitButton";
 
 const EditHabit = () => {
-  const { openedHabit, habits } = useHabitContext();
+  const { openedHabit, habits, setHabits, handleSetDateShown } = useHabitContext();
   const originalHabit = useRef<Habit>(habits[openedHabit]);
-  const [showDays, setShowDays] = useState<boolean>(false);
-  const [showCustom, setShowCustom] = useState<boolean>(false);
-  const [errorString, setErrorString] = useState<string>("");
   const [form, setForm] = useState<HabitForm>(habitObjectToForm(originalHabit.current));
   const { date, datePickerVisible, showDatePicker, changeDate } = useDatePicker(
     form.customFrequencyStartDate
   );
 
+  const [showDays, setShowDays] = useState<boolean>(false);
+  const [showCustom, setShowCustom] = useState<boolean>(false);
+  const [errorString, setErrorString] = useState<string>("");
+
   useEffect(() => {
     setForm((prev) => ({ ...prev, customFrequencyStartDate: date } as HabitForm));
   }, [date]);
+
+  function handleSubmit() {
+    const result = handleEditHabit(form, originalHabit.current);
+
+    if (typeof result === "string") {
+      setErrorString(result);
+    } else {
+      setForm(emptyForm);
+      setHabits((prev) => updateHabitsArray(result, prev));
+      setErrorString("");
+      handleSetDateShown(0); // always reset back to current day after habit edit/creation
+      router.navigate("/(tabs)");
+    }
+  }
 
   return (
     <FullHeightScrollView>
@@ -82,14 +99,7 @@ const EditHabit = () => {
 
         <View style={buttonStyles.dualButtonContainer}>
           <BackButton />
-          <EditHabitSubmitButton
-            title="Update"
-            habitForm={form}
-            originalHabit={originalHabit.current}
-            setErrorString={setErrorString}
-            setForm={setForm}
-            pageLink="/(tabs)" // no file name assumes index page of (tabs) i think?
-          />
+          <HabitSubmitButton title="Update" handleSubmit={handleSubmit} />
         </View>
       </FullPageView>
     </FullHeightScrollView>

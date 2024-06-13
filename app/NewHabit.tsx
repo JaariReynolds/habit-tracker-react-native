@@ -7,15 +7,19 @@ import RadioButtons from "../components/interactive-fields/RadioButtons";
 import MultiSelector from "../components/interactive-fields/MultiSelector";
 import Counter from "../components/interactive-fields/Counter";
 import { View, Text } from "react-native";
-import NewHabitSubmitButton from "../components/buttons/NewHabitSubmitButton";
 import FullHeightScrollView from "../components/FullHeightScrollView";
 import Header from "../components/Header";
 import { buttonStyles } from "../styles/base-styles";
 import DatePicker from "../components/interactive-fields/DatePicker";
 import { useDatePicker } from "../hooks/useDatePicker";
 import { MidnightDate } from "../interfaces/date";
+import handleNewHabit from "../logic/habitCRUD/handleNewHabit";
+import { useHabitContext } from "../contexts/habitContext";
+import { router } from "expo-router";
+import HabitSubmitButton from "../components/buttons/HabitSubmitButton";
 
 const NewHabit = () => {
+  const { setHabits, handleSetDateShown } = useHabitContext();
   const [showDays, setShowDays] = useState<boolean>(false);
   const [showCustom, setShowCustom] = useState<boolean>(false);
   const [errorString, setErrorString] = useState<string>("");
@@ -25,6 +29,20 @@ const NewHabit = () => {
   useEffect(() => {
     setForm((prev) => ({ ...prev, customFrequencyStartDate: date } as HabitForm));
   }, [date]);
+
+  const handleSubmit = () => {
+    const result = handleNewHabit(form);
+
+    if (typeof result === "string") {
+      setErrorString(result);
+    } else {
+      setForm(emptyForm);
+      setHabits((prev) => [...prev, result]);
+      setErrorString("");
+      handleSetDateShown(0); // always reset back to current day after habit edit/creation
+      router.navigate("/(tabs)");
+    }
+  };
 
   return (
     <FullHeightScrollView>
@@ -76,13 +94,7 @@ const NewHabit = () => {
 
         <View style={buttonStyles.dualButtonContainer}>
           <BackButton />
-          <NewHabitSubmitButton
-            title="Submit"
-            habitForm={form}
-            setErrorString={setErrorString}
-            setForm={setForm}
-            pageLink="/(tabs)" // no file name assumes index page of (tabs) i think?
-          />
+          <HabitSubmitButton title="Submit" handleSubmit={handleSubmit} />
         </View>
       </FullPageView>
     </FullHeightScrollView>
