@@ -1,37 +1,48 @@
 import { StyleSheet, Text, TouchableOpacity, View } from "react-native";
 import React, { useRef } from "react";
 import { useHabitContext } from "../contexts/habitContext";
-import { ICarouselInstance } from "react-native-reanimated-carousel";
 import { FontAwesomeIcon } from "@fortawesome/react-native-fontawesome";
 import { faChevronLeft, faChevronRight } from "@fortawesome/free-solid-svg-icons";
 import { robotoFonts } from "../styles/base-styles";
 import Animated from "react-native-reanimated";
 import useTranslateReturnAnimation from "../hooks/animations/useTranslateAnimation";
+import { useFontSizePulseAnimation } from "../hooks/animations/useFontSizePulseAnimation";
+import { constants } from "../styles/constants";
 
-interface IndexHeaderProps {
-  carouselRef: React.RefObject<ICarouselInstance>;
-}
-
-const IndexHeader = ({ carouselRef }: IndexHeaderProps) => {
+const IndexHeader = () => {
   const { dateShown, handleSetDateShown } = useHabitContext();
   const lastPressRef = useRef<"prev" | "next" | "current">("current");
   const { animatedTranslation: leftAnimationStyle, handleAnimation: handleLeftAnimation } =
     useTranslateReturnAnimation(7, 75, "X");
   const { animatedTranslation: rightAnimationStyle, handleAnimation: handleRightAnimation } =
     useTranslateReturnAnimation(7, 75, "X");
+  const { animatedFontSize, handleAnimation: handleFontPulse } = useFontSizePulseAnimation(
+    constants.headerFontSize
+  );
+
+  const formattedDateArray = dateShown
+    .toLocaleDateString("en-GB", {
+      weekday: "long",
+      month: "long",
+      day: "numeric",
+    })
+    .split(", ");
 
   function buttonPressNext() {
     handleRightAnimation();
+    handleFontPulse();
     handleSetDateShown(1);
   }
 
   function buttonPressCurrent() {
     lastPressRef.current = "current";
+    handleFontPulse();
     handleSetDateShown(0);
   }
 
   function buttonPressPrev() {
     handleLeftAnimation();
+    handleFontPulse();
     handleSetDateShown(-1);
   }
 
@@ -43,13 +54,13 @@ const IndexHeader = ({ carouselRef }: IndexHeaderProps) => {
         </TouchableOpacity>
       </Animated.View>
       <TouchableOpacity onPressIn={buttonPressCurrent} style={[styles.button, { width: "60%" }]}>
-        <Text style={[robotoFonts.regular, { flexWrap: "wrap", textAlign: "center" }]}>
-          {dateShown.toLocaleDateString("en-GB", {
-            weekday: "long",
-            month: "long",
-            day: "numeric",
-          })}
-        </Text>
+        <Animated.Text
+          style={[robotoFonts.regular, animatedFontSize, { flexWrap: "wrap", textAlign: "center" }]}
+        >
+          {formattedDateArray[0]}
+          {"\n"}
+          {formattedDateArray[1]}
+        </Animated.Text>
       </TouchableOpacity>
       <Animated.View style={[rightAnimationStyle, { justifyContent: "center", width: "20%" }]}>
         <TouchableOpacity onPressIn={buttonPressNext} style={styles.button}>
@@ -67,7 +78,7 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     justifyContent: "space-between",
     backgroundColor: "orange",
-    height: 65,
+    height: constants.headerHeight,
   },
 
   button: {

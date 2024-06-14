@@ -12,6 +12,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-native-fontawesome";
 import { faPen } from "@fortawesome/free-solid-svg-icons";
 import { useHeightAnimation } from "../hooks/animations/useHeightAnimation";
 import { useOpacityAnimation } from "../hooks/animations/useOpacityAnimation";
+import { constants } from "../styles/constants";
 
 interface HabitPreviewProps {
   habit: Habit;
@@ -125,7 +126,7 @@ const HabitCard = ({
             onPress={() => router.push("./EditHabit")}
           >
             <Text style={robotoFonts.light}>
-              Edit <FontAwesomeIcon icon={faPen} />
+              Edit <FontAwesomeIcon icon={faPen} size={constants.iconSize} />
             </Text>
           </TouchableOpacity>
         </Animated.View>

@@ -5,6 +5,9 @@ import { router } from "expo-router";
 import ConfirmationModal from "../interactive-fields/ConfirmationModal";
 import { useModalVisibility } from "../../hooks/useModalVisibility";
 import handleDeleteHabit from "../../logic/habitCRUD/handleDeleteHabit";
+import { constants } from "../../styles/constants";
+import { FontAwesomeIcon } from "@fortawesome/react-native-fontawesome";
+import { faTrashCan } from "@fortawesome/free-solid-svg-icons";
 
 interface DeleteHabitButtonProps {
   habitId: string;
@@ -29,7 +32,7 @@ export default function DeleteHabitButton({ habitId }: DeleteHabitButtonProps) {
         confirmationAction={deleteHabit}
       />
       <TouchableOpacity style={styles.backButton} onPress={() => setModalVisibility(true)}>
-        <Text>DeleteHabitButton</Text>
+        <FontAwesomeIcon icon={faTrashCan} size={constants.iconSize} />
       </TouchableOpacity>
     </>
   );
@@ -37,9 +40,10 @@ export default function DeleteHabitButton({ habitId }: DeleteHabitButtonProps) {
 
 const styles = StyleSheet.create({
   backButton: {
-    padding: 20,
+    height: constants.buttonHeight,
+    justifyContent: "center",
     backgroundColor: "red",
-    // alignSelf: "stretch",
+    paddingHorizontal: 70,
     alignItems: "center",
     marginVertical: 10,
   },
