@@ -1,5 +1,5 @@
 import { Pressable, Text, TouchableOpacity, View } from "react-native";
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { Habit } from "../interfaces/habit";
 import { useHabitContext } from "../contexts/habitContext";
 import { router } from "expo-router";
@@ -9,10 +9,13 @@ import handleHabitSubmission from "../logic/habitCRUD/handleHabitSubmission";
 import Animated from "react-native-reanimated";
 import { robotoFonts } from "../styles/base-styles";
 import { FontAwesomeIcon } from "@fortawesome/react-native-fontawesome";
-import { faPen } from "@fortawesome/free-solid-svg-icons";
+import { faCircleCheck, faLock, faPen } from "@fortawesome/free-solid-svg-icons";
 import { useHeightAnimation } from "../hooks/animations/useHeightAnimation";
 import { useOpacityAnimation } from "../hooks/animations/useOpacityAnimation";
 import { constants } from "../styles/constants";
+import { getNextSubmissionDate } from "../logic/getHabitsOnDate";
+import getHabitStreak from "../logic/reportLogic/getHabitStreak";
+import { getHabitCompletionOnDay } from "../logic/reportLogic/getHabitCompletion";
 
 interface HabitPreviewProps {
   habit: Habit;
@@ -49,9 +52,12 @@ const HabitCard = ({
   arrayIndex: number;
   setModalVisibility: React.Dispatch<React.SetStateAction<boolean>>;
 }) => {
-  const { openedHabit, setOpenedHabit } = useHabitContext();
+  const { dateShown, openedHabit, setOpenedHabit } = useHabitContext();
   const { animatedHeight, handleOpen, handleClose } = useHeightAnimation(MIN_HEIGHT, MAX_HEIGHT);
   const { animatedOpacity, animateIn, animateOut } = useOpacityAnimation(0, 1, 200);
+  const [streak, setStreak] = useState<number>(0);
+  const [completion, setCompletion] = useState<number>(0);
+  const [nextDueFormatted, setNextDueFormatted] = useState<string[]>([]);
 
   useEffect(() => {
     if (openedHabit !== arrayIndex) {
@@ -59,6 +65,24 @@ const HabitCard = ({
       animateOut();
     }
   }, [openedHabit]);
+
+  useEffect(() => {
+    setStreak(getHabitStreak(habit));
+  }, [habit.submissions]);
+
+  useEffect(() => {
+    setCompletion(getHabitCompletionOnDay(habit, dateShown));
+    setNextDueFormatted(
+      getNextSubmissionDate(habit, dateShown, "Forwards")
+        .toLocaleDateString("en-GB", {
+          weekday: "long",
+          month: "long",
+          day: "numeric",
+        })
+        .split(", ")
+    );
+    console.log("called");
+  }, [dateShown, habit.submissions]);
 
   const handlePress = () => {
     const newOpenedHabit = openedHabit === arrayIndex ? -1 : arrayIndex;
@@ -79,17 +103,24 @@ const HabitCard = ({
         onPress={handlePress}
         style={{
           height: "100%",
-          backgroundColor: "grey",
+          backgroundColor: habit.isOnDateShown ? "salmon" : "grey",
         }}
       >
-        <Text
-          style={[
-            robotoFonts.regular,
-            { height: MIN_HEIGHT, textAlignVertical: "center", paddingLeft: 10 },
-          ]}
+        <View
+          style={{
+            flexDirection: "row",
+            justifyContent: "space-between",
+            height: MIN_HEIGHT,
+            alignItems: "center",
+            paddingHorizontal: 10,
+          }}
         >
-          {habit.habitName}
-        </Text>
+          <Text style={robotoFonts.regular}>{habit.habitName}</Text>
+          <Text style={robotoFonts.regular}>
+            {completion === 1 ? <FontAwesomeIcon icon={faCircleCheck} /> : ""}
+          </Text>
+          <Text style={robotoFonts.regular}>{streak}</Text>
+        </View>
 
         <Animated.View
           style={[
@@ -105,15 +136,19 @@ const HabitCard = ({
           <TouchableOpacity
             style={{
               height: "100%",
-              flexGrow: 2,
+              minWidth: "65%",
               borderRightColor: "black",
               borderRightWidth: 1,
               alignItems: "center",
               justifyContent: "center",
             }}
-            onPress={() => setModalVisibility(true)}
+            onPress={habit.isOnDateShown ? () => setModalVisibility(true) : undefined}
           >
-            <Text style={robotoFonts.bold}>Submit</Text>
+            {habit.isOnDateShown ? (
+              <Text style={robotoFonts.regular}>Submit</Text>
+            ) : (
+              <Text style={robotoFonts.regular}>{nextDueFormatted[1]}</Text>
+            )}
           </TouchableOpacity>
 
           <TouchableOpacity
