@@ -1,7 +1,8 @@
-import { Dispatch, SetStateAction, createContext, useContext, useState } from "react";
+import { Dispatch, SetStateAction, createContext, useContext, useEffect, useState } from "react";
 import { Habit } from "../interfaces/habit";
 import { isHabitOnDate } from "../logic/getHabitsOnDate";
 import { MidnightDate } from "../interfaces/date";
+import { getOverallDayCompletion } from "../logic/reportLogic/getHabitCompletion";
 
 interface HabitContextProviderProps {
   children: React.ReactNode;
@@ -14,6 +15,7 @@ interface HabitContext {
   setOpenedHabit: Dispatch<SetStateAction<number>>;
   dateShown: Date;
   handleSetDateShown: (dayOffsetOrDate: number | Date) => void;
+  dateShownCompletion: number;
   formattedDateArray: string[];
 }
 const HabitContext = createContext<HabitContext | null>(null);
@@ -22,6 +24,7 @@ export default function HabitContextProvider({ children }: HabitContextProviderP
   const [habits, setHabits] = useState<Habit[]>([]);
   const [openedHabit, setOpenedHabit] = useState<number>(-1);
   const [dateShown, setDateShown] = useState<Date>(new MidnightDate());
+  const [dateShownCompletion, setDateShownCompletion] = useState<number>(0);
   const [formattedDateArray, setFormattedDateArray] = useState<string[]>([]);
 
   function handleSetDateShown(dayOffsetOrDate: number | Date) {
@@ -56,6 +59,10 @@ export default function HabitContextProvider({ children }: HabitContextProviderP
     );
   }
 
+  useEffect(() => {
+    setDateShownCompletion(getOverallDayCompletion(habits, dateShown));
+  }, [habits, dateShown]);
+
   return (
     <HabitContext.Provider
       value={{
@@ -65,6 +72,7 @@ export default function HabitContextProvider({ children }: HabitContextProviderP
         setOpenedHabit,
         dateShown,
         handleSetDateShown,
+        dateShownCompletion,
         formattedDateArray,
       }}
     >

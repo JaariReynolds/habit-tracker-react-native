@@ -8,6 +8,7 @@ import Animated from "react-native-reanimated";
 import useTranslateReturnAnimation from "../hooks/animations/useTranslateAnimation";
 import { useFontSizePulseAnimation } from "../hooks/animations/useFontSizePulseAnimation";
 import { constants } from "../styles/constants";
+import CompletionBar from "./CompletionBar";
 
 const IndexHeader = () => {
   const { formattedDateArray, handleSetDateShown } = useHabitContext();
@@ -39,26 +40,33 @@ const IndexHeader = () => {
   }
 
   return (
-    <View style={styles.container}>
-      <Animated.View style={[leftAnimationStyle, { justifyContent: "center", width: "20%" }]}>
-        <TouchableOpacity onPressIn={buttonPressPrev} style={styles.button}>
-          <FontAwesomeIcon icon={faChevronLeft} size={30} />
+    <View>
+      <View style={styles.container}>
+        <Animated.View style={[leftAnimationStyle, { justifyContent: "center", width: "20%" }]}>
+          <TouchableOpacity onPressIn={buttonPressPrev} style={styles.button}>
+            <FontAwesomeIcon icon={faChevronLeft} size={30} />
+          </TouchableOpacity>
+        </Animated.View>
+        <TouchableOpacity onPressIn={buttonPressCurrent} style={[styles.button, { width: "60%" }]}>
+          <Animated.Text
+            style={[
+              robotoFonts.regular,
+              animatedFontSize,
+              { flexWrap: "wrap", textAlign: "center" },
+            ]}
+          >
+            {formattedDateArray[0]}
+            {"\n"}
+            {formattedDateArray[1]}
+          </Animated.Text>
         </TouchableOpacity>
-      </Animated.View>
-      <TouchableOpacity onPressIn={buttonPressCurrent} style={[styles.button, { width: "60%" }]}>
-        <Animated.Text
-          style={[robotoFonts.regular, animatedFontSize, { flexWrap: "wrap", textAlign: "center" }]}
-        >
-          {formattedDateArray[0]}
-          {"\n"}
-          {formattedDateArray[1]}
-        </Animated.Text>
-      </TouchableOpacity>
-      <Animated.View style={[rightAnimationStyle, { justifyContent: "center", width: "20%" }]}>
-        <TouchableOpacity onPressIn={buttonPressNext} style={styles.button}>
-          <FontAwesomeIcon icon={faChevronRight} size={30} />
-        </TouchableOpacity>
-      </Animated.View>
+        <Animated.View style={[rightAnimationStyle, { justifyContent: "center", width: "20%" }]}>
+          <TouchableOpacity onPressIn={buttonPressNext} style={styles.button}>
+            <FontAwesomeIcon icon={faChevronRight} size={30} />
+          </TouchableOpacity>
+        </Animated.View>
+      </View>
+      <CompletionBar />
     </View>
   );
 };
