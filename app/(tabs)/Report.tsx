@@ -2,7 +2,7 @@ import { View, Text } from "react-native";
 import React from "react";
 import FullPageView from "../../components/FullPageView";
 import { useHabitContext } from "../../contexts/habitContext";
-import getHabitCompletion from "../../logic/reportLogic/getHabitCompletion";
+import { getHabitCompletionOverall } from "../../logic/reportLogic/getHabitCompletion";
 import { MidnightDate } from "../../interfaces/date";
 
 const HabitReports = () => {
@@ -11,7 +11,7 @@ const HabitReports = () => {
   const completionArray = habits.map((habit) => {
     return {
       habitName: habit.habitName,
-      completion: getHabitCompletion(habit, new MidnightDate(2024, 5, 1), tenth),
+      completion: getHabitCompletionOverall(habit, new MidnightDate(2024, 5, 1), tenth),
     };
   });
   return (

@@ -3,7 +3,7 @@ import { Habit, Submission } from "../../interfaces/habit";
 import { isHabitOnDate } from "../getHabitsOnDate";
 
 // completion percentage of habit's completed submissions from the start date to end date (inclusive)
-export default function getHabitCompletion(habit: Habit, startDate: Date, endDate: Date): number {
+export function getHabitCompletionOverall(habit: Habit, startDate: Date, endDate: Date): number {
   // get submissions between those dates
   const filteredCompletedSubmissions: Submission[] = habit.submissions.filter((submission) => {
     if (
@@ -25,7 +25,16 @@ export default function getHabitCompletion(habit: Habit, startDate: Date, endDat
     date.setDate(date.getDate() + 1);
   }
 
-  if (requiredSubmissionCount == 0) return 1; // if no required submissions, that means theyre all done :)
-
+  if (requiredSubmissionCount == 0) return 1; // if no required submissions, means theyre all done
   return filteredCompletedSubmissions.length / requiredSubmissionCount;
+}
+
+export function getHabitCompletionOnDay(habit: Habit, date: Date): number {
+  const submission = habit.submissions.find(
+    (submission) => submission.submissionDate.getTime() == date.getTime()
+  );
+
+  if (submission === undefined) return 0;
+
+  return submission.completionPercentage;
 }
