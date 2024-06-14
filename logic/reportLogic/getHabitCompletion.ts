@@ -38,3 +38,24 @@ export function getHabitCompletionOnDay(habit: Habit, date: Date): number {
 
   return submission.completionPercentage;
 }
+
+export function getOverallDayCompletion(habits: Habit[], date: Date): number {
+  const totalDue = habits.reduce((accumulator, habit) => {
+    if (habit.isOnDateShown === true) return (accumulator += 1);
+    return accumulator;
+  }, 0);
+
+  const completionPercentage = habits.reduce((accumulator, habit) => {
+    if (habit.isOnDateShown === undefined || habit.isOnDateShown === false) return accumulator;
+
+    const submission = habit.submissions.find(
+      (submission) => submission.submissionDate.getTime() === date.getTime()
+    );
+
+    if (submission === undefined) return accumulator;
+
+    return (accumulator += submission.completionPercentage);
+  }, 0);
+
+  return completionPercentage / totalDue || 0;
+}
