@@ -72,6 +72,7 @@ const HabitCard = ({
 
   useEffect(() => {
     setCompletion(getHabitCompletionOnDay(habit, dateShown));
+
     setNextDueFormatted(
       getNextSubmissionDate(habit, dateShown, "Forwards")
         .toLocaleDateString("en-GB", {
@@ -81,7 +82,6 @@ const HabitCard = ({
         })
         .split(", ")
     );
-    console.log("called");
   }, [dateShown, habit.submissions]);
 
   const handlePress = () => {
