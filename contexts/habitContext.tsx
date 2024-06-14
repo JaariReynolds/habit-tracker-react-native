@@ -14,6 +14,7 @@ interface HabitContext {
   setOpenedHabit: Dispatch<SetStateAction<number>>;
   dateShown: Date;
   handleSetDateShown: (dayOffsetOrDate: number | Date) => void;
+  formattedDateArray: string[];
 }
 const HabitContext = createContext<HabitContext | null>(null);
 
@@ -21,6 +22,7 @@ export default function HabitContextProvider({ children }: HabitContextProviderP
   const [habits, setHabits] = useState<Habit[]>([]);
   const [openedHabit, setOpenedHabit] = useState<number>(-1);
   const [dateShown, setDateShown] = useState<Date>(new MidnightDate());
+  const [formattedDateArray, setFormattedDateArray] = useState<string[]>([]);
 
   function handleSetDateShown(dayOffsetOrDate: number | Date) {
     var newDate: Date;
@@ -36,6 +38,17 @@ export default function HabitContextProvider({ children }: HabitContextProviderP
     }
 
     setDateShown(newDate);
+
+    setFormattedDateArray(
+      newDate
+        .toLocaleDateString("en-GB", {
+          weekday: "long",
+          month: "long",
+          day: "numeric",
+        })
+        .split(", ")
+    );
+
     setHabits((prev) =>
       prev.map((habit) => {
         return { ...habit, isOnDateShown: isHabitOnDate(habit, newDate) };
@@ -52,6 +65,7 @@ export default function HabitContextProvider({ children }: HabitContextProviderP
         setOpenedHabit,
         dateShown,
         handleSetDateShown,
+        formattedDateArray,
       }}
     >
       {children}

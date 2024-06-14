@@ -10,7 +10,7 @@ import { useFontSizePulseAnimation } from "../hooks/animations/useFontSizePulseA
 import { constants } from "../styles/constants";
 
 const IndexHeader = () => {
-  const { dateShown, handleSetDateShown } = useHabitContext();
+  const { formattedDateArray, handleSetDateShown } = useHabitContext();
   const lastPressRef = useRef<"prev" | "next" | "current">("current");
   const { animatedTranslation: leftAnimationStyle, handleAnimation: handleLeftAnimation } =
     useTranslateReturnAnimation(7, 75, "X");
@@ -19,14 +19,6 @@ const IndexHeader = () => {
   const { animatedFontSize, handleAnimation: handleFontPulse } = useFontSizePulseAnimation(
     constants.headerFontSize
   );
-
-  const formattedDateArray = dateShown
-    .toLocaleDateString("en-GB", {
-      weekday: "long",
-      month: "long",
-      day: "numeric",
-    })
-    .split(", ");
 
   function buttonPressNext() {
     handleRightAnimation();
