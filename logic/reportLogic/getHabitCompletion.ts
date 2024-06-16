@@ -45,6 +45,8 @@ export function getOverallDayCompletion(habits: Habit[], date: Date): number {
     return accumulator;
   }, 0);
 
+  if (totalDue === 0) return 1; // if none due, 100% completion
+
   const completionPercentage = habits.reduce((accumulator, habit) => {
     if (habit.isOnDateShown === undefined || habit.isOnDateShown === false) return accumulator;
 
