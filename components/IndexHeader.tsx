@@ -8,7 +8,6 @@ import Animated from "react-native-reanimated";
 import useTranslateReturnAnimation from "../hooks/animations/useTranslateAnimation";
 import { useFontSizePulseAnimation } from "../hooks/animations/useFontSizePulseAnimation";
 import { constants } from "../styles/constants";
-import CompletionBar from "./CompletionBar";
 
 const IndexHeader = () => {
   const { formattedDateArray, handleSetDateShown } = useHabitContext();
@@ -66,7 +65,6 @@ const IndexHeader = () => {
           </TouchableOpacity>
         </Animated.View>
       </View>
-      <CompletionBar />
     </View>
   );
 };
