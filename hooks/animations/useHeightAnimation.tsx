@@ -3,7 +3,7 @@ import { SpringConfig } from "react-native-reanimated/lib/typescript/reanimated2
 
 const springConfig: SpringConfig = {
   stiffness: 450,
-  damping: 25,
+  damping: 28,
 };
 
 export function useHeightAnimation(initialHeight: number, toHeight: number) {
