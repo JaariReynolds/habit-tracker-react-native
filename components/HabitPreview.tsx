@@ -3,19 +3,19 @@ import React, { useEffect, useState } from "react";
 import { Habit } from "../interfaces/habit";
 import { useHabitContext } from "../contexts/habitContext";
 import { router } from "expo-router";
-import SubmissionModal from "./interactive-fields/SubmissionModal";
 import { useModalVisibility } from "../hooks/useModalVisibility";
 import handleHabitSubmission from "../logic/habitCRUD/handleHabitSubmission";
 import Animated from "react-native-reanimated";
 import { robotoFonts } from "../styles/base-styles";
 import { FontAwesomeIcon } from "@fortawesome/react-native-fontawesome";
-import { faCircleCheck, faLock, faPen } from "@fortawesome/free-solid-svg-icons";
+import { faCheck, faCircleCheck, faPen, faXmark } from "@fortawesome/free-solid-svg-icons";
 import { useHeightAnimation } from "../hooks/animations/useHeightAnimation";
 import { useOpacityAnimation } from "../hooks/animations/useOpacityAnimation";
 import { constants } from "../styles/constants";
 import { getNextSubmissionDate } from "../logic/getHabitsOnDate";
 import getHabitStreak from "../logic/reportLogic/getHabitStreak";
 import { getHabitCompletionOnDay } from "../logic/reportLogic/getHabitCompletion";
+import CustomModal from "./interactive-fields/CustomModal";
 
 interface HabitPreviewProps {
   habit: Habit;
@@ -28,12 +28,20 @@ const HabitPreview = ({ habit, arrayIndex }: HabitPreviewProps) => {
 
   return (
     <View>
-      <SubmissionModal
+      <CustomModal
         modalText={"submission for " + habit.habitName}
         modalVisibility={modalVisibility}
         setModalVisibility={setModalVisibility}
-        leftButtonAction={() => setHabits(handleHabitSubmission(habit.id, 1, dateShown, habits))}
-        rightButtonAction={() => setHabits(handleHabitSubmission(habit.id, 0, dateShown, habits))}
+        leftButton={{
+          JSXElement: <FontAwesomeIcon icon={faCheck} size={constants.iconSize} />,
+          action: () => setHabits(handleHabitSubmission(habit.id, 1, dateShown, habits)),
+          backgroundColour: "orange",
+        }}
+        rightButton={{
+          JSXElement: <FontAwesomeIcon icon={faXmark} size={constants.iconSize} />,
+          action: () => setHabits(handleHabitSubmission(habit.id, 0, dateShown, habits)),
+          backgroundColour: "orange",
+        }}
       />
       <HabitCard habit={habit} arrayIndex={arrayIndex} setModalVisibility={setModalVisibility} />
     </View>

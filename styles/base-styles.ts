@@ -53,41 +53,6 @@ export const buttonStyles = StyleSheet.create({
   },
 });
 
-export const baseModal = StyleSheet.create({
-  container: {
-    backgroundColor: "white",
-    marginVertical: "auto",
-    alignSelf: "center",
-    alignItems: "center",
-    justifyContent: "center",
-    borderWidth: 1,
-    borderColor: "black",
-    borderRadius: constants.componentBorderRadius,
-    paddingVertical: 15,
-    paddingHorizontal: 30,
-    maxWidth: "80%",
-  },
-  text: {
-    textAlign: "right",
-    paddingBottom: 15,
-  },
-  buttonRow: {
-    flexDirection: "row",
-    alignSelf: "stretch",
-    justifyContent: "space-around",
-    gap: 30,
-  },
-
-  button: {
-    borderWidth: 1,
-    borderColor: "black",
-    justifyContent: "center",
-    paddingVertical: 10,
-    paddingHorizontal: 25,
-    borderRadius: constants.componentBorderRadius,
-  },
-});
-
 export const robotoFonts = StyleSheet.create({
   light: {
     fontFamily: "RobotoMono-Light",
