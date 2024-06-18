@@ -25,7 +25,15 @@ export default function HabitContextProvider({ children }: HabitContextProviderP
   const [openedHabit, setOpenedHabit] = useState<number>(-1);
   const [dateShown, setDateShown] = useState<Date>(new MidnightDate());
   const [dateShownCompletion, setDateShownCompletion] = useState<number>(0);
-  const [formattedDateArray, setFormattedDateArray] = useState<string[]>([]);
+  const [formattedDateArray, setFormattedDateArray] = useState<string[]>(
+    new Date()
+      .toLocaleDateString("en-GB", {
+        weekday: "long",
+        month: "long",
+        day: "numeric",
+      })
+      .split(", ")
+  );
 
   function handleSetDateShown(dayOffsetOrDate: number | Date) {
     var newDate: Date;
