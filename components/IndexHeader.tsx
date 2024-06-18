@@ -11,7 +11,6 @@ import { constants } from "../styles/constants";
 
 const IndexHeader = () => {
   const { formattedDateArray, handleSetDateShown } = useHabitContext();
-  const lastPressRef = useRef<"prev" | "next" | "current">("current");
   const { animatedTranslation: leftAnimationStyle, handleAnimation: handleLeftAnimation } =
     useTranslateReturnAnimation(7, 75, "X");
   const { animatedTranslation: rightAnimationStyle, handleAnimation: handleRightAnimation } =
@@ -27,7 +26,6 @@ const IndexHeader = () => {
   }
 
   function buttonPressCurrent() {
-    lastPressRef.current = "current";
     handleFontPulse();
     handleSetDateShown(0);
   }
