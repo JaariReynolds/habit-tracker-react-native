@@ -53,53 +53,56 @@ const EditHabit = () => {
     <FullHeightScrollView>
       <Header title="edit habit" />
       <FullPageView>
-        {errorString.length != 0 && (
-          <View>
-            <Text style={{ color: "red" }}>{errorString} </Text>
-          </View>
-        )}
-        <DeleteHabitButton habitId={form.habitId!} />
-        <FormField
-          title="Habit Name"
-          handleChangeText={(e) => setForm({ ...form, habitName: e })}
-          value={form.habitName}
-        />
-        <RadioButtons
-          title="Frequency"
-          buttonNameList={FrequencyNames}
-          selectedButton={form.frequencyString}
-          setSelectedButton={(e) => setForm({ ...form, frequencyString: e })}
-          setShowDays={setShowDays}
-          setShowCustom={setShowCustom}
-        />
-        {showDays && (
-          <MultiSelector
-            title="Days"
-            buttonNameList={dayNames}
-            selectedButtons={form.selectedDays}
-            setSelectedButtons={(e) => setForm({ ...form, selectedDays: e })}
+        <View style={{ marginBottom: 50, alignSelf: "stretch" }}>
+          {errorString.length != 0 && (
+            <View>
+              <Text style={{ color: "red" }}>{errorString} </Text>
+            </View>
+          )}
+          <FormField
+            title="Habit Name"
+            handleChangeText={(e) => setForm({ ...form, habitName: e })}
+            value={form.habitName}
           />
-        )}
-        {showCustom && (
-          <>
-            <Counter
-              title="Num of days"
-              number={form.customFrequency}
-              setNumber={(e) => setForm({ ...form, customFrequency: e })}
+          <RadioButtons
+            title="Frequency"
+            buttonNameList={FrequencyNames}
+            selectedButton={form.frequencyString}
+            setSelectedButton={(e) => setForm({ ...form, frequencyString: e })}
+            setShowDays={setShowDays}
+            setShowCustom={setShowCustom}
+          />
+          {showDays && (
+            <MultiSelector
+              title="Days"
+              buttonNameList={dayNames}
+              selectedButtons={form.selectedDays}
+              setSelectedButtons={(e) => setForm({ ...form, selectedDays: e })}
             />
-            <DatePicker
-              title="Start Date"
-              date={date}
-              datePickerVisible={datePickerVisible}
-              showDatePicker={showDatePicker}
-              changeDate={changeDate}
-            />
-          </>
-        )}
-
-        <View style={buttonStyles.dualButtonContainer}>
-          <BackButton />
-          <HabitSubmitButton title="Update" handleSubmit={handleSubmit} />
+          )}
+          {showCustom && (
+            <>
+              <Counter
+                title="Num of days"
+                number={form.customFrequency}
+                setNumber={(e) => setForm({ ...form, customFrequency: e })}
+              />
+              <DatePicker
+                title="Start Date"
+                date={date}
+                datePickerVisible={datePickerVisible}
+                showDatePicker={showDatePicker}
+                changeDate={changeDate}
+              />
+            </>
+          )}
+        </View>
+        <View style={{ marginTop: "auto", gap: 10 }}>
+          <DeleteHabitButton habitId={form.habitId!} />
+          <View style={buttonStyles.dualButtonContainer}>
+            <BackButton />
+            <HabitSubmitButton title="Update" handleSubmit={handleSubmit} />
+          </View>
         </View>
       </FullPageView>
     </FullHeightScrollView>
