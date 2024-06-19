@@ -38,6 +38,7 @@ const CustomModal = ({
     <Modal
       visible={modalVisibility}
       transparent={true}
+      animationType="fade"
       onRequestClose={() => setModalVisibility(false)}
     >
       <Pressable style={styles.outsideModal} onPress={() => setModalVisibility(false)}>
