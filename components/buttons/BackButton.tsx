@@ -15,6 +15,7 @@ export default function BackButton() {
 const styles = StyleSheet.create({
   backButton: {
     height: constants.buttonHeight,
+    borderRadius: constants.componentBorderRadius,
     flexShrink: 1,
     flexBasis: 0,
     flexGrow: 1,

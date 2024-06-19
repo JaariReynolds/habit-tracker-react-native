@@ -11,7 +11,7 @@ export const inputButtonStyles = StyleSheet.create({
     flexDirection: "row",
     alignSelf: "stretch",
     justifyContent: "space-around",
-    borderRadius: 10,
+    borderRadius: constants.componentBorderRadius,
     height: 60,
   },
 
@@ -25,7 +25,7 @@ export const inputButtonStyles = StyleSheet.create({
   indicator: {
     borderColor: "black",
     borderWidth: 2,
-    borderRadius: 10,
+    borderRadius: constants.componentBorderRadius,
     height: 30,
     width: 30,
     marginHorizontal: "auto",
@@ -48,7 +48,6 @@ export const buttonStyles = StyleSheet.create({
     justifyContent: "space-between",
     gap: 20,
     marginBottom: 15,
-    marginTop: "auto",
     width: "100%",
   },
 });

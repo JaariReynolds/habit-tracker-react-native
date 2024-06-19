@@ -49,10 +49,10 @@ export default function DeleteHabitButton({ habitId }: DeleteHabitButtonProps) {
 const styles = StyleSheet.create({
   backButton: {
     height: constants.buttonHeight,
-    justifyContent: "center",
+    borderRadius: constants.componentBorderRadius,
     backgroundColor: "red",
-    paddingHorizontal: 70,
+    justifyContent: "center",
+    alignSelf: "stretch",
     alignItems: "center",
-    marginVertical: 10,
   },
 });

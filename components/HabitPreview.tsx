@@ -106,7 +106,12 @@ const HabitCard = ({
   };
 
   return (
-    <Animated.View style={[{ width: "100%", borderRadius: 5, overflow: "hidden" }, animatedHeight]}>
+    <Animated.View
+      style={[
+        { width: "100%", borderRadius: constants.componentBorderRadius, overflow: "hidden" },
+        animatedHeight,
+      ]}
+    >
       <Pressable
         onPress={handlePress}
         style={{

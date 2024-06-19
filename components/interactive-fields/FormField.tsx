@@ -1,5 +1,6 @@
 import { View, Text, TextInput, StyleSheet } from "react-native";
 import React, { useRef } from "react";
+import { constants } from "../../styles/constants";
 
 interface FormFieldProps {
   title: string;
@@ -10,12 +11,7 @@ interface FormFieldProps {
   alignment?: "left" | "right";
 }
 
-const FormField = ({
-  title,
-  value,
-  handleChangeText,
-  placeholder,
-}: FormFieldProps) => {
+const FormField = ({ title, value, handleChangeText, placeholder }: FormFieldProps) => {
   const textInputRef = useRef<TextInput>(null);
 
   return (
@@ -44,7 +40,7 @@ const styles = StyleSheet.create({
     borderColor: "black",
     borderWidth: 2,
     fontSize: 20,
-    borderRadius: 10,
+    borderRadius: constants.componentBorderRadius,
     padding: 15,
     height: 60,
   },

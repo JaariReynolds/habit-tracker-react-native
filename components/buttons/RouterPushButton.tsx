@@ -28,6 +28,7 @@ export default function RouterPushButton({ buttonLabel, pageLink }: RouterPushBu
         justifyContent: "center",
         alignItems: "center",
         marginVertical: 10,
+        borderRadius: constants.componentBorderRadius,
       }}
       onPress={handlePress}
     >

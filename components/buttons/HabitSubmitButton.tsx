@@ -18,6 +18,7 @@ export default function HabitSubmitButton({ title, handleSubmit }: SubmitButtonP
 const styles = StyleSheet.create({
   backButton: {
     height: constants.buttonHeight,
+    borderRadius: constants.componentBorderRadius,
     flexShrink: 1,
     flexBasis: 0,
     flexGrow: 1,
