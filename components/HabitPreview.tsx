@@ -11,7 +11,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-native-fontawesome";
 import { faCheck, faCircleCheck, faPen, faXmark } from "@fortawesome/free-solid-svg-icons";
 import { useHeightAnimation } from "../hooks/animations/useHeightAnimation";
 import { useOpacityAnimation } from "../hooks/animations/useOpacityAnimation";
-import { constants } from "../styles/constants";
+import { colours, constants } from "../styles/constants";
 import { getNextSubmissionDate } from "../logic/getHabitsOnDate";
 import getHabitStreak from "../logic/reportLogic/getHabitStreak";
 import { getHabitCompletionOnDay } from "../logic/reportLogic/getHabitCompletion";
@@ -35,12 +35,12 @@ const HabitPreview = ({ habit, arrayIndex }: HabitPreviewProps) => {
         leftButton={{
           JSXElement: <FontAwesomeIcon icon={faCheck} size={constants.iconSize} />,
           action: () => setHabits(handleHabitSubmission(habit.id, 1, dateShown, habits)),
-          backgroundColour: "orange",
+          backgroundColour: colours.primary,
         }}
         rightButton={{
           JSXElement: <FontAwesomeIcon icon={faXmark} size={constants.iconSize} />,
           action: () => setHabits(handleHabitSubmission(habit.id, 0, dateShown, habits)),
-          backgroundColour: "orange",
+          backgroundColour: colours.primary,
         }}
       />
       <HabitCard habit={habit} arrayIndex={arrayIndex} setModalVisibility={setModalVisibility} />
@@ -66,7 +66,6 @@ const HabitCard = ({
   const [streak, setStreak] = useState<number>(0);
   const [completion, setCompletion] = useState<number>(0);
   const [nextDueFormatted, setNextDueFormatted] = useState<string[]>([]);
-  const [submittable, setSubmittable] = useState<boolean>(false);
 
   useEffect(() => {
     if (openedHabit !== arrayIndex) {
@@ -90,10 +89,6 @@ const HabitCard = ({
           day: "numeric",
         })
         .split(", ")
-    );
-
-    setSubmittable(
-      habit.isOnDateShown === true && habit.frequency.startDate.getTime() <= dateShown.getTime()
     );
   }, [dateShown, habit.submissions]);
 
@@ -121,7 +116,7 @@ const HabitCard = ({
         onPress={handlePress}
         style={{
           height: "100%",
-          backgroundColor: submittable ? "salmon" : "grey",
+          backgroundColor: habit.isOnDateShown ? colours.activeHabitPreview : colours.neutralGrey,
         }}
       >
         <View
@@ -160,9 +155,9 @@ const HabitCard = ({
               alignItems: "center",
               justifyContent: "center",
             }}
-            onPress={submittable ? () => setModalVisibility(true) : undefined}
+            onPress={habit.isOnDateShown ? () => setModalVisibility(true) : undefined}
           >
-            {submittable ? (
+            {habit.isOnDateShown ? (
               <Text style={robotoFonts.regular}>Submit</Text>
             ) : (
               <Text style={robotoFonts.regular}>{nextDueFormatted[1]}</Text>
