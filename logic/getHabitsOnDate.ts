@@ -2,12 +2,6 @@ import { MidnightDate } from "../interfaces/date";
 import { CustomFrequency, Habit, WeeklyFrequency } from "../interfaces/habit";
 import { isDateWithinDaysMultiple, toMidnight } from "./dateLogic";
 
-export default function getHabitsOnDate(date: Date, habits: Habit[]): Habit[] {
-  return habits.filter((habit) => {
-    if (isHabitOnDate(habit, date)) return habit;
-  });
-}
-
 export function isHabitOnDate(habit: Habit, date: Date): boolean {
   switch (habit.frequency.name) {
     case "Daily": {
