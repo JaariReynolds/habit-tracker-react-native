@@ -7,8 +7,8 @@ import FullPageView from "../components/FullPageView";
 import FormField from "../components/interactive-fields/FormField";
 import RadioButtons from "../components/interactive-fields/RadioButtons";
 import MultiSelector from "../components/interactive-fields/MultiSelector";
-import Counter from "../components/interactive-fields/Counter";
-import { buttonStyles } from "../styles/base-styles";
+import CustomDaysInput from "../components/interactive-fields/CustomDaysInput";
+import { buttonStyles, containers } from "../styles/base-styles";
 import BackButton from "../components/buttons/BackButton";
 import { habitObjectToForm } from "../logic/baseHabitLogic";
 import { useHabitContext } from "../contexts/habitContext";
@@ -81,9 +81,8 @@ const EditHabit = () => {
             />
           )}
           {showCustom && (
-            <>
-              <Counter
-                title="Num of days"
+            <View style={containers.customFields}>
+              <CustomDaysInput
                 number={form.customFrequency}
                 setNumber={(e) => setForm({ ...form, customFrequency: e })}
               />
@@ -94,12 +93,12 @@ const EditHabit = () => {
                 showDatePicker={showDatePicker}
                 changeDate={changeDate}
               />
-            </>
+            </View>
           )}
         </View>
         <View style={{ marginTop: "auto", gap: 10 }}>
           <DeleteHabitButton habitId={form.habitId!} />
-          <View style={buttonStyles.dualButtonContainer}>
+          <View style={containers.dualButtonRow}>
             <BackButton />
             <HabitSubmitButton title="Update" handleSubmit={handleSubmit} />
           </View>

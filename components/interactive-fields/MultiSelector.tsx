@@ -1,6 +1,6 @@
 import { Keyboard, Text, TouchableOpacity, View } from "react-native";
-import React, { useState } from "react";
-import { inputButtonStyles } from "../../styles/base-styles";
+import React from "react";
+import { getButtonStyle, buttonStyles, robotoFonts, containers } from "../../styles/base-styles";
 
 interface MultiSelectorProps {
   title: string;
@@ -15,6 +15,12 @@ const MultiSelector = ({
   selectedButtons,
   setSelectedButtons,
 }: MultiSelectorProps) => {
+  function selectedButtonStyle(selectedIndex: number) {
+    if (selectedButtons.includes(selectedIndex)) {
+      return buttonStyles.selectedIndicator;
+    }
+  }
+
   const handleSelectedButtons = (newButtonIndex: number) => {
     Keyboard.dismiss();
 
@@ -28,25 +34,29 @@ const MultiSelector = ({
     }
   };
 
-  const indicatorStyling = (buttonIndex: number) => {
-    if (selectedButtons.includes(buttonIndex))
-      return inputButtonStyles.selectedIndicator;
-  };
-
   return (
-    <View style={inputButtonStyles.viewContainer}>
-      <Text style={inputButtonStyles.title}>{title}</Text>
-      <View style={inputButtonStyles.radioButtonsContainer}>
+    <View style={containers.viewContainer}>
+      <Text
+        style={[
+          buttonStyles.title,
+          robotoFonts.regular,
+          { paddingBottom: 10, textAlign: "center" },
+        ]}
+      >
+        {title}
+      </Text>
+      <View style={containers.buttons}>
         {buttonNameList.map((button, index) => (
           <TouchableOpacity
             key={index}
             onPress={() => handleSelectedButtons(index)}
-            style={inputButtonStyles.touchableButton}
+            style={[
+              buttonStyles.touchableButton,
+              getButtonStyle(index, buttonNameList.length),
+              selectedButtonStyle(index),
+            ]}
           >
-            <View
-              style={[inputButtonStyles.indicator, indicatorStyling(index)]}
-            ></View>
-            <Text>{button}</Text>
+            <Text style={[robotoFonts.regular, { fontSize: 15 }]}>{button}</Text>
           </TouchableOpacity>
         ))}
       </View>

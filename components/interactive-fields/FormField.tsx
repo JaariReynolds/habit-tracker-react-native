@@ -1,6 +1,7 @@
 import { View, Text, TextInput, StyleSheet } from "react-native";
 import React, { useRef } from "react";
 import { constants } from "../../styles/constants";
+import { robotoFonts } from "../../styles/base-styles";
 
 interface FormFieldProps {
   title: string;
@@ -16,10 +17,10 @@ const FormField = ({ title, value, handleChangeText, placeholder }: FormFieldPro
 
   return (
     <View style={styles.formFieldContainer}>
-      <Text style={styles.title}>{title}</Text>
+      <Text style={[styles.title, robotoFonts.regular]}>{title}</Text>
       <TextInput
         onChangeText={handleChangeText}
-        style={[styles.inputField]}
+        style={[styles.inputField, robotoFonts.regular]}
         value={value}
         placeholder={placeholder}
         ref={textInputRef}
@@ -37,8 +38,7 @@ const styles = StyleSheet.create({
   },
 
   inputField: {
-    borderColor: "black",
-    borderWidth: 2,
+    borderWidth: 1.5,
     fontSize: 20,
     borderRadius: constants.componentBorderRadius,
     padding: 15,

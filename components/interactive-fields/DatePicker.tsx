@@ -1,10 +1,12 @@
-import { Text, View, StyleSheet, Pressable } from "react-native";
+import { Text, View, StyleSheet, Pressable, Keyboard } from "react-native";
 import React from "react";
 import DateTimePicker from "@react-native-community/datetimepicker";
 import { useDatePicker } from "../../hooks/useDatePicker";
 import { FontAwesomeIcon } from "@fortawesome/react-native-fontawesome";
 import { faCalendarDays } from "@fortawesome/free-solid-svg-icons";
 import { MidnightDate } from "../../interfaces/date";
+import { robotoFonts } from "../../styles/base-styles";
+import { constants } from "../../styles/constants";
 
 interface DatePickerProps {
   title: string;
@@ -20,12 +22,19 @@ const DatePicker = ({
   showDatePicker,
   changeDate,
 }: DatePickerProps) => {
+  const handlePress = () => {
+    Keyboard.dismiss();
+    showDatePicker();
+  };
+
   return (
-    <>
-      <Text style={styles.title}>{title}</Text>
-      <View style={styles.container}>
-        <Pressable style={styles.button} onPress={showDatePicker}>
-          <Text style={styles.selectedDate}>{date.toLocaleDateString("en-GB")}</Text>
+    <View style={styles.container}>
+      <Text style={[styles.title, robotoFonts.regular]}>{title}</Text>
+      <View style={styles.inputContainer}>
+        <Pressable style={styles.button} onPress={handlePress}>
+          <Text style={[styles.selectedDate, robotoFonts.regular]}>
+            {date.toLocaleDateString("en-GB")}
+          </Text>
           <View style={styles.icon}>
             <FontAwesomeIcon icon={faCalendarDays} />
           </View>
@@ -42,7 +51,7 @@ const DatePicker = ({
           />
         )}
       </View>
-    </>
+    </View>
   );
 };
 
@@ -50,10 +59,13 @@ export default DatePicker;
 
 const styles = StyleSheet.create({
   container: {
-    height: 50,
+    alignItems: "center",
+  },
+  inputContainer: {
+    height: 60,
     justifyContent: "center",
     alignItems: "center",
-    margin: 10,
+    // marginBottom: 10,
   },
   title: {
     padding: 10,
@@ -65,6 +77,8 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     height: "100%",
     backgroundColor: "orange",
+    borderRadius: constants.componentBorderRadius,
+    overflow: "hidden",
   },
   selectedDate: {
     textAlignVertical: "center",

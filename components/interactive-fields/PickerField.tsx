@@ -2,6 +2,7 @@ import { View, Text, StyleSheet, Keyboard } from "react-native";
 import React, { useState } from "react";
 import { Picker } from "@react-native-picker/picker";
 import { constants } from "../../styles/constants";
+import { containers } from "../../styles/base-styles";
 
 interface PickerFieldProps {
   title: string;
@@ -19,7 +20,7 @@ const PickerField = ({
   placeholder,
 }: PickerFieldProps) => {
   return (
-    <View style={styles.viewContainer}>
+    <View style={containers.viewContainer}>
       <Text style={styles.title}>{title}</Text>
       <View style={[styles.pickerContainer]}>
         <Picker
@@ -40,10 +41,6 @@ const PickerField = ({
 export default PickerField;
 
 const styles = StyleSheet.create({
-  viewContainer: {
-    alignSelf: "stretch",
-    marginBottom: 15,
-  },
   pickerContainer: {
     borderColor: "black",
     borderWidth: 2,

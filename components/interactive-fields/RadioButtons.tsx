@@ -1,6 +1,6 @@
 import { Keyboard, Text, TouchableOpacity, View } from "react-native";
 import React, { useEffect } from "react";
-import { inputButtonStyles } from "../../styles/base-styles";
+import { getButtonStyle, buttonStyles, robotoFonts, containers } from "../../styles/base-styles";
 
 interface RadioButtonsProps {
   title: string;
@@ -19,8 +19,8 @@ const RadioButtons = ({
   setShowDays,
   setShowCustom,
 }: RadioButtonsProps) => {
-  const indicatorStyling = (button: string) => {
-    if (button == selectedButton) return inputButtonStyles.selectedIndicator;
+  const selectedButtonStyle = (button: string) => {
+    if (button == selectedButton) return buttonStyles.selectedIndicator;
   };
 
   useEffect(() => {
@@ -34,19 +34,20 @@ const RadioButtons = ({
   };
 
   return (
-    <View style={inputButtonStyles.viewContainer}>
-      <Text style={inputButtonStyles.title}>{title}</Text>
-      <View style={inputButtonStyles.radioButtonsContainer}>
+    <View style={[containers.viewContainer, { marginBottom: 40 }]}>
+      <Text style={[buttonStyles.title, robotoFonts.regular]}>{title}</Text>
+      <View style={containers.buttons}>
         {buttonNameList.map((button, index) => (
           <TouchableOpacity
             key={index}
             onPress={() => handleSelectedButton(button)}
-            style={inputButtonStyles.touchableButton}
+            style={[
+              buttonStyles.touchableButton,
+              getButtonStyle(index, buttonNameList.length),
+              selectedButtonStyle(button),
+            ]}
           >
-            <View
-              style={[inputButtonStyles.indicator, indicatorStyling(button)]}
-            ></View>
-            <Text>{button}</Text>
+            <Text style={[robotoFonts.regular, { fontSize: 15 }]}>{button}</Text>
           </TouchableOpacity>
         ))}
       </View>

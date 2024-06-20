@@ -1,34 +1,40 @@
 import { StyleSheet } from "react-native";
 import { constants } from "./constants";
 
-export const inputButtonStyles = StyleSheet.create({
-  viewContainer: {
-    alignSelf: "stretch",
-    marginBottom: 15,
-  },
+export function getButtonStyle(index: number, arrayLength: number) {
+  let style = {};
+  if (index === 0) {
+    style = { ...style, ...buttonStyles.buttonFirst };
+  } else if (index === arrayLength - 1) {
+    style = { ...style, ...buttonStyles.buttonLast };
+  }
 
-  radioButtonsContainer: {
-    flexDirection: "row",
-    alignSelf: "stretch",
-    justifyContent: "space-around",
-    borderRadius: constants.componentBorderRadius,
-    height: 60,
-  },
+  return style;
+}
 
+export const buttonStyles = StyleSheet.create({
   touchableButton: {
     flexDirection: "column",
     justifyContent: "space-evenly",
     alignItems: "center",
-    width: 60,
+    flexGrow: 1,
+    flexBasis: 0,
+    borderWidth: 1,
+  },
+
+  buttonFirst: {
+    borderTopLeftRadius: constants.componentBorderRadius,
+    borderBottomLeftRadius: constants.componentBorderRadius,
+  },
+
+  buttonLast: {
+    borderTopRightRadius: constants.componentBorderRadius,
+    borderBottomRightRadius: constants.componentBorderRadius,
   },
 
   indicator: {
-    borderColor: "black",
     borderWidth: 2,
-    borderRadius: constants.componentBorderRadius,
     height: 30,
-    width: 30,
-    marginHorizontal: "auto",
   },
 
   selectedIndicator: {
@@ -36,19 +42,40 @@ export const inputButtonStyles = StyleSheet.create({
   },
 
   title: {
-    textAlign: "center",
     fontSize: 20,
     paddingBottom: 3,
   },
 });
 
-export const buttonStyles = StyleSheet.create({
-  dualButtonContainer: {
+export const containers = StyleSheet.create({
+  customFields: {
+    alignSelf: "stretch",
+    borderWidth: 1.5,
+    paddingVertical: 30,
+    borderRadius: constants.componentBorderRadius,
+  },
+
+  viewContainer: {
+    alignSelf: "stretch",
+    marginBottom: 15,
+  },
+
+  dualButtonRow: {
     flexDirection: "row",
     justifyContent: "space-between",
-    gap: 20,
-    marginBottom: 15,
+    gap: 10,
+    marginBottom: 10,
+    marginTop: "auto",
     width: "100%",
+  },
+
+  buttons: {
+    flexDirection: "row",
+    alignSelf: "stretch",
+    justifyContent: "space-evenly",
+    borderRadius: constants.componentBorderRadius,
+    height: 60,
+    backgroundColor: "rgba(255, 0, 0, 0.2)",
   },
 });
 

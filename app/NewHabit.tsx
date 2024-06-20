@@ -5,11 +5,11 @@ import BackButton from "../components/buttons/BackButton";
 import { FrequencyNames, HabitForm, dayNames, emptyForm } from "../interfaces/habit";
 import RadioButtons from "../components/interactive-fields/RadioButtons";
 import MultiSelector from "../components/interactive-fields/MultiSelector";
-import Counter from "../components/interactive-fields/Counter";
+import CustomDaysInput from "../components/interactive-fields/CustomDaysInput";
 import { View, Text } from "react-native";
 import FullHeightScrollView from "../components/FullHeightScrollView";
 import Header from "../components/Header";
-import { buttonStyles } from "../styles/base-styles";
+import { buttonStyles, containers } from "../styles/base-styles";
 import DatePicker from "../components/interactive-fields/DatePicker";
 import { useDatePicker } from "../hooks/useDatePicker";
 import { MidnightDate } from "../interfaces/date";
@@ -75,24 +75,23 @@ const NewHabit = () => {
           />
         )}
         {showCustom && (
-          <>
-            <Counter
-              title="Num of days"
+          <View style={containers.customFields}>
+            <CustomDaysInput
               number={form.customFrequency}
               setNumber={(e) => setForm({ ...form, customFrequency: e })}
             />
 
             <DatePicker
-              title="Start Date"
+              title="Starting on"
               date={date}
               datePickerVisible={datePickerVisible}
               showDatePicker={showDatePicker}
               changeDate={changeDate}
             />
-          </>
+          </View>
         )}
 
-        <View style={buttonStyles.dualButtonContainer}>
+        <View style={containers.dualButtonRow}>
           <BackButton />
           <HabitSubmitButton title="Submit" handleSubmit={handleSubmit} />
         </View>
