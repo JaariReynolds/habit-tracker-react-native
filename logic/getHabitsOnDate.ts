@@ -40,7 +40,10 @@ export function getNextSubmissionDate(
 
   let found = false;
   while (!found) {
-    if (isHabitOnDate(habit, nextSubmissionDate)) {
+    if (
+      isHabitOnDate(habit, nextSubmissionDate) &&
+      habit.frequency.startDate.getTime() <= nextSubmissionDate.getTime()
+    ) {
       found = true;
       break;
     }

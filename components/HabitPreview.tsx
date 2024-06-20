@@ -66,6 +66,7 @@ const HabitCard = ({
   const [streak, setStreak] = useState<number>(0);
   const [completion, setCompletion] = useState<number>(0);
   const [nextDueFormatted, setNextDueFormatted] = useState<string[]>([]);
+  const [submittable, setSubmittable] = useState<boolean>(false);
 
   useEffect(() => {
     if (openedHabit !== arrayIndex) {
@@ -89,6 +90,10 @@ const HabitCard = ({
           day: "numeric",
         })
         .split(", ")
+    );
+
+    setSubmittable(
+      habit.isOnDateShown === true && habit.frequency.startDate.getTime() <= dateShown.getTime()
     );
   }, [dateShown, habit.submissions]);
 
@@ -116,7 +121,7 @@ const HabitCard = ({
         onPress={handlePress}
         style={{
           height: "100%",
-          backgroundColor: habit.isOnDateShown ? "salmon" : "grey",
+          backgroundColor: submittable ? "salmon" : "grey",
         }}
       >
         <View
@@ -155,9 +160,9 @@ const HabitCard = ({
               alignItems: "center",
               justifyContent: "center",
             }}
-            onPress={habit.isOnDateShown ? () => setModalVisibility(true) : undefined}
+            onPress={submittable ? () => setModalVisibility(true) : undefined}
           >
-            {habit.isOnDateShown ? (
+            {submittable ? (
               <Text style={robotoFonts.regular}>Submit</Text>
             ) : (
               <Text style={robotoFonts.regular}>{nextDueFormatted[1]}</Text>
