@@ -17,6 +17,7 @@ import handleNewHabit from "../logic/habitCRUD/handleNewHabit";
 import { useHabitContext } from "../contexts/habitContext";
 import { router } from "expo-router";
 import HabitSubmitButton from "../components/buttons/HabitSubmitButton";
+import { colours } from "../styles/constants";
 
 const NewHabit = () => {
   const { setHabits, handleSetDateShown } = useHabitContext();
@@ -50,7 +51,7 @@ const NewHabit = () => {
       <FullPageView>
         {errorString.length != 0 && (
           <View>
-            <Text style={{ color: "red" }}>{errorString} </Text>
+            <Text style={{ color: colours.alert }}>{errorString} </Text>
           </View>
         )}
         <FormField

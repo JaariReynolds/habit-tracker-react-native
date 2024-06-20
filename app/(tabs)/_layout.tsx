@@ -11,16 +11,9 @@ import {
   faStopwatch,
   faUser,
 } from "@fortawesome/free-solid-svg-icons";
+import { colours } from "../../styles/constants";
 
-const TabIcon = ({
-  icon,
-  color,
-  name,
-}: {
-  icon: IconDefinition;
-  color: string;
-  name: string;
-}) => {
+const TabIcon = ({ icon, color, name }: { icon: IconDefinition; color: string; name: string }) => {
   return (
     <View style={styles.TabIcon}>
       <FontAwesomeIcon icon={icon} color={color} />
@@ -33,8 +26,8 @@ const TabsLayout = () => {
   return (
     <Tabs
       screenOptions={{
-        tabBarActiveTintColor: "orange",
-        tabBarInactiveTintColor: "purple",
+        tabBarActiveTintColor: colours.primary,
+        tabBarInactiveTintColor: colours.accent,
         tabBarShowLabel: false,
         headerShown: false,
       }}
@@ -43,45 +36,35 @@ const TabsLayout = () => {
         name="index"
         options={{
           title: "Habits",
-          tabBarIcon: ({ color }) => (
-            <TabIcon icon={faGamepad} color={color} name="habits" />
-          ),
+          tabBarIcon: ({ color }) => <TabIcon icon={faGamepad} color={color} name="habits" />,
         }}
       />
       <Tabs.Screen
         name="FocusTimer"
         options={{
           title: "Timer",
-          tabBarIcon: ({ color }) => (
-            <TabIcon icon={faStopwatch} color={color} name="timer" />
-          ),
+          tabBarIcon: ({ color }) => <TabIcon icon={faStopwatch} color={color} name="timer" />,
         }}
       />
       <Tabs.Screen
         name="Journal"
         options={{
           title: "Journal",
-          tabBarIcon: ({ color }) => (
-            <TabIcon icon={faBook} color={color} name="journal" />
-          ),
+          tabBarIcon: ({ color }) => <TabIcon icon={faBook} color={color} name="journal" />,
         }}
       />
       <Tabs.Screen
         name="Report"
         options={{
           title: "report",
-          tabBarIcon: ({ color }) => (
-            <TabIcon icon={faClipboard} color={color} name="report" />
-          ),
+          tabBarIcon: ({ color }) => <TabIcon icon={faClipboard} color={color} name="report" />,
         }}
       />
       <Tabs.Screen
         name="Profile"
         options={{
           title: "Profile",
-          tabBarIcon: ({ color }) => (
-            <TabIcon icon={faUser} color={color} name="profile" />
-          ),
+          tabBarIcon: ({ color }) => <TabIcon icon={faUser} color={color} name="profile" />,
         }}
       />
     </Tabs>

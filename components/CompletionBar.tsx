@@ -3,7 +3,7 @@ import React from "react";
 import { useHabitContext } from "../contexts/habitContext";
 import { useWidthPercentageAnimation } from "../hooks/animations/useWidthPercentageAnimation";
 import Animated from "react-native-reanimated";
-import { constants } from "../styles/constants";
+import { colours, constants } from "../styles/constants";
 
 const CompletionBar = () => {
   const { dateShownCompletion } = useHabitContext();
@@ -21,7 +21,7 @@ export default CompletionBar;
 const styles = StyleSheet.create({
   container: {
     alignSelf: "stretch",
-    backgroundColor: "lightgrey",
+    backgroundColor: colours.inputField,
     height: 20,
     overflow: "hidden",
     borderRadius: constants.componentBorderRadius,
@@ -29,7 +29,7 @@ const styles = StyleSheet.create({
   },
 
   progressBar: {
-    backgroundColor: "orange",
+    backgroundColor: colours.accent,
     height: "100%",
   },
 });

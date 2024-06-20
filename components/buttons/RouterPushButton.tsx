@@ -4,7 +4,7 @@ import { router } from "expo-router";
 import { robotoFonts } from "../../styles/base-styles";
 import { useFontSizePulseAnimation } from "../../hooks/animations/useFontSizePulseAnimation";
 import Animated from "react-native-reanimated";
-import { constants } from "../../styles/constants";
+import { colours, constants } from "../../styles/constants";
 
 interface RouterPushButtonProps {
   buttonLabel: string; // either a string or FontAwesomeIcon
@@ -23,12 +23,13 @@ export default function RouterPushButton({ buttonLabel, pageLink }: RouterPushBu
     <TouchableOpacity
       style={{
         height: constants.buttonHeight,
-        backgroundColor: "orange",
+        backgroundColor: colours.primary,
         alignSelf: "stretch",
         justifyContent: "center",
         alignItems: "center",
-        marginVertical: 10,
+        marginVertical: 15,
         borderRadius: constants.componentBorderRadius,
+        elevation: 5,
       }}
       onPress={handlePress}
     >

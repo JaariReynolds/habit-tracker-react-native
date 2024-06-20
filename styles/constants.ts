@@ -5,3 +5,16 @@ export const constants = {
   buttonHeight: 70,
   iconSize: 20,
 };
+
+export const colours = {
+  activeHabitPreview: "salmon",
+  neutralGrey: "grey",
+  inputField: "lightgrey",
+  primary: "orange",
+  secondary: "green",
+  accent: "purple",
+  alert: "red",
+  border: "black",
+  light: "white",
+  dark: "black",
+};

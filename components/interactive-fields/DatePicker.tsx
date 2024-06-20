@@ -6,7 +6,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-native-fontawesome";
 import { faCalendarDays } from "@fortawesome/free-solid-svg-icons";
 import { MidnightDate } from "../../interfaces/date";
 import { robotoFonts } from "../../styles/base-styles";
-import { constants } from "../../styles/constants";
+import { colours, constants } from "../../styles/constants";
 
 interface DatePickerProps {
   title: string;
@@ -65,7 +65,6 @@ const styles = StyleSheet.create({
     height: 60,
     justifyContent: "center",
     alignItems: "center",
-    // marginBottom: 10,
   },
   title: {
     padding: 10,
@@ -76,13 +75,14 @@ const styles = StyleSheet.create({
     alignItems: "center",
     flexDirection: "row",
     height: "100%",
-    backgroundColor: "orange",
+    backgroundColor: colours.primary,
     borderRadius: constants.componentBorderRadius,
     overflow: "hidden",
+    elevation: 5,
   },
   selectedDate: {
     textAlignVertical: "center",
-    backgroundColor: "white",
+    backgroundColor: colours.inputField,
     height: "100%",
     paddingHorizontal: 10,
   },

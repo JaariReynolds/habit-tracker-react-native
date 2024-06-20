@@ -1,6 +1,6 @@
 import { View, Text, TextInput, StyleSheet } from "react-native";
 import React, { useRef } from "react";
-import { constants } from "../../styles/constants";
+import { colours, constants } from "../../styles/constants";
 import { robotoFonts } from "../../styles/base-styles";
 
 interface FormFieldProps {
@@ -38,11 +38,12 @@ const styles = StyleSheet.create({
   },
 
   inputField: {
-    borderWidth: 1.5,
     fontSize: 20,
     borderRadius: constants.componentBorderRadius,
     padding: 15,
     height: 60,
+    backgroundColor: colours.inputField,
+    elevation: 5,
   },
 
   title: {

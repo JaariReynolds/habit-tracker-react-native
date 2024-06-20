@@ -18,6 +18,7 @@ import DatePicker from "../components/interactive-fields/DatePicker";
 import handleEditHabit, { updateHabitsArray } from "../logic/habitCRUD/handleEditHabit";
 import { router } from "expo-router";
 import HabitSubmitButton from "../components/buttons/HabitSubmitButton";
+import { colours, constants } from "../styles/constants";
 
 const EditHabit = () => {
   const { openedHabit, habits, setHabits, handleSetDateShown } = useHabitContext();
@@ -56,7 +57,7 @@ const EditHabit = () => {
         <View style={{ marginBottom: 50, alignSelf: "stretch" }}>
           {errorString.length != 0 && (
             <View>
-              <Text style={{ color: "red" }}>{errorString} </Text>
+              <Text style={{ color: colours.alert }}>{errorString} </Text>
             </View>
           )}
           <FormField

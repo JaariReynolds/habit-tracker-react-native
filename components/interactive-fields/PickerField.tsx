@@ -1,7 +1,7 @@
 import { View, Text, StyleSheet, Keyboard } from "react-native";
 import React, { useState } from "react";
 import { Picker } from "@react-native-picker/picker";
-import { constants } from "../../styles/constants";
+import { colours, constants } from "../../styles/constants";
 import { containers } from "../../styles/base-styles";
 
 interface PickerFieldProps {
@@ -42,14 +42,14 @@ export default PickerField;
 
 const styles = StyleSheet.create({
   pickerContainer: {
-    borderColor: "black",
+    borderColor: colours.border,
     borderWidth: 2,
     borderRadius: constants.componentBorderRadius,
     height: 60,
   },
   pickerField: {
     flex: 1,
-    borderColor: "black",
+    borderColor: colours.border,
     borderWidth: 1,
   },
 

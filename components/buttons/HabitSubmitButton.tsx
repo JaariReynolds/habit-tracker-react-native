@@ -1,5 +1,5 @@
 import { StyleSheet, Text, TouchableOpacity } from "react-native";
-import { constants } from "../../styles/constants";
+import { colours, constants } from "../../styles/constants";
 import { robotoFonts } from "../../styles/base-styles";
 
 interface SubmitButtonProps {
@@ -24,6 +24,7 @@ const styles = StyleSheet.create({
     flexGrow: 1,
     alignItems: "center",
     justifyContent: "center",
-    backgroundColor: "orange",
+    backgroundColor: colours.primary,
+    elevation: 5,
   },
 });

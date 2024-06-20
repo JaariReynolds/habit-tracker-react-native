@@ -1,7 +1,7 @@
 import { StyleSheet, Text, TextInput, View } from "react-native";
 import React, { useState } from "react";
 import { containers, robotoFonts } from "../../styles/base-styles";
-import { constants } from "../../styles/constants";
+import { colours, constants } from "../../styles/constants";
 
 interface CounterProps {
   number: number;
@@ -22,7 +22,11 @@ const CustomDaysInput = ({ number, setNumber }: CounterProps) => {
       <View style={styles.textContainer}>
         <Text style={robotoFonts.regular}>Every</Text>
         <TextInput
-          style={[robotoFonts.regular, styles.displayedNumber]}
+          style={[
+            robotoFonts.regular,
+            styles.displayedNumber,
+            { backgroundColor: colours.inputField },
+          ]}
           value={text}
           onChangeText={handleSetText}
           keyboardType="numeric"
@@ -50,8 +54,8 @@ const styles = StyleSheet.create({
     marginHorizontal: 15,
     paddingHorizontal: 10,
     fontSize: 40,
-    borderWidth: 1.5,
     height: 60,
     borderRadius: constants.componentBorderRadius,
+    elevation: 5,
   },
 });

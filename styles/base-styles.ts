@@ -1,5 +1,5 @@
 import { StyleSheet } from "react-native";
-import { constants } from "./constants";
+import { colours, constants } from "./constants";
 
 export function getButtonStyle(index: number, arrayLength: number) {
   let style = {};
@@ -15,11 +15,10 @@ export function getButtonStyle(index: number, arrayLength: number) {
 export const buttonStyles = StyleSheet.create({
   touchableButton: {
     flexDirection: "column",
-    justifyContent: "space-evenly",
+    justifyContent: "center",
     alignItems: "center",
     flexGrow: 1,
     flexBasis: 0,
-    borderWidth: 1,
   },
 
   buttonFirst: {
@@ -38,7 +37,7 @@ export const buttonStyles = StyleSheet.create({
   },
 
   selectedIndicator: {
-    backgroundColor: "green",
+    backgroundColor: colours.secondary,
   },
 
   title: {
@@ -50,9 +49,7 @@ export const buttonStyles = StyleSheet.create({
 export const containers = StyleSheet.create({
   customFields: {
     alignSelf: "stretch",
-    borderWidth: 1.5,
     paddingVertical: 30,
-    borderRadius: constants.componentBorderRadius,
   },
 
   viewContainer: {
@@ -75,7 +72,8 @@ export const containers = StyleSheet.create({
     justifyContent: "space-evenly",
     borderRadius: constants.componentBorderRadius,
     height: 60,
-    backgroundColor: "rgba(255, 0, 0, 0.2)",
+    backgroundColor: colours.inputField,
+    elevation: 5,
   },
 });
 

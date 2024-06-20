@@ -2,7 +2,7 @@ import { StyleSheet, Text, TouchableOpacity, View } from "react-native";
 import React from "react";
 import { router } from "expo-router";
 import { robotoFonts } from "../../styles/base-styles";
-import { constants } from "../../styles/constants";
+import { colours, constants } from "../../styles/constants";
 
 export default function BackButton() {
   return (
@@ -21,6 +21,7 @@ const styles = StyleSheet.create({
     flexGrow: 1,
     alignItems: "center",
     justifyContent: "center",
-    backgroundColor: "orange",
+    backgroundColor: colours.primary,
+    elevation: 5,
   },
 });

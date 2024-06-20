@@ -1,7 +1,7 @@
 import { Modal, Pressable, StyleSheet, Text, TouchableOpacity, View } from "react-native";
 import React from "react";
 import { robotoFonts } from "../../styles/base-styles";
-import { constants } from "../../styles/constants";
+import { colours, constants } from "../../styles/constants";
 
 interface ModalProps {
   modalText: string;
@@ -84,11 +84,11 @@ const styles = StyleSheet.create({
     maxWidth: "80%",
     minWidth: "70%",
     top: "40%",
-    backgroundColor: "white",
+    backgroundColor: colours.light,
     alignSelf: "center",
     borderRadius: constants.componentBorderRadius,
     overflow: "hidden",
-    shadowColor: "black",
+    shadowColor: colours.dark,
     elevation: 10, // android only, need shadow___ for ios
   },
 
@@ -102,6 +102,7 @@ const styles = StyleSheet.create({
     alignSelf: "stretch",
     justifyContent: "space-around",
     borderTopWidth: 1,
+    borderColor: colours.border,
   },
 
   button: {
@@ -109,6 +110,7 @@ const styles = StyleSheet.create({
     alignItems: "center",
     justifyContent: "center",
     height: 60,
+    borderColor: colours.border,
     borderTopWidth: 1,
   },
 });

@@ -108,7 +108,12 @@ const HabitCard = ({
   return (
     <Animated.View
       style={[
-        { width: "100%", borderRadius: constants.componentBorderRadius, overflow: "hidden" },
+        {
+          width: "100%",
+          borderRadius: constants.componentBorderRadius,
+          overflow: "hidden",
+          elevation: 5,
+        },
         animatedHeight,
       ]}
     >
@@ -140,7 +145,7 @@ const HabitCard = ({
             {
               height: MAX_HEIGHT - MIN_HEIGHT,
               flexDirection: "row",
-              borderTopColor: "black",
+              borderTopColor: colours.border,
               borderTopWidth: 1,
             },
             animatedOpacity,
@@ -150,7 +155,7 @@ const HabitCard = ({
             style={{
               height: "100%",
               minWidth: "65%",
-              borderRightColor: "black",
+              borderRightColor: colours.border,
               borderRightWidth: 1,
               alignItems: "center",
               justifyContent: "center",

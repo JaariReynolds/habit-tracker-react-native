@@ -4,7 +4,7 @@ import { useHabitContext } from "../../contexts/habitContext";
 import { router } from "expo-router";
 import { useModalVisibility } from "../../hooks/useModalVisibility";
 import handleDeleteHabit from "../../logic/habitCRUD/handleDeleteHabit";
-import { constants } from "../../styles/constants";
+import { colours, constants } from "../../styles/constants";
 import { FontAwesomeIcon } from "@fortawesome/react-native-fontawesome";
 import { faTrashCan } from "@fortawesome/free-solid-svg-icons";
 import CustomModal from "../interactive-fields/CustomModal";
@@ -30,12 +30,12 @@ export default function DeleteHabitButton({ habitId }: DeleteHabitButtonProps) {
         setModalVisibility={setModalVisibility}
         leftButton={{
           JSXElement: <Text>Cancel</Text>,
-          backgroundColour: "grey",
+          backgroundColour: colours.neutralGrey,
           action: () => setModalVisibility(false),
         }}
         rightButton={{
           JSXElement: <Text>Confirm</Text>,
-          backgroundColour: "red",
+          backgroundColour: colours.alert,
           action: deleteHabit,
         }}
       />
@@ -50,9 +50,10 @@ const styles = StyleSheet.create({
   backButton: {
     height: constants.buttonHeight,
     borderRadius: constants.componentBorderRadius,
-    backgroundColor: "red",
+    backgroundColor: colours.alert,
     justifyContent: "center",
     alignSelf: "stretch",
     alignItems: "center",
+    elevation: 5,
   },
 });

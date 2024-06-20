@@ -1,6 +1,6 @@
 import { StyleSheet, Text, View } from "react-native";
 import React from "react";
-import { constants } from "../styles/constants";
+import { colours, constants } from "../styles/constants";
 import { robotoFonts } from "../styles/base-styles";
 
 interface HeaderProps {
@@ -19,10 +19,11 @@ export default Header;
 
 const styles = StyleSheet.create({
   header: {
-    backgroundColor: "orange",
+    backgroundColor: colours.primary,
     height: constants.headerHeight,
     alignItems: "center",
     justifyContent: "center",
+    elevation: 5,
   },
 
   headerText: {

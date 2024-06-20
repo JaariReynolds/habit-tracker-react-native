@@ -7,7 +7,7 @@ import { robotoFonts } from "../styles/base-styles";
 import Animated from "react-native-reanimated";
 import useTranslateReturnAnimation from "../hooks/animations/useTranslateAnimation";
 import { useFontSizePulseAnimation } from "../hooks/animations/useFontSizePulseAnimation";
-import { constants } from "../styles/constants";
+import { colours, constants } from "../styles/constants";
 
 const IndexHeader = () => {
   const { formattedDateArray, handleSetDateShown } = useHabitContext();
@@ -73,8 +73,9 @@ const styles = StyleSheet.create({
   container: {
     flexDirection: "row",
     justifyContent: "space-between",
-    backgroundColor: "orange",
+    backgroundColor: colours.primary,
     height: constants.headerHeight,
+    elevation: 5,
   },
 
   button: {
