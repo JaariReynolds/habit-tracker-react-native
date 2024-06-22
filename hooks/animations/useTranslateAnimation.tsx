@@ -1,28 +1,19 @@
-import {
-  useAnimatedStyle,
-  useSharedValue,
-  withSequence,
-  withTiming,
-} from "react-native-reanimated";
+import { Easing, useAnimatedStyle, useSharedValue, withTiming } from "react-native-reanimated";
 
-export default function useTranslateReturnAnimation(
-  translateAmount: number,
-  duration: number,
-  translateDirection: "X" | "Y"
-) {
+export default function useTranslateAnimation(translatePercentage: number) {
+  const bezier = Easing.bezier(0.25, 0.1, 0.25, 1);
   const translation = useSharedValue(0);
-  const animatedTranslation = useAnimatedStyle(() =>
-    translateDirection == "X"
-      ? { transform: [{ translateX: translation.value }] }
-      : { transform: [{ translateY: translation.value }] }
-  );
+  const animatedTranslation = useAnimatedStyle(() => ({
+    transform: [{ translateX: translation.value }],
+  }));
 
-  function handleAnimation() {
-    translation.value = withSequence(
-      withTiming(translateAmount, { duration: duration }),
-      withTiming(0, { duration: duration })
-    );
+  function translateLeft() {
+    translation.value = withTiming(0, { duration: 200, easing: bezier });
   }
 
-  return { animatedTranslation, handleAnimation };
+  function translateRight() {
+    translation.value = withTiming(translatePercentage, { duration: 200, easing: bezier });
+  }
+
+  return { animatedTranslation, translateLeft, translateRight };
 }
