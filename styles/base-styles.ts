@@ -19,6 +19,8 @@ export const buttonStyles = StyleSheet.create({
     alignItems: "center",
     flexGrow: 1,
     flexBasis: 0,
+    backgroundColor: colours.inputField,
+    elevation: constants.elevation,
   },
 
   buttonFirst: {
@@ -72,8 +74,7 @@ export const containers = StyleSheet.create({
     justifyContent: "space-evenly",
     borderRadius: constants.componentBorderRadius,
     height: 60,
-    backgroundColor: colours.inputField,
-    elevation: 5,
+    gap: 5,
   },
 });
 

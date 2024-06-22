@@ -112,7 +112,7 @@ const HabitCard = ({
           width: "100%",
           borderRadius: constants.componentBorderRadius,
           overflow: "hidden",
-          elevation: 5,
+          elevation: constants.elevation,
         },
         animatedHeight,
       ]}

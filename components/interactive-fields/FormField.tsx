@@ -43,7 +43,7 @@ const styles = StyleSheet.create({
     padding: 15,
     height: 60,
     backgroundColor: colours.inputField,
-    elevation: 5,
+    elevation: constants.elevation,
   },
 
   title: {

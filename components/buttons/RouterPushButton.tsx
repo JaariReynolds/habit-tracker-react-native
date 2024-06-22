@@ -1,21 +1,16 @@
 import { Text, TouchableOpacity } from "react-native";
-import React from "react";
+import React, { isValidElement } from "react";
 import { router } from "expo-router";
 import { robotoFonts } from "../../styles/base-styles";
-import { useFontSizePulseAnimation } from "../../hooks/animations/useFontSizePulseAnimation";
-import Animated from "react-native-reanimated";
 import { colours, constants } from "../../styles/constants";
 
 interface RouterPushButtonProps {
-  buttonLabel: string; // either a string or FontAwesomeIcon
+  buttonLabel: JSX.Element | string; // either a string or FontAwesomeIcon
   pageLink: string;
 }
 
 export default function RouterPushButton({ buttonLabel, pageLink }: RouterPushButtonProps) {
-  const { animatedFontSize, handleAnimation } = useFontSizePulseAnimation(25);
-
   function handlePress() {
-    handleAnimation();
     router.push(pageLink);
   }
 
@@ -29,11 +24,15 @@ export default function RouterPushButton({ buttonLabel, pageLink }: RouterPushBu
         alignItems: "center",
         marginVertical: 15,
         borderRadius: constants.componentBorderRadius,
-        elevation: 5,
+        elevation: constants.elevation,
       }}
       onPress={handlePress}
     >
-      <Animated.Text style={[animatedFontSize, robotoFonts.bold]}>{buttonLabel}</Animated.Text>
+      {isValidElement(buttonLabel) ? (
+        buttonLabel
+      ) : (
+        <Text style={[robotoFonts.regular, { fontSize: 20 }]}>{buttonLabel}</Text>
+      )}
     </TouchableOpacity>
   );
 }

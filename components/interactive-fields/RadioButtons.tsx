@@ -34,7 +34,7 @@ const RadioButtons = ({
   };
 
   return (
-    <View style={[containers.viewContainer, { marginBottom: 40 }]}>
+    <View style={[containers.viewContainer]}>
       <Text style={[buttonStyles.title, robotoFonts.regular]}>{title}</Text>
       <View style={containers.buttons}>
         {buttonNameList.map((button, index) => (

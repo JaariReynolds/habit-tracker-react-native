@@ -56,6 +56,6 @@ const styles = StyleSheet.create({
     fontSize: 40,
     height: 60,
     borderRadius: constants.componentBorderRadius,
-    elevation: 5,
+    elevation: constants.elevation,
   },
 });

@@ -78,7 +78,7 @@ const styles = StyleSheet.create({
     backgroundColor: colours.primary,
     borderRadius: constants.componentBorderRadius,
     overflow: "hidden",
-    elevation: 5,
+    elevation: constants.elevation,
   },
   selectedDate: {
     textAlignVertical: "center",

@@ -7,6 +7,8 @@ import FullHeightScrollView from "../../components/FullHeightScrollView";
 import HabitPreview from "../../components/HabitPreview";
 import IndexHeader from "../../components/IndexHeader";
 import CompletionBar from "../../components/CompletionBar";
+import { FontAwesomeIcon } from "@fortawesome/react-native-fontawesome";
+import { faPlus } from "@fortawesome/free-solid-svg-icons";
 
 const Habits = () => {
   const { habits } = useHabitContext();
@@ -23,7 +25,10 @@ const Habits = () => {
               return <HabitPreview key={index} arrayIndex={index} habit={habit} />;
             })}
           </View>
-          <RouterPushButton buttonLabel="+" pageLink="./../NewHabit" />
+          <RouterPushButton
+            buttonLabel={<FontAwesomeIcon icon={faPlus} size={20} />}
+            pageLink="./../NewHabit"
+          />
         </FullPageView>
       </FullHeightScrollView>
     </>

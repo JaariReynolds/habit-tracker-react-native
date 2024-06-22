@@ -23,7 +23,7 @@ const styles = StyleSheet.create({
     height: constants.headerHeight,
     alignItems: "center",
     justifyContent: "center",
-    elevation: 5,
+    elevation: constants.elevation,
   },
 
   headerText: {

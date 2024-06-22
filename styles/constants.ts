@@ -4,6 +4,7 @@ export const constants = {
   headerHeight: 65,
   buttonHeight: 70,
   iconSize: 20,
+  elevation: 2,
 };
 
 export const colours = {

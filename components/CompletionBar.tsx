@@ -26,6 +26,7 @@ const styles = StyleSheet.create({
     overflow: "hidden",
     borderRadius: constants.componentBorderRadius,
     marginBottom: 10,
+    elevation: constants.elevation,
   },
 
   progressBar: {

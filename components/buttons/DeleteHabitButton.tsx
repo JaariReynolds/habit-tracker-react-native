@@ -54,6 +54,6 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     alignSelf: "stretch",
     alignItems: "center",
-    elevation: 5,
+    elevation: constants.elevation,
   },
 });

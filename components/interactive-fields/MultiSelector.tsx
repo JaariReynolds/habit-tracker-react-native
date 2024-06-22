@@ -36,15 +36,7 @@ const MultiSelector = ({
 
   return (
     <View style={containers.viewContainer}>
-      <Text
-        style={[
-          buttonStyles.title,
-          robotoFonts.regular,
-          { paddingBottom: 10, textAlign: "center" },
-        ]}
-      >
-        {title}
-      </Text>
+      <Text style={[buttonStyles.title, robotoFonts.regular]}>{title}</Text>
       <View style={containers.buttons}>
         {buttonNameList.map((button, index) => (
           <TouchableOpacity

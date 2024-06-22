@@ -25,6 +25,6 @@ const styles = StyleSheet.create({
     alignItems: "center",
     justifyContent: "center",
     backgroundColor: colours.primary,
-    elevation: 5,
+    elevation: constants.elevation,
   },
 });
