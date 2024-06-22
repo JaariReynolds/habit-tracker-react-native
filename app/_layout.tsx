@@ -4,8 +4,12 @@ import { SafeAreaProvider, SafeAreaView } from "react-native-safe-area-context";
 import HabitContextProvider from "../contexts/habitContext";
 import { GestureHandlerRootView } from "react-native-gesture-handler";
 import { useFonts } from "expo-font";
+import { StatusBar } from "expo-status-bar";
+import { colours } from "../styles/constants";
+import * as NavigationBar from "expo-navigation-bar";
 
 SplashScreen.preventAutoHideAsync();
+NavigationBar.setBackgroundColorAsync(colours.light);
 
 const RootLayout = () => {
   const [fontsLoaded, fontError] = useFonts({
@@ -27,6 +31,7 @@ const RootLayout = () => {
       <SafeAreaProvider>
         <HabitContextProvider>
           <SafeAreaView style={{ height: "100%" }}>
+            <StatusBar backgroundColor={colours.primary} />
             <Stack>
               <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
               <Stack.Screen name="NewHabit" options={{ headerShown: false }} />
