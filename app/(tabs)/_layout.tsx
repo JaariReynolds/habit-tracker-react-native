@@ -40,31 +40,10 @@ const TabsLayout = () => {
         }}
       />
       <Tabs.Screen
-        name="FocusTimer"
-        options={{
-          title: "Timer",
-          tabBarIcon: ({ color }) => <TabIcon icon={faStopwatch} color={color} name="timer" />,
-        }}
-      />
-      <Tabs.Screen
-        name="Journal"
-        options={{
-          title: "Journal",
-          tabBarIcon: ({ color }) => <TabIcon icon={faBook} color={color} name="journal" />,
-        }}
-      />
-      <Tabs.Screen
         name="Report"
         options={{
           title: "report",
           tabBarIcon: ({ color }) => <TabIcon icon={faClipboard} color={color} name="report" />,
-        }}
-      />
-      <Tabs.Screen
-        name="Profile"
-        options={{
-          title: "Profile",
-          tabBarIcon: ({ color }) => <TabIcon icon={faUser} color={color} name="profile" />,
         }}
       />
     </Tabs>
