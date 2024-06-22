@@ -5,7 +5,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-native-fontawesome";
 import { faChevronLeft, faChevronRight } from "@fortawesome/free-solid-svg-icons";
 import { robotoFonts } from "../styles/base-styles";
 import Animated from "react-native-reanimated";
-import useTranslateReturnAnimation from "../hooks/animations/useTranslateAnimation";
+import useTranslateReturnAnimation from "../hooks/animations/useTranslateReturnAnimation";
 import { useFontSizePulseAnimation } from "../hooks/animations/useFontSizePulseAnimation";
 import { colours, constants } from "../styles/constants";
 
