@@ -1,5 +1,5 @@
-import { StyleSheet, Text, TouchableOpacity, View } from "react-native";
-import React, { useRef } from "react";
+import { Pressable, StyleSheet, TouchableOpacity, View } from "react-native";
+import React from "react";
 import { useHabitContext } from "../contexts/habitContext";
 import { FontAwesomeIcon } from "@fortawesome/react-native-fontawesome";
 import { faChevronLeft, faChevronRight } from "@fortawesome/free-solid-svg-icons";
@@ -44,7 +44,7 @@ const IndexHeader = () => {
             <FontAwesomeIcon icon={faChevronLeft} size={30} />
           </TouchableOpacity>
         </Animated.View>
-        <TouchableOpacity onPressIn={buttonPressCurrent} style={[styles.button, { width: "60%" }]}>
+        <Pressable onPressIn={buttonPressCurrent} style={[styles.button, { width: "60%" }]}>
           <Animated.Text
             style={[
               robotoFonts.regular,
@@ -56,7 +56,7 @@ const IndexHeader = () => {
             {"\n"}
             {formattedDateArray[1]}
           </Animated.Text>
-        </TouchableOpacity>
+        </Pressable>
         <Animated.View style={[rightAnimationStyle, { justifyContent: "center", width: "20%" }]}>
           <TouchableOpacity onPressIn={buttonPressNext} style={styles.button}>
             <FontAwesomeIcon icon={faChevronRight} size={30} />
