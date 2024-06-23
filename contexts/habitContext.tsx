@@ -15,7 +15,6 @@ interface HabitContext {
   setOpenedHabit: Dispatch<SetStateAction<number>>;
   dateShown: Date;
   handleSetDateShown: (dayOffsetOrDate: number | Date) => void;
-  dateShownCompletion: number;
   formattedDateArray: string[];
 }
 const HabitContext = createContext<HabitContext | null>(null);
@@ -24,7 +23,6 @@ export default function HabitContextProvider({ children }: HabitContextProviderP
   const [habits, setHabits] = useState<Habit[]>([]);
   const [openedHabit, setOpenedHabit] = useState<number>(-1);
   const [dateShown, setDateShown] = useState<Date>(new MidnightDate());
-  const [dateShownCompletion, setDateShownCompletion] = useState<number>(0);
   const [formattedDateArray, setFormattedDateArray] = useState<string[]>(
     new Date()
       .toLocaleDateString("en-GB", {
@@ -67,10 +65,6 @@ export default function HabitContextProvider({ children }: HabitContextProviderP
     );
   }
 
-  useEffect(() => {
-    setDateShownCompletion(getOverallDayCompletion(habits, dateShown));
-  }, [habits, dateShown]);
-
   return (
     <HabitContext.Provider
       value={{
@@ -80,7 +74,6 @@ export default function HabitContextProvider({ children }: HabitContextProviderP
         setOpenedHabit,
         dateShown,
         handleSetDateShown,
-        dateShownCompletion,
         formattedDateArray,
       }}
     >

@@ -1,12 +1,19 @@
 import { StyleSheet, View } from "react-native";
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { useHabitContext } from "../contexts/habitContext";
 import { useWidthPercentageAnimation } from "../hooks/animations/useWidthPercentageAnimation";
 import Animated from "react-native-reanimated";
 import { colours, constants } from "../styles/constants";
+import { getOverallDayCompletion } from "../logic/reportLogic/getHabitCompletion";
 
 const CompletionBar = () => {
-  const { dateShownCompletion } = useHabitContext();
+  const { dateShown, habits } = useHabitContext();
+  const [dateShownCompletion, setDateShownCompletion] = useState<number>(0);
+
+  useEffect(() => {
+    setDateShownCompletion(getOverallDayCompletion(habits, dateShown));
+  }, [habits, dateShown]);
+
   const { animatedWidthPercentage } = useWidthPercentageAnimation(0, dateShownCompletion);
 
   return (
