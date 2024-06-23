@@ -75,7 +75,7 @@ const styles = StyleSheet.create({
     justifyContent: "space-between",
     backgroundColor: colours.primary,
     height: constants.headerHeight,
-    elevation: constants.elevation,
+    elevation: constants.headerElevation,
   },
 
   button: {

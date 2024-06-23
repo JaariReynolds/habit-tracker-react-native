@@ -9,24 +9,18 @@ interface HeaderProps {
 
 const Header = ({ title }: HeaderProps) => {
   return (
-    <View style={styles.header}>
-      <Text style={[styles.headerText, robotoFonts.regular]}>{title}</Text>
+    <View
+      style={{
+        backgroundColor: colours.primary,
+        height: constants.headerHeight,
+        alignItems: "center",
+        justifyContent: "center",
+        elevation: constants.headerElevation,
+      }}
+    >
+      <Text style={[{ fontSize: constants.headerFontSize }, robotoFonts.regular]}>{title}</Text>
     </View>
   );
 };
 
 export default Header;
-
-const styles = StyleSheet.create({
-  header: {
-    backgroundColor: colours.primary,
-    height: constants.headerHeight,
-    alignItems: "center",
-    justifyContent: "center",
-    elevation: constants.elevation,
-  },
-
-  headerText: {
-    fontSize: constants.headerFontSize,
-  },
-});
