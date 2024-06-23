@@ -63,9 +63,8 @@ const HabitCard = ({
   const { dateShown, openedHabit, setOpenedHabit } = useHabitContext();
   const { animatedHeight, handleOpen, handleClose } = useHeightAnimation(MIN_HEIGHT, MAX_HEIGHT);
   const { animatedOpacity, animateIn, animateOut } = useOpacityAnimation(0, 1, 200);
-  const [streak, setStreak] = useState<number>(0);
-  const [completion, setCompletion] = useState<number>(0);
   const [nextDueFormatted, setNextDueFormatted] = useState<string[]>([]);
+  const [completion, setCompletion] = useState<number>(0);
 
   useEffect(() => {
     if (openedHabit !== arrayIndex) {
@@ -74,9 +73,7 @@ const HabitCard = ({
     }
   }, [openedHabit]);
 
-  useEffect(() => {
-    setStreak(getHabitStreak(habit));
-  }, [habit.submissions]);
+  useEffect(() => {}, [habit.submissions]);
 
   useEffect(() => {
     setCompletion(getHabitCompletionOnDay(habit, dateShown));
@@ -134,10 +131,8 @@ const HabitCard = ({
           }}
         >
           <Text style={robotoFonts.regular}>{habit.habitName}</Text>
-          <Text style={robotoFonts.regular}>
-            {completion === 1 ? <FontAwesomeIcon icon={faCircleCheck} /> : ""}
-          </Text>
-          <Text style={robotoFonts.regular}>{streak}</Text>
+          <Text style={robotoFonts.regular}></Text>
+          {completion === 1 ? <FontAwesomeIcon icon={faCircleCheck} /> : ""}
         </View>
 
         <Animated.View
