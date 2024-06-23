@@ -3,7 +3,10 @@ import { Habit, Submission } from "../../interfaces/habit";
 import { isHabitOnDate } from "../getHabitsOnDate";
 
 // completion percentage of habit's completed submissions from the start date to end date (inclusive)
-export function getHabitCompletionOverall(habit: Habit, startDate: Date, endDate: Date): number {
+export function getHabitCompletionOverall(habit: Habit): number {
+  const endDate = new MidnightDate();
+  const startDate = habit.frequency.startDate;
+
   // get submissions between those dates
   const filteredCompletedSubmissions: Submission[] = habit.submissions.filter((submission) => {
     if (
