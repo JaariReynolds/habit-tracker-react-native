@@ -1,9 +1,9 @@
 import { useAnimatedStyle, useSharedValue, withSpring } from "react-native-reanimated";
 import { SpringConfig } from "react-native-reanimated/lib/typescript/reanimated2/animation/springUtils";
 
-const springConfig: SpringConfig = {
-  stiffness: 450,
-  damping: 28,
+const heavySpring: SpringConfig = {
+  stiffness: 480,
+  damping: 33,
 };
 
 export function useHeightAnimation(initialHeight: number, toHeight: number) {
@@ -11,11 +11,11 @@ export function useHeightAnimation(initialHeight: number, toHeight: number) {
   const animatedHeight = useAnimatedStyle(() => ({ height: height.value }));
 
   function handleOpen() {
-    height.value = withSpring(toHeight, springConfig);
+    height.value = withSpring(toHeight, heavySpring);
   }
 
   function handleClose() {
-    height.value = withSpring(initialHeight, springConfig);
+    height.value = withSpring(initialHeight, heavySpring);
   }
 
   return { animatedHeight, handleOpen, handleClose };
