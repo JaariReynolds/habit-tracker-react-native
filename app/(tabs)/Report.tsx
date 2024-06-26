@@ -9,7 +9,7 @@ import Header from "../../components/Header";
 import getHabitStreak from "../../logic/reportLogic/getHabitStreak";
 import { robotoFonts } from "../../styles/base-styles";
 import { FontAwesomeIcon } from "@fortawesome/react-native-fontawesome";
-import { faFire, faPercent } from "@fortawesome/free-solid-svg-icons";
+import { faPercent } from "@fortawesome/free-solid-svg-icons";
 
 const HabitReports = () => {
   const { habits } = useHabitContext();
@@ -40,10 +40,7 @@ const HabitReports = () => {
                 </Text>
                 <View style={styles.grid}>
                   <View style={styles.gridChild}>
-                    <Text style={robotoFonts.regular}>
-                      {summary.streak}
-                      <FontAwesomeIcon icon={faFire} color={colours.accent} />
-                    </Text>
+                    <Text style={robotoFonts.regular}>{summary.streak}</Text>
                     <Text style={[robotoFonts.regular, { fontSize: 13 }]}>streak</Text>
                   </View>
                   <View style={styles.gridChild}>
