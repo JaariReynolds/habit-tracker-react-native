@@ -18,9 +18,12 @@ import { useHabitContext } from "../contexts/habitContext";
 import { router } from "expo-router";
 import HabitSubmitButton from "../components/buttons/HabitSubmitButton";
 import { colours } from "../styles/constants";
+import { useCustomSqliteContext } from "../contexts/customSqliteContext";
 
 const NewHabit = () => {
   const { setHabits, handleSetDateShown } = useHabitContext();
+  const { createHabit } = useCustomSqliteContext();
+
   const [showDays, setShowDays] = useState<boolean>(false);
   const [showCustom, setShowCustom] = useState<boolean>(false);
   const [errorString, setErrorString] = useState<string>("");
@@ -39,8 +42,10 @@ const NewHabit = () => {
     } else {
       setForm(emptyForm);
       setHabits((prev) => [...prev, result]);
+      createHabit(result);
       setErrorString("");
       handleSetDateShown(0); // always reset back to current day after habit edit/creation
+
       router.navigate("/(tabs)");
     }
   };
