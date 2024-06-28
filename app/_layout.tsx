@@ -7,6 +7,7 @@ import { useFonts } from "expo-font";
 import { StatusBar } from "expo-status-bar";
 import { colours } from "../styles/constants";
 import * as NavigationBar from "expo-navigation-bar";
+import CustomSqliteContextProvider from "../contexts/customSqliteContext";
 
 SplashScreen.preventAutoHideAsync();
 NavigationBar.setBackgroundColorAsync(colours.light);
@@ -32,11 +33,13 @@ const RootLayout = () => {
         <HabitContextProvider>
           <SafeAreaView style={{ height: "100%" }}>
             <StatusBar backgroundColor={colours.primary} />
-            <Stack>
-              <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
-              <Stack.Screen name="NewHabit" options={{ headerShown: false }} />
-              <Stack.Screen name="EditHabit" options={{ headerShown: false }} />
-            </Stack>
+            <CustomSqliteContextProvider databaseName="habitApp.db">
+              <Stack>
+                <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
+                <Stack.Screen name="NewHabit" options={{ headerShown: false }} />
+                <Stack.Screen name="EditHabit" options={{ headerShown: false }} />
+              </Stack>
+            </CustomSqliteContextProvider>
           </SafeAreaView>
         </HabitContextProvider>
       </SafeAreaProvider>
