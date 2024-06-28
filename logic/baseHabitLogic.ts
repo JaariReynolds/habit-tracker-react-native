@@ -1,3 +1,4 @@
+import { HabitsRow } from "../database/types";
 import { MidnightDate } from "../interfaces/date";
 import {
   CustomFrequency,
@@ -23,27 +24,34 @@ export function handleHabitValidation(newHabit: HabitForm): string | undefined {
   }
 }
 
+export interface FrequencyInfo {
+  type: FrequencyString;
+  days: number[] | null;
+  startDate: Date;
+  customFrequency: number | null;
+}
+
 // based on the habitForm properties, return a Frequency type from the Frequency union type
-export function getFrequencyType(habitForm: HabitForm): Frequency {
-  if (habitForm.frequencyString == "Weekly")
+export function getFrequencyType(frequencyObject: FrequencyInfo): Frequency {
+  if (frequencyObject.type == "Weekly")
     return {
-      name: habitForm.frequencyString,
-      days: habitForm.selectedDays,
+      name: frequencyObject.type,
+      days: frequencyObject.days,
       startDate: new MidnightDate(),
     } as WeeklyFrequency;
-  else if (habitForm.frequencyString == "Custom")
+  else if (frequencyObject.type == "Custom")
     return {
-      name: habitForm.frequencyString,
-      customFrequency: habitForm.customFrequency,
-      startDate: habitForm.customFrequencyStartDate,
+      name: frequencyObject.type,
+      customFrequency: frequencyObject.customFrequency,
+      startDate: frequencyObject.startDate,
     } as CustomFrequency;
-  else if (habitForm.frequencyString == "Daily") {
+  else if (frequencyObject.type == "Daily") {
     return {
-      name: habitForm.frequencyString,
+      name: frequencyObject.type,
       startDate: new MidnightDate(),
     } as DailyFrequency;
   } else {
-    throw new Error(`frequency option ${habitForm.frequencyString} not yet handled`);
+    throw new Error(`frequency option ${frequencyObject.type} not yet handled`);
   }
 }
 

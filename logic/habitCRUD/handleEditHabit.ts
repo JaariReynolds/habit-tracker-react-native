@@ -1,4 +1,4 @@
-import { Habit, HabitForm } from "../../interfaces/habit";
+import { FrequencyString, Habit, HabitForm } from "../../interfaces/habit";
 import { getFrequencyType, handleHabitValidation } from "./../baseHabitLogic";
 
 export default function handleEditHabit(
@@ -12,7 +12,12 @@ export default function handleEditHabit(
 }
 
 function handleEditHabitObject(updatedHabitForm: HabitForm, originalHabit: Habit): Habit {
-  const frequencyType = getFrequencyType(updatedHabitForm);
+  const frequencyType = getFrequencyType({
+    type: updatedHabitForm.frequencyString as FrequencyString,
+    days: updatedHabitForm.selectedDays,
+    startDate: updatedHabitForm.customFrequencyStartDate,
+    customFrequency: updatedHabitForm.customFrequency,
+  });
 
   return {
     id: updatedHabitForm.habitId!,

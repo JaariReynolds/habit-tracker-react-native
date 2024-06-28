@@ -1,5 +1,5 @@
 import { MidnightDate } from "../../interfaces/date";
-import { Habit, HabitForm } from "../../interfaces/habit";
+import { FrequencyString, Habit, HabitForm } from "../../interfaces/habit";
 import { getFrequencyType, handleHabitValidation } from "../baseHabitLogic";
 import uuid from "react-native-uuid";
 
@@ -13,7 +13,12 @@ export default function handleNewHabit(newHabit: HabitForm): Habit | string {
 
 // turn the habitForm into a valid Habit object
 function handleNewHabitObject(newHabit: HabitForm): Habit {
-  const frequencyType = getFrequencyType(newHabit);
+  const frequencyType = getFrequencyType({
+    type: newHabit.frequencyString as FrequencyString,
+    days: newHabit.selectedDays,
+    startDate: newHabit.customFrequencyStartDate,
+    customFrequency: newHabit.customFrequency,
+  });
 
   return {
     id: uuid.v4() as string,
